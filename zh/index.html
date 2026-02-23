@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tagentacle — AI 时代的 ROS</title>
+  <meta name="description" content="Tagentacle 是一个去中心化、配置集中化、生产级多 Agent 框架。融合 ROS 2 设计范式、MCP 协议与 Rust 性能。" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐙</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ========== Nav ========== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo"><span>🐙</span> Tagentacle</a>
+      <div class="nav-links" id="navLinks">
+        <a href="#philosophy">核心理念</a>
+        <a href="#comparison">为什么选我们</a>
+        <a href="#architecture">架构</a>
+        <a href="#sdk">SDK</a>
+        <a href="#mcp">MCP</a>
+        <a href="#cli">CLI</a>
+        <a href="#roadmap">路线图</a>
+        <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub ↗</a>
+        <div class="nav-controls">
+          <a href="../" class="lang-toggle" title="Switch to English">EN</a>
+          <button class="theme-toggle" id="themeToggle" aria-label="切换主题">🌙</button>
+        </div>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="菜单">☰</button>
+    </div>
+  </nav>
+
+  <!-- ========== Hero ========== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">🚀 开源 &amp; 生产级</div>
+      <h1>Tagentacle<br /><em>AI 时代的 ROS</em></h1>
+      <p class="hero-sub">
+        一个去中心化、配置集中化、生产级的多 Agent 框架。
+        融合 ROS 2 设计范式、MCP 协议与 Rust 性能。
+      </p>
+      <div class="hero-quote">一切皆 Pkg。可管理、可验证、可扩展。</div>
+      <div class="hero-buttons">
+        <a href="#quickstart" class="btn btn-primary">🚀 快速开始</a>
+        <a href="https://github.com/Tagentacle/tagentacle" target="_blank" class="btn btn-outline">⭐ GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 核心理念 ========== -->
+  <section class="section" id="philosophy">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🌟 核心理念</h2>
+        <p>一切皆 Pkg —— 将系统能力彻底模块化，这继承自 ROS 2 最根本的软件组织哲学。</p>
+      </div>
+      <div class="feature-grid fade-up">
+        <div class="feature-card">
+          <div class="feature-icon fi-purple">🤖</div>
+          <h3>Agent 包</h3>
+          <p>每个 Agent 作为独立包，包含行为逻辑、Prompt 模板、状态管理和通信接口。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-green">🔧</div>
+          <h3>工具 / 服务包</h3>
+          <p>封装 Agent 调用的工具或服务 —— 数据库访问、网页抓取 —— 通过 MCP 协议实现即插即用。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-orange">📐</div>
+          <h3>接口包</h3>
+          <p>通过 JSON Schema 定义跨节点通信契约，确保不同开发者的包"说同一种语言"。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-blue">🚀</div>
+          <h3>Bringup 包</h3>
+          <p>系统启动与配置：工作区包集合、节点启动参数、环境凭证和拓扑编排。</p>
+        </div>
+      </div>
+      <div class="comm-flow fade-up">
+        <div class="flow-item">
+          <div class="flow-icon">♻️</div>
+          <h4>高复用性</h4>
+          <p>成熟的工具/Agent 包可以像乐高积木一样在项目间无缝迁移。</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">🔒</div>
+          <h4>依赖隔离</h4>
+          <p>每个包独立的 Python venv，彻底消除依赖冲突。</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">📦</div>
+          <h4>黑盒开发</h4>
+          <p>只关注输入/输出契约 —— 无需了解内部使用的模型或框架。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 为什么选择 Tagentacle ========== -->
+  <section class="section section-alt" id="comparison">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>⚔️ 为什么选择 Tagentacle？</h2>
+        <p>为下一代 AI 打造的工业级基础设施，超越单体网关和命令行工具。</p>
+      </div>
+      <div class="table-wrap fade-up" style="margin-bottom: 48px;">
+        <table class="compare-table">
+          <thead>
+            <tr><th>特性</th><th>单体网关</th><th>CLI 工具</th><th>Tagentacle</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>架构</strong></td><td>Node.js 单体</td><td>单进程 CLI</td><td>分布式微服务 (Rust)</td></tr>
+            <tr><td><strong>稳定性</strong></td><td>单点故障 = 全体崩溃</td><td>进程绑定</td><td>进程隔离（容错）</td></tr>
+            <tr><td><strong>生命周期</strong></td><td>会话绑定（TG/WA）</td><td>任务绑定（一次性）</td><td>持续运行（24/7 事件驱动）</td></tr>
+            <tr><td><strong>交互方式</strong></td><td>聊天气泡（ChatOps）</td><td>终端输出</td><td>指挥中心（实时仪表盘）</td></tr>
+            <tr><td><strong>适用范围</strong></td><td>单台服务器</td><td>本地文件系统</td><td>多设备 / 跨平台</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="adv-grid fade-up">
+        <div class="adv-card">
+          <h3><span>🏗️</span> 健壮性</h3>
+          <div class="vs">分布式总线 vs 单体网关</div>
+          <div class="adv-point">
+            <strong>痛点</strong>
+            <p>50 个技能挤在一个 Node.js 进程里 —— 一个内存泄漏，全体重启。</p>
+          </div>
+          <div class="adv-point">
+            <strong>Tagentacle 方案</strong>
+            <p>每个 Node 是独立进程。"推特爬虫"崩溃绝不影响你的"SRE Agent"。Rust 实现的 Broker 提供高并发路由，永不宕机。</p>
+          </div>
+        </div>
+        <div class="adv-card">
+          <h3><span>⚡</span> 自主性</h3>
+          <div class="vs">事件驱动生命体 vs 任务型工具</div>
+          <div class="adv-point">
+            <strong>痛点</strong>
+            <p>CLI 工具只在被命令时才行动。命令结束它就"死"了。</p>
+          </div>
+          <div class="adv-point">
+            <strong>Tagentacle 方案</strong>
+            <p>Agent 全天候"活着"。凌晨 3 点监控日志、检测崩溃并自主修复 —— 一个数字人格，而非单纯的工具。</p>
+          </div>
+        </div>
+        <div class="adv-card">
+          <h3><span>🎛️</span> 专业级</h3>
+          <div class="vs">指挥中心 vs 聊天气泡</div>
+          <div class="adv-point">
+            <strong>痛点</strong>
+            <p>大多数框架把一切塞进 Telegram 或 WhatsApp 的气泡里。</p>
+          </div>
+          <div class="adv-point">
+            <strong>Tagentacle 方案</strong>
+            <p>暴露原始数据总线，支持"指挥中心"仪表盘 —— 实时拓扑、CPU 图表和交互式编辑器，都由同一条消息总线驱动。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 系统架构 ========== -->
+  <section class="section" id="architecture">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🏗️ 系统架构</h2>
+        <p>三大支柱，驱动去中心化多 Agent 协作。</p>
+      </div>
+      <div class="arch-pillars fade-up">
+        <div class="pillar">
+          <span class="pillar-tag tag-rust">Rust</span>
+          <h3>tagentacle</h3>
+          <p>高性能消息路由器（守护进程/Broker）和 CLI 工具集。整个系统的骨干。</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-tag tag-python">Python</span>
+          <h3>tagentacle-py</h3>
+          <p>官方 Python SDK（类比 ROS 的 <code>rclpy</code>），提供双层异步 API 用于 Agent 开发。</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-tag tag-plan">计划中</span>
+          <h3>tagentacle-ecosystem</h3>
+          <p>标准 Pkg 集合 —— <code>chatbot_ui_pkg</code>、<code>mcp_sqlite_wrapper_pkg</code> —— 持续壮大的生态系统。</p>
+        </div>
+      </div>
+      <div class="section-header fade-up" style="margin-bottom: 24px;">
+        <h2 style="font-size: 1.5rem;">🧩 ROS 2 概念映射</h2>
+      </div>
+      <div class="table-wrap fade-up">
+        <table class="compare-table">
+          <thead>
+            <tr><th>ROS 2 概念</th><th>Tagentacle 映射</th><th>AI 场景</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Workspace</strong></td><td>Agent 工作区</td><td>包含多个 Pkg 的目录 —— 一个复杂 Agent 系统</td></tr>
+            <tr><td><strong>Node</strong></td><td>Agent 节点 / 通用节点</td><td>LLM 驱动的自主 Agent 或确定性程序</td></tr>
+            <tr><td><strong>Topic</strong></td><td>Schema 校验通道</td><td>带强制 JSON Schema 契约的异步通道</td></tr>
+            <tr><td><strong>Service</strong></td><td>Tool Call (RPC)</td><td>高频 MCP 工具调用的同步 RPC</td></tr>
+            <tr><td><strong>Interface Pkg</strong></td><td>JSON Schema 契约包</td><td>跨节点消息契约定义</td></tr>
+            <tr><td><strong>Bringup Pkg</strong></td><td>配置中心</td><td>拓扑编排、参数注入、密钥管理</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="comm-flow fade-up">
+        <div class="flow-item">
+          <div class="flow-icon">📡</div>
+          <h4>Topic（发布/订阅）</h4>
+          <p>实时广播、流式输出，JSON Schema 校验。</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">🔁</div>
+          <h4>Service（请求/响应）</h4>
+          <p>快速工具调用、MCP 工具执行、同步 RPC。</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">🚇</div>
+          <h4>MCP 隧道</h4>
+          <p>JSON-RPC 通过 Service 隧道传输 + 镜像到 Topic 实现可观测性。</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">⏳</div>
+          <h4>Action（计划中）</h4>
+          <p>带进度反馈的长时间异步任务。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Python SDK ========== -->
+  <section class="section section-alt" id="sdk">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🔌 Python SDK</h2>
+        <p>双层设计 —— Simple API 快速集成，Node API 完整生命周期管理。</p>
+      </div>
+      <div class="code-section fade-up">
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="simple">Simple API</button>
+          <button class="code-tab" data-tab="lifecycle">生命周期节点</button>
+          <button class="code-tab" data-tab="mcpbridge">MCP 桥接</button>
+        </div>
+        <div class="code-block">
+          <div class="code-panel active" id="tab-simple">
+<pre><span style="color:var(--accent)">from</span> tagentacle_py <span style="color:var(--accent)">import</span> Node
+<span style="color:var(--accent)">import</span> asyncio
+
+<span style="color:var(--accent)">async def</span> <span style="color:var(--green)">main</span>():
+    node = Node(<span style="color:var(--orange)">"sensor_node"</span>)
+    <span style="color:var(--accent)">await</span> node.connect()
+
+    <span style="color:var(--blue)">@node.subscribe</span>(<span style="color:var(--orange)">"/data/temperature"</span>)
+    <span style="color:var(--accent)">async def</span> <span style="color:var(--green)">on_temp</span>(msg):
+        print(<span style="color:var(--orange)">f"温度: {msg['payload']['value']}°C"</span>)
+
+    <span style="color:var(--accent)">await</span> node.publish(<span style="color:var(--orange)">"/status/online"</span>, {<span style="color:var(--orange)">"node"</span>: <span style="color:var(--orange)">"sensor_node"</span>})
+    <span style="color:var(--accent)">await</span> node.spin()
+
+asyncio.run(main())</pre>
+          </div>
+          <div class="code-panel" id="tab-lifecycle">
+<pre><span style="color:var(--accent)">from</span> tagentacle_py <span style="color:var(--accent)">import</span> LifecycleNode
+
+<span style="color:var(--accent)">class</span> <span style="color:var(--green)">AliceAgent</span>(LifecycleNode):
+    <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_configure</span>(self, config):
+        self.api_key = config.get(<span style="color:var(--orange)">"api_key"</span>)
+        self.allowed_tools = config.get(<span style="color:var(--orange)">"tools"</span>, [])
+
+    <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_activate</span>(self):
+        self.subscribe(<span style="color:var(--orange)">"/task/inbox"</span>, self.handle_task)
+
+    <span style="color:var(--accent)">async def</span> <span style="color:var(--green)">handle_task</span>(self, msg):
+        result = <span style="color:var(--accent)">await</span> self.call_service(<span style="color:var(--orange)">"/tool/search"</span>, msg[<span style="color:var(--orange)">"payload"</span>])
+        <span style="color:var(--accent)">await</span> self.publish(<span style="color:var(--orange)">"/task/result"</span>, result)
+
+    <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_shutdown</span>(self):
+        self.logger.info(<span style="color:var(--orange)">"Alice 正在优雅关闭。"</span>)</pre>
+          </div>
+          <div class="code-panel" id="tab-mcpbridge">
+<pre><span style="color:var(--text-muted)"># MCP-Publish 桥接将总线 Topic 暴露为 MCP 工具</span>
+<span style="color:var(--text-muted)"># 内置 MCP Server Node 将 publish() 抽象为 MCP Tool</span>
+
+<span style="color:var(--accent)">from</span> mcp <span style="color:var(--accent)">import</span> ClientSession
+<span style="color:var(--accent)">from</span> tagentacle_py.mcp <span style="color:var(--accent)">import</span> TagentacleClientTransport
+
+<span style="color:var(--text-muted)"># 通过 Tagentacle 总线连接，而非 stdio</span>
+transport = TagentacleClientTransport(node, server_node_id=<span style="color:var(--orange)">"sqlite_server"</span>)
+<span style="color:var(--accent)">async with</span> ClientSession(transport) <span style="color:var(--accent)">as</span> session:
+    <span style="color:var(--accent)">await</span> session.initialize()
+    result = <span style="color:var(--accent)">await</span> session.call_tool(<span style="color:var(--orange)">"query"</span>, {<span style="color:var(--orange)">"sql"</span>: <span style="color:var(--orange)">"SELECT * FROM users"</span>})</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MCP 集成 ========== -->
+  <section class="section" id="mcp">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🛠️ MCP 集成</h2>
+        <p>Bus-as-Transport —— 以优雅架构解决 MCP Session 跨进程序列化难题。</p>
+      </div>
+      <div class="mcp-features fade-up">
+        <div class="mcp-card">
+          <h3>🏠 Session 本地化</h3>
+          <p>MCP Client/Server Session 留在节点内存中 —— 从不跨进程传输。Session 本地化，性能真实可靠。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🚌 总线流量转发</h3>
+          <p>自定义 <code>TagentacleTransport</code> 将 JSON-RPC 封装为 Service 请求，在分布式环境中实现透明高效的工具调用。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔀 双轨集成</h3>
+          <p>MCP 载荷同时镜像到专用 Topic（<code>/mcp/traffic</code>），实现无侵入的观测和调试。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>↔️ 双向调用</h3>
+          <p>完整支持 MCP 规范，包括 Sampling（服务端调用 Agent）。Agent 节点注册 <code>/rpc</code> 服务接收回调。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>👁️ 全面可观测</h3>
+          <p>所有隧道流量自动镜像到 <code>/mcp/traffic</code> Topic。任何节点都可以审计工具调用流程，无需侵入式代理。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔌 无缝 SDK</h3>
+          <p>通过总线连接，用法与 stdio 完全一致。替换传输层即可 —— MCP 逻辑代码无需任何修改。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 通信协议 ========== -->
+  <section class="section section-alt" id="protocol">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>📜 通信协议</h2>
+        <p>TCP 19999，换行分隔 JSON（JSON Lines）。简洁、快速、通用。</p>
+      </div>
+      <div class="proto-grid fade-up">
+        <div class="proto-card">
+          <h3>📡 Topic</h3>
+          <div class="proto-item">
+            <div class="label">订阅</div>
+            <code>{"op": "subscribe", "topic": "/chat/global", "node_id": "alice_node"}</code>
+          </div>
+          <div class="proto-item">
+            <div class="label">发布</div>
+            <code>{"op": "publish", "topic": "/chat/global", "sender": "bob_node", "payload": {"text": "你好！"}}</code>
+          </div>
+          <div class="proto-item">
+            <div class="label">消息（推送）</div>
+            <code>{"op": "message", "topic": "/chat/global", "sender": "bob_node", "payload": {"text": "你好！"}}</code>
+          </div>
+        </div>
+        <div class="proto-card">
+          <h3>🔁 Service</h3>
+          <div class="proto-item">
+            <div class="label">注册</div>
+            <code>{"op": "advertise_service", "service": "/tool/read_file", "node_id": "fs_node"}</code>
+          </div>
+          <div class="proto-item">
+            <div class="label">调用</div>
+            <code>{"op": "call_service", "service": "/tool/read_file", "request_id": "req-1", "payload": {"path": "a.txt"}}</code>
+          </div>
+          <div class="proto-item">
+            <div class="label">响应</div>
+            <code>{"op": "service_response", "service": "/tool/read_file", "request_id": "req-1", "payload": {"content": "..."}}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CLI ========== -->
+  <section class="section" id="cli">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🛠️ CLI 工具链</h2>
+        <p>开发者的核心入口 —— 从命令行管理守护进程、包、环境和服务。</p>
+      </div>
+      <div class="cli-grid fade-up">
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle daemon</div><div class="cli-desc">启动本地 TCP 消息总线</div></div></div>
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle run --pkg &lt;dir&gt;</div><div class="cli-desc">激活包的 .venv 并启动其 Node</div></div></div>
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle launch &lt;config.toml&gt;</div><div class="cli-desc">从拓扑配置编排多节点</div></div></div>
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle topic echo &lt;topic&gt;</div><div class="cli-desc">订阅并实时打印消息</div></div></div>
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle service call &lt;srv&gt; &lt;json&gt;</div><div class="cli-desc">从命令行测试服务</div></div></div>
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle bridge --mcp &lt;cmd&gt;</div><div class="cli-desc">将外部 MCP Server (stdio) 桥接到总线</div></div></div>
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle setup dep --pkg &lt;dir&gt;</div><div class="cli-desc">为单个包运行 uv sync</div></div></div>
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle setup dep --all &lt;ws&gt;</div><div class="cli-desc">安装所有包，生成 install/ 结构</div></div></div>
+        <div class="cli-item"><div><div class="cli-cmd">tagentacle doctor</div><div class="cli-desc">健康检查 —— 守护进程状态、节点连通性</div></div></div>
+      </div>
+      <div class="code-section fade-up">
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="env">环境管理</button>
+        </div>
+        <div class="code-block">
+          <div class="code-panel active" id="tab-env">
+<pre><span style="color:var(--text-muted)"># 初始化整个工作区</span>
+tagentacle setup dep --all .
+<span style="color:var(--text-muted)"># → 在每个包中运行 uv sync</span>
+<span style="color:var(--text-muted)"># → 创建 install/src/&lt;pkg&gt;/.venv 符号链接</span>
+<span style="color:var(--text-muted)"># → 生成 install/setup_env.bash</span>
+
+<span style="color:var(--text-muted)"># 加载环境（将所有 .venv 添加到 PATH）</span>
+<span style="color:var(--accent)">source</span> install/setup_env.bash
+
+<span style="color:var(--text-muted)"># 清理</span>
+tagentacle setup clean --workspace .</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 路线图 ========== -->
+  <section class="section section-alt" id="roadmap">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>📝 路线图与进展</h2>
+        <p>已完成的功能，以及即将到来的计划。</p>
+      </div>
+      <div class="roadmap-cols fade-up">
+        <div class="roadmap-card">
+          <h3>✅ 已完成</h3>
+          <div class="roadmap-item"><span class="check">✅</span><span>Rust 守护进程 —— Topic 发布/订阅 & Service 请求/响应</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Python SDK —— Simple API（Node 类）</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Python SDK —— LifecycleNode（双层 API）</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCP Bridge (Rust) —— stdio 隧道</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCP Transport 层（Python SDK）</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCP-Publish 桥接节点</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>tagentacle.toml 规范与解析</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Bringup 配置中心</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>完整 CLI 工具链</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>基于 uv 的环境管理</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>密钥管理（secrets.toml）</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>示例工作区</span></div>
+        </div>
+        <div class="roadmap-card">
+          <h3>🗺️ 计划中</h3>
+          <div class="roadmap-item"><span class="check">🔲</span><span>JSON Schema 校验 —— Topic 级别契约</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>节点生命周期追踪 —— 心跳监控</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>接口包 —— 跨节点 Schema 契约</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Action 模式 —— 带进度反馈的异步任务</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>vcstool + .repos —— 多仓库工作区构建</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Web 仪表盘 —— 实时拓扑与状态</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 快速开始 ========== -->
+  <section class="section" id="quickstart">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🚀 快速开始</h2>
+        <p>三步上手。</p>
+      </div>
+      <div class="qs-steps fade-up">
+        <div class="qs-step">
+          <div class="qs-num">1</div>
+          <div class="qs-content">
+            <h3>启动守护进程（Rust 核心）</h3>
+            <div class="qs-code">
+              <p><span class="cmd">cd</span> tagentacle</p>
+              <p><span class="cmd">cargo run</span> -- daemon</p>
+            </div>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">2</div>
+          <div class="qs-content">
+            <h3>设置工作区（uv）</h3>
+            <div class="qs-code">
+              <p><span class="cmd">cd</span> tagentacle-py</p>
+              <p><span class="cmd">tagentacle setup dep</span> --all ..</p>
+            </div>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">3</div>
+          <div class="qs-content">
+            <h3>运行节点</h3>
+            <div class="qs-code">
+              <p><span class="cmd">tagentacle run</span> --pkg examples/src/mcp_server_pkg</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">🐙 Tagentacle</div>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">AI 时代的 ROS</p>
+      <div class="footer-links">
+        <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub</a>
+        <a href="https://github.com/Tagentacle/python-sdk" target="_blank">Python SDK</a>
+        <a href="#philosophy">文档</a>
+      </div>
+      <div class="footer-copy">© 2025–2026 Tagentacle. 基于 MIT 许可证开源。</div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
