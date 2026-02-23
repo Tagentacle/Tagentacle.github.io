@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tagentacle — ROS for the AI Era</title>
+  <meta name="description" content="Tagentacle is a decentralized, production-grade multi-agent framework. Built with ROS 2 patterns, MCP Protocol, and Rust performance." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐙</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ========== CSS Variables ========== */
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --max-w: 1120px;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg: #ffffff;
+      --bg-alt: #f8f9fc;
+      --bg-card: #ffffff;
+      --bg-code: #f1f3f5;
+      --bg-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --text: #1a1a2e;
+      --text-secondary: #555770;
+      --text-muted: #8888a0;
+      --border: #e2e4ea;
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --accent-bg: rgba(108, 92, 231, 0.08);
+      --green: #00b894;
+      --green-bg: rgba(0, 184, 148, 0.08);
+      --orange: #e17055;
+      --orange-bg: rgba(225, 112, 85, 0.08);
+      --blue: #0984e3;
+      --blue-bg: rgba(9, 132, 227, 0.08);
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+      --shadow-lg: 0 4px 20px rgba(0,0,0,0.08);
+      --nav-bg: rgba(255,255,255,0.85);
+      --table-header-bg: #f0f1f5;
+      --table-stripe: #fafbfd;
+      --tag-rust: #dea584;
+      --tag-python: #3776ab;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0d1117;
+      --bg-alt: #161b22;
+      --bg-card: #1c2128;
+      --bg-code: #1c2128;
+      --bg-hero: linear-gradient(135deg, #1a1a3e 0%, #2d1b55 100%);
+      --text: #e6edf3;
+      --text-secondary: #9ca3b0;
+      --text-muted: #6a7080;
+      --border: #2d333b;
+      --accent: #a78bfa;
+      --accent-light: #c4b5fd;
+      --accent-bg: rgba(167, 139, 250, 0.1);
+      --green: #3fb68b;
+      --green-bg: rgba(63, 182, 139, 0.12);
+      --orange: #f0816a;
+      --orange-bg: rgba(240, 129, 106, 0.12);
+      --blue: #58a6ff;
+      --blue-bg: rgba(88, 166, 255, 0.12);
+      --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+      --shadow-lg: 0 4px 20px rgba(0,0,0,0.4);
+      --nav-bg: rgba(13,17,23,0.88);
+      --table-header-bg: #21262d;
+      --table-stripe: #161b22;
+      --tag-rust: #dea584;
+      --tag-python: #5ba0d0;
+    }
+
+    /* ========== Reset ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      transition: background var(--transition), color var(--transition);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--accent-light); }
+    img { max-width: 100%; }
+
+    /* ========== Nav ========== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+    }
+    .nav-logo {
+      font-weight: 800; font-size: 1.25rem; color: var(--text);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-logo span { font-size: 1.5rem; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--accent); }
+
+    .theme-toggle {
+      background: var(--bg-alt); border: 1px solid var(--border);
+      border-radius: 50%; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.15rem;
+      transition: all var(--transition);
+    }
+    .theme-toggle:hover { border-color: var(--accent); background: var(--accent-bg); }
+
+    .mobile-menu-btn {
+      display: none; background: none; border: none;
+      color: var(--text); font-size: 1.5rem; cursor: pointer;
+    }
+
+    /* ========== Hero ========== */
+    .hero {
+      background: var(--bg-hero);
+      padding: 140px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15); color: #fff;
+      padding: 6px 16px; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 500;
+      margin-bottom: 24px; backdrop-filter: blur(4px);
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900; color: #fff;
+      line-height: 1.1; margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 em { font-style: normal; opacity: 0.85; }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: rgba(255,255,255,0.8);
+      max-width: 600px; margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .hero-quote {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.95);
+      padding: 10px 24px; border-radius: 8px;
+      font-family: var(--font-mono); font-size: 0.95rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      margin-bottom: 36px;
+    }
+    .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: var(--radius-sm);
+      font-weight: 600; font-size: 0.95rem;
+      transition: all var(--transition); cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: #fff; color: #1a1a2e;
+    }
+    .btn-primary:hover { background: #f0f0f5; color: #1a1a2e; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+    .btn-outline {
+      background: transparent; color: #fff;
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+    .btn-outline:hover { border-color: #fff; color: #fff; transform: translateY(-1px); }
+
+    /* ========== Sections ========== */
+    .section { padding: 80px 24px; }
+    .section-alt { background: var(--bg-alt); }
+    .container { max-width: var(--max-w); margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800; margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .section-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 640px; margin: 0 auto; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 4px 10px; border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .badge-accent { background: var(--accent-bg); color: var(--accent); }
+    .badge-green { background: var(--green-bg); color: var(--green); }
+
+    /* ========== Feature Grid ========== */
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      transition: all var(--transition);
+    }
+    .feature-card:hover { border-color: var(--accent); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 16px;
+    }
+    .fi-purple { background: var(--accent-bg); }
+    .fi-green { background: var(--green-bg); }
+    .fi-orange { background: var(--orange-bg); }
+    .fi-blue { background: var(--blue-bg); }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; }
+
+    /* ========== Comparison Table ========== */
+    .table-wrap {
+      overflow-x: auto; border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+    .compare-table {
+      width: 100%; border-collapse: collapse; font-size: 0.9rem;
+    }
+    .compare-table th, .compare-table td {
+      padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    .compare-table th {
+      background: var(--table-header-bg);
+      font-weight: 600; color: var(--text);
+      white-space: nowrap;
+    }
+    .compare-table tr:nth-child(even) td { background: var(--table-stripe); }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:last-child { color: var(--accent); font-weight: 600; }
+
+    /* ========== Architecture ========== */
+    .arch-pillars {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px; margin-bottom: 48px;
+    }
+    .pillar {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      transition: all var(--transition);
+    }
+    .pillar:hover { box-shadow: var(--shadow-lg); }
+    .pillar-tag {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; padding: 3px 8px; border-radius: 4px;
+      display: inline-block; margin-bottom: 12px; color: #fff;
+    }
+    .tag-rust { background: var(--tag-rust); }
+    .tag-python { background: var(--tag-python); }
+    .tag-plan { background: var(--text-muted); }
+    .pillar h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .pillar p { color: var(--text-secondary); font-size: 0.9rem; }
+
+    .mapping-table { margin-top: 0; }
+
+    /* ========== Code Block ========== */
+    .code-section { margin: 48px 0; }
+    .code-tabs { display: flex; gap: 0; margin-bottom: 0; }
+    .code-tab {
+      padding: 10px 20px; font-size: 0.85rem; font-weight: 600;
+      background: var(--bg-code); border: 1px solid var(--border);
+      border-bottom: none; border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      cursor: pointer; color: var(--text-muted);
+      transition: all var(--transition);
+    }
+    .code-tab.active { color: var(--accent); background: var(--bg-card); border-bottom-color: var(--bg-card); }
+    .code-tab + .code-tab { margin-left: -1px; }
+    .code-block {
+      background: var(--bg-code); border: 1px solid var(--border);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
+      padding: 24px; overflow-x: auto;
+    }
+    .code-block pre {
+      margin: 0; font-family: var(--font-mono);
+      font-size: 0.85rem; line-height: 1.65; color: var(--text);
+    }
+    .code-panel { display: none; }
+    .code-panel.active { display: block; }
+
+    /* ========== Advantages ========== */
+    .adv-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .adv-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px;
+      transition: all var(--transition);
+    }
+    .adv-card:hover { box-shadow: var(--shadow-lg); }
+    .adv-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .adv-card h3 span { font-size: 1.3rem; }
+    .adv-card .vs {
+      font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px;
+    }
+    .adv-point { margin-bottom: 12px; }
+    .adv-point strong { color: var(--text); display: block; font-size: 0.9rem; margin-bottom: 2px; }
+    .adv-point p { color: var(--text-secondary); font-size: 0.88rem; margin: 0; }
+
+    /* ========== CLI ========== */
+    .cli-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+    .cli-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 16px;
+      transition: all var(--transition);
+    }
+    .cli-item:hover { border-color: var(--accent); }
+    .cli-cmd {
+      font-family: var(--font-mono); font-size: 0.82rem;
+      color: var(--accent); font-weight: 500; white-space: nowrap;
+    }
+    .cli-desc { font-size: 0.85rem; color: var(--text-secondary); }
+
+    /* ========== Protocol ========== */
+    .proto-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .proto-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+    }
+    .proto-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .proto-item { margin-bottom: 12px; }
+    .proto-item .label {
+      font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 4px;
+    }
+    .proto-item code {
+      display: block; background: var(--bg-code); padding: 10px 14px;
+      border-radius: 6px; font-family: var(--font-mono);
+      font-size: 0.78rem; color: var(--text-secondary);
+      overflow-x: auto; white-space: pre;
+    }
+
+    /* ========== Roadmap ========== */
+    .roadmap-cols {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .roadmap-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .roadmap-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .roadmap-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 0; font-size: 0.9rem;
+    }
+    .roadmap-item .check { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+    .roadmap-item span { color: var(--text-secondary); }
+
+    /* ========== Quick Start ========== */
+    .qs-steps { max-width: 720px; margin: 0 auto; }
+    .qs-step {
+      display: flex; gap: 20px; margin-bottom: 32px;
+      align-items: flex-start;
+    }
+    .qs-num {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--accent-bg); color: var(--accent);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-weight: 800; font-size: 1rem;
+    }
+    .qs-content { flex: 1; }
+    .qs-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .qs-content .qs-code {
+      background: var(--bg-code); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 14px 18px;
+      font-family: var(--font-mono); font-size: 0.85rem;
+      color: var(--text-secondary); overflow-x: auto;
+    }
+    .qs-content .qs-code p { margin-bottom: 4px; }
+    .qs-content .qs-code .cmd { color: var(--accent); }
+
+    /* ========== Footer ========== */
+    .footer {
+      background: var(--bg-alt); border-top: 1px solid var(--border);
+      padding: 48px 24px 32px; text-align: center;
+      transition: all var(--transition);
+    }
+    .footer-logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; margin: 16px 0; }
+    .footer-links a { color: var(--text-muted); font-size: 0.9rem; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { color: var(--text-muted); font-size: 0.8rem; margin-top: 20px; }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 64px; left: 0; right: 0;
+        background: var(--nav-bg); backdrop-filter: blur(16px);
+        padding: 16px 24px; gap: 12px;
+        border-bottom: 1px solid var(--border);
+      }
+      .mobile-menu-btn { display: block; }
+      .hero { padding: 120px 20px 60px; }
+      .section { padding: 56px 16px; }
+      .roadmap-cols { grid-template-columns: 1fr; }
+      .adv-grid { grid-template-columns: 1fr; }
+      .proto-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ========== Animations ========== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* MCP section */
+    .mcp-features {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px; margin-top: 36px;
+    }
+    .mcp-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      transition: all var(--transition);
+    }
+    .mcp-card:hover { box-shadow: var(--shadow-lg); }
+    .mcp-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .mcp-card p { font-size: 0.9rem; color: var(--text-secondary); }
+
+    /* comm flow */
+    .comm-flow {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px; margin-top: 32px;
+    }
+    .flow-item {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 20px;
+      text-align: center;
+    }
+    .flow-item .flow-icon { font-size: 1.5rem; margin-bottom: 8px; }
+    .flow-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .flow-item p { font-size: 0.82rem; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+
+  <!-- ========== Nav ========== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo"><span>🐙</span> Tagentacle</a>
+      <div class="nav-links" id="navLinks">
+        <a href="#philosophy">Philosophy</a>
+        <a href="#comparison">Why Us</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#sdk">SDK</a>
+        <a href="#mcp">MCP</a>
+        <a href="#cli">CLI</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub ↗</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- ========== Hero ========== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">🚀 Open Source &amp; Production-Grade</div>
+      <h1>Tagentacle<br /><em>ROS for the AI Era</em></h1>
+      <p class="hero-sub">
+        A decentralized, configuration-centralized, production-grade multi-agent framework.
+        Built with ROS 2 patterns, MCP Protocol, and Rust performance.
+      </p>
+      <div class="hero-quote">Everything is a Pkg. Managed. Verifiable. Scalable.</div>
+      <div class="hero-buttons">
+        <a href="#quickstart" class="btn btn-primary">🚀 Quick Start</a>
+        <a href="https://github.com/Tagentacle/tagentacle" target="_blank" class="btn btn-outline">⭐ GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Core Philosophy ========== -->
+  <section class="section" id="philosophy">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🌟 Core Philosophy</h2>
+        <p>Everything is a Pkg — Thorough modularization of system capabilities, inherited from ROS 2's most fundamental software organization philosophy.</p>
+      </div>
+      <div class="feature-grid fade-up">
+        <div class="feature-card">
+          <div class="feature-icon fi-purple">🤖</div>
+          <h3>Agent Package</h3>
+          <p>Each agent as an independent package, containing behavior logic, prompt templates, state management, and communication interfaces.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-green">🔧</div>
+          <h3>Tool / Service Package</h3>
+          <p>Encapsulates tools or services that agents call — database access, web scraping — with MCP protocol for plug-and-play integration.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-orange">📐</div>
+          <h3>Interface Package</h3>
+          <p>Defines cross-node communication contracts via JSON Schema, ensuring packages from different developers "speak the same language".</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-blue">🚀</div>
+          <h3>Bringup Package</h3>
+          <p>System startup and configuration: workspace package sets, node launch parameters, environment credentials, and topology orchestration.</p>
+        </div>
+      </div>
+
+      <div class="comm-flow fade-up">
+        <div class="flow-item">
+          <div class="flow-icon">♻️</div>
+          <h4>High Reusability</h4>
+          <p>Mature tool/agent packages migrate seamlessly across projects like LEGO bricks.</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">🔒</div>
+          <h4>Dependency Isolation</h4>
+          <p>Per-package independent Python venvs, eliminating dependency conflicts entirely.</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">📦</div>
+          <h4>Black-Box Development</h4>
+          <p>Focus on input/output contracts — no need to know the internal model or framework.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Why Tagentacle ========== -->
+  <section class="section section-alt" id="comparison">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>⚔️ Why Tagentacle?</h2>
+        <p>Industrial-grade infrastructure for the next generation of AI, beyond monolithic gateways and CLI-bound tools.</p>
+      </div>
+
+      <div class="table-wrap fade-up" style="margin-bottom: 48px;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Monolithic Gateways</th>
+              <th>CLI Tools</th>
+              <th>Tagentacle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Architecture</strong></td>
+              <td>Node.js Monolith</td>
+              <td>Single-Process CLI</td>
+              <td>Distributed Microservices (Rust)</td>
+            </tr>
+            <tr>
+              <td><strong>Stability</strong></td>
+              <td>Single Failure = Full Crash</td>
+              <td>Process-bound</td>
+              <td>Isolated Processes (Fault Tolerant)</td>
+            </tr>
+            <tr>
+              <td><strong>Lifecycle</strong></td>
+              <td>Chat-bound (TG/WA)</td>
+              <td>Task-bound (One-shot)</td>
+              <td>Continuous (24/7 Event-Driven)</td>
+            </tr>
+            <tr>
+              <td><strong>Interaction</strong></td>
+              <td>Chat Bubble (ChatOps)</td>
+              <td>Terminal Output</td>
+              <td>Mission Control (Real-time Dashboards)</td>
+            </tr>
+            <tr>
+              <td><strong>Scope</strong></td>
+              <td>Single Server</td>
+              <td>Local Filesystem</td>
+              <td>Multi-Device / Cross-Platform</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="adv-grid fade-up">
+        <div class="adv-card">
+          <h3><span>🏗️</span> Robustness</h3>
+          <div class="vs">Distributed Bus vs Monolithic Gateway</div>
+          <div class="adv-point">
+            <strong>The Problem</strong>
+            <p>Running 50 skills in one Node.js process — a memory leak in one reboots everything.</p>
+          </div>
+          <div class="adv-point">
+            <strong>Tagentacle's Solution</strong>
+            <p>Every Node is a separate process. A crashed "Twitter Scraper" never affects your "SRE Agent". Rust-based Broker provides high-concurrency routing that never sleeps.</p>
+          </div>
+        </div>
+        <div class="adv-card">
+          <h3><span>⚡</span> Autonomy</h3>
+          <div class="vs">Event-Driven Lifeforms vs Task-Based Tools</div>
+          <div class="adv-point">
+            <strong>The Problem</strong>
+            <p>CLI tools only act when commanded. They are "dead" when the command ends.</p>
+          </div>
+          <div class="adv-point">
+            <strong>Tagentacle's Solution</strong>
+            <p>Agents are "alive" 24/7. They watch logs at 3 AM, detect crashes, and fix issues autonomously — a Digital Persona, not a mere tool.</p>
+          </div>
+        </div>
+        <div class="adv-card">
+          <h3><span>🎛️</span> Professional Grade</h3>
+          <div class="vs">Mission Control vs Chat Bubbles</div>
+          <div class="adv-point">
+            <strong>The Problem</strong>
+            <p>Most frameworks squeeze everything into Telegram or WhatsApp bubbles.</p>
+          </div>
+          <div class="adv-point">
+            <strong>Tagentacle's Solution</strong>
+            <p>Exposes a raw data bus for "Mission Control" dashboards — real-time topology, CPU graphs, and interactive editors driven by the same message bus.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Architecture ========== -->
+  <section class="section" id="architecture">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🏗️ System Architecture</h2>
+        <p>Three pillars powering decentralized multi-agent collaboration.</p>
+      </div>
+
+      <div class="arch-pillars fade-up">
+        <div class="pillar">
+          <span class="pillar-tag tag-rust">Rust</span>
+          <h3>tagentacle</h3>
+          <p>High-performance message router (Daemon/Broker) and CLI tools. The backbone of the entire system.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-tag tag-python">Python</span>
+          <h3>tagentacle-py</h3>
+          <p>Official Python SDK (analogous to ROS's <code>rclpy</code>), providing a dual-layer async API for agent development.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-tag tag-plan">Planned</span>
+          <h3>tagentacle-ecosystem</h3>
+          <p>A collection of standard Pkgs — <code>chatbot_ui_pkg</code>, <code>mcp_sqlite_wrapper_pkg</code> — the growing ecosystem.</p>
+        </div>
+      </div>
+
+      <div class="section-header fade-up" style="margin-bottom: 24px;">
+        <h2 style="font-size: 1.5rem;">🧩 ROS 2 Concept Mapping</h2>
+      </div>
+      <div class="table-wrap fade-up mapping-table">
+        <table class="compare-table">
+          <thead>
+            <tr><th>ROS 2 Concept</th><th>Tagentacle Mapping</th><th>AI Scenario</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Workspace</strong></td><td>Agent Workspace</td><td>A directory containing multiple Pkgs — a complex agent system</td></tr>
+            <tr><td><strong>Node</strong></td><td>Agent Node / General Node</td><td>LLM-driven autonomous agents or deterministic programs</td></tr>
+            <tr><td><strong>Topic</strong></td><td>Schema-Validated Channel</td><td>Async channel with mandatory JSON Schema contracts</td></tr>
+            <tr><td><strong>Service</strong></td><td>Tool Call (RPC)</td><td>Synchronous RPC for high-frequency MCP tool calls</td></tr>
+            <tr><td><strong>Interface Pkg</strong></td><td>JSON Schema Contract Pkg</td><td>Cross-node message contract definitions</td></tr>
+            <tr><td><strong>Bringup Pkg</strong></td><td>Config Center</td><td>Topology orchestration, parameter injection, secrets</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="comm-flow fade-up">
+        <div class="flow-item">
+          <div class="flow-icon">📡</div>
+          <h4>Topic (Pub/Sub)</h4>
+          <p>Real-time broadcasts, streaming output, JSON Schema validated.</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">🔁</div>
+          <h4>Service (Req/Res)</h4>
+          <p>Fast tool calling, MCP tool execution, synchronous RPC.</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">🚇</div>
+          <h4>MCP Tunneling</h4>
+          <p>JSON-RPC tunneled via Services + mirrored to Topics for observability.</p>
+        </div>
+        <div class="flow-item">
+          <div class="flow-icon">⏳</div>
+          <h4>Action (Planned)</h4>
+          <p>Long-running async tasks with progress feedback.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Python SDK ========== -->
+  <section class="section section-alt" id="sdk">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🔌 Python SDK</h2>
+        <p>Dual-layer design — Simple API for quick integration, Node API for full lifecycle management.</p>
+      </div>
+
+      <div class="code-section fade-up">
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="simple">Simple API</button>
+          <button class="code-tab" data-tab="lifecycle">Lifecycle Node</button>
+          <button class="code-tab" data-tab="mcpbridge">MCP Bridge</button>
+        </div>
+        <div class="code-block">
+          <div class="code-panel active" id="tab-simple">
+<pre><span style="color:var(--accent)">from</span> tagentacle_py <span style="color:var(--accent)">import</span> Node
+<span style="color:var(--accent)">import</span> asyncio
+
+<span style="color:var(--accent)">async def</span> <span style="color:var(--green)">main</span>():
+    node = Node(<span style="color:var(--orange)">"sensor_node"</span>)
+    <span style="color:var(--accent)">await</span> node.connect()
+
+    <span style="color:var(--blue)">@node.subscribe</span>(<span style="color:var(--orange)">"/data/temperature"</span>)
+    <span style="color:var(--accent)">async def</span> <span style="color:var(--green)">on_temp</span>(msg):
+        print(<span style="color:var(--orange)">f"Temperature: {msg['payload']['value']}°C"</span>)
+
+    <span style="color:var(--accent)">await</span> node.publish(<span style="color:var(--orange)">"/status/online"</span>, {<span style="color:var(--orange)">"node"</span>: <span style="color:var(--orange)">"sensor_node"</span>})
+    <span style="color:var(--accent)">await</span> node.spin()
+
+asyncio.run(main())</pre>
+          </div>
+          <div class="code-panel" id="tab-lifecycle">
+<pre><span style="color:var(--accent)">from</span> tagentacle_py <span style="color:var(--accent)">import</span> LifecycleNode
+
+<span style="color:var(--accent)">class</span> <span style="color:var(--green)">AliceAgent</span>(LifecycleNode):
+    <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_configure</span>(self, config):
+        self.api_key = config.get(<span style="color:var(--orange)">"api_key"</span>)
+        self.allowed_tools = config.get(<span style="color:var(--orange)">"tools"</span>, [])
+
+    <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_activate</span>(self):
+        self.subscribe(<span style="color:var(--orange)">"/task/inbox"</span>, self.handle_task)
+
+    <span style="color:var(--accent)">async def</span> <span style="color:var(--green)">handle_task</span>(self, msg):
+        result = <span style="color:var(--accent)">await</span> self.call_service(<span style="color:var(--orange)">"/tool/search"</span>, msg[<span style="color:var(--orange)">"payload"</span>])
+        <span style="color:var(--accent)">await</span> self.publish(<span style="color:var(--orange)">"/task/result"</span>, result)
+
+    <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_shutdown</span>(self):
+        self.logger.info(<span style="color:var(--orange)">"Alice shutting down gracefully."</span>)</pre>
+          </div>
+          <div class="code-panel" id="tab-mcpbridge">
+<pre><span style="color:var(--text-muted)"># The MCP-Publish bridge exposes bus topics as MCP tools</span>
+<span style="color:var(--text-muted)"># Built-in MCP Server Node abstracts publish() as an MCP Tool</span>
+
+<span style="color:var(--accent)">from</span> mcp <span style="color:var(--accent)">import</span> ClientSession
+<span style="color:var(--accent)">from</span> tagentacle_py.mcp <span style="color:var(--accent)">import</span> TagentacleClientTransport
+
+<span style="color:var(--text-muted)"># Connect through Tagentacle bus instead of stdio</span>
+transport = TagentacleClientTransport(node, server_node_id=<span style="color:var(--orange)">"sqlite_server"</span>)
+<span style="color:var(--accent)">async with</span> ClientSession(transport) <span style="color:var(--accent)">as</span> session:
+    <span style="color:var(--accent)">await</span> session.initialize()
+    result = <span style="color:var(--accent)">await</span> session.call_tool(<span style="color:var(--orange)">"query"</span>, {<span style="color:var(--orange)">"sql"</span>: <span style="color:var(--orange)">"SELECT * FROM users"</span>})</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MCP Integration ========== -->
+  <section class="section" id="mcp">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🛠️ MCP Integration</h2>
+        <p>Bus-as-Transport — solving MCP Session cross-process serialization with elegant architecture.</p>
+      </div>
+      <div class="mcp-features fade-up">
+        <div class="mcp-card">
+          <h3>🏠 Session Localization</h3>
+          <p>MCP Client/Server Sessions stay in node memory — never transmitted cross-process. Sessions are local, performance is real.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🚌 Bus Traffic Forwarding</h3>
+          <p>Custom <code>TagentacleTransport</code> wraps JSON-RPC into Service requests, achieving transparent and efficient tool calls in distributed environments.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔀 Dual-Track Integration</h3>
+          <p>MCP payloads are simultaneously mirrored to a dedicated Topic (<code>/mcp/traffic</code>) for non-intrusive observation and debugging.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>↔️ Bidirectional Calling</h3>
+          <p>Full MCP spec support including Sampling (Server calling Agent). Agent nodes register <code>/rpc</code> services for callbacks.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>👁️ Full Observability</h3>
+          <p>All tunneled traffic auto-mirrored to <code>/mcp/traffic</code> Topic. Any node can audit tool-calling flows without intrusive proxies.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔌 Seamless SDK</h3>
+          <p>Connect through the bus just like stdio. Swap transport layer and everything works — no code changes needed in your MCP logic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Protocol ========== -->
+  <section class="section section-alt" id="protocol">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>📜 Communication Protocol</h2>
+        <p>TCP 19999, newline-delimited JSON (JSON Lines). Simple, fast, universal.</p>
+      </div>
+      <div class="proto-grid fade-up">
+        <div class="proto-card">
+          <h3>📡 Topics</h3>
+          <div class="proto-item">
+            <div class="label">Subscribe</div>
+            <code>{"op": "subscribe", "topic": "/chat/global", "node_id": "alice_node"}</code>
+          </div>
+          <div class="proto-item">
+            <div class="label">Publish</div>
+            <code>{"op": "publish", "topic": "/chat/global", "sender": "bob_node", "payload": {"text": "Hello!"}}</code>
+          </div>
+          <div class="proto-item">
+            <div class="label">Message (Push)</div>
+            <code>{"op": "message", "topic": "/chat/global", "sender": "bob_node", "payload": {"text": "Hello!"}}</code>
+          </div>
+        </div>
+        <div class="proto-card">
+          <h3>🔁 Services</h3>
+          <div class="proto-item">
+            <div class="label">Advertise</div>
+            <code>{"op": "advertise_service", "service": "/tool/read_file", "node_id": "fs_node"}</code>
+          </div>
+          <div class="proto-item">
+            <div class="label">Call</div>
+            <code>{"op": "call_service", "service": "/tool/read_file", "request_id": "req-1", "payload": {"path": "a.txt"}}</code>
+          </div>
+          <div class="proto-item">
+            <div class="label">Response</div>
+            <code>{"op": "service_response", "service": "/tool/read_file", "request_id": "req-1", "payload": {"content": "..."}}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CLI ========== -->
+  <section class="section" id="cli">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🛠️ CLI Toolchain</h2>
+        <p>The primary developer interface — manage daemons, packages, environments, and services from the command line.</p>
+      </div>
+      <div class="cli-grid fade-up">
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle daemon</div>
+            <div class="cli-desc">Start the local TCP message bus</div>
+          </div>
+        </div>
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle run --pkg &lt;dir&gt;</div>
+            <div class="cli-desc">Activate package .venv and launch its Node</div>
+          </div>
+        </div>
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle launch &lt;config.toml&gt;</div>
+            <div class="cli-desc">Orchestrate multi-node from topology config</div>
+          </div>
+        </div>
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle topic echo &lt;topic&gt;</div>
+            <div class="cli-desc">Subscribe and print real-time messages</div>
+          </div>
+        </div>
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle service call &lt;srv&gt; &lt;json&gt;</div>
+            <div class="cli-desc">Test a service from the command line</div>
+          </div>
+        </div>
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle bridge --mcp &lt;cmd&gt;</div>
+            <div class="cli-desc">Bridge external MCP Server (stdio) to bus</div>
+          </div>
+        </div>
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle setup dep --pkg &lt;dir&gt;</div>
+            <div class="cli-desc">Run uv sync for a single package</div>
+          </div>
+        </div>
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle setup dep --all &lt;ws&gt;</div>
+            <div class="cli-desc">Install all packages, generate install/ structure</div>
+          </div>
+        </div>
+        <div class="cli-item">
+          <div>
+            <div class="cli-cmd">tagentacle doctor</div>
+            <div class="cli-desc">Health check — daemon status, node connectivity</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-section fade-up">
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="env">Environment Management</button>
+        </div>
+        <div class="code-block">
+          <div class="code-panel active" id="tab-env">
+<pre><span style="color:var(--text-muted)"># Initialize entire workspace</span>
+tagentacle setup dep --all .
+<span style="color:var(--text-muted)"># → runs uv sync in each package</span>
+<span style="color:var(--text-muted)"># → creates install/src/&lt;pkg&gt;/.venv symlinks</span>
+<span style="color:var(--text-muted)"># → generates install/setup_env.bash</span>
+
+<span style="color:var(--text-muted)"># Source environment (adds all .venvs to PATH)</span>
+<span style="color:var(--accent)">source</span> install/setup_env.bash
+
+<span style="color:var(--text-muted)"># Clean up</span>
+tagentacle setup clean --workspace .</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Roadmap ========== -->
+  <section class="section section-alt" id="roadmap">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>📝 Roadmap &amp; Status</h2>
+        <p>What's built, and what's coming next.</p>
+      </div>
+      <div class="roadmap-cols fade-up">
+        <div class="roadmap-card">
+          <h3>✅ Completed</h3>
+          <div class="roadmap-item"><span class="check">✅</span><span>Rust Daemon — Topic Pub/Sub & Service Req/Res</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Python SDK — Simple API (Node class)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Python SDK — LifecycleNode (Dual-Layer API)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCP Bridge (Rust) — stdio tunneling</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCP Transport Layer (Python SDK)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCP-Publish Bridge Node</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>tagentacle.toml Spec & Parsing</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Bringup Configuration Center</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Full CLI Toolchain</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>uv-based Environment Management</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Secrets Management (secrets.toml)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Example Workspace</span></div>
+        </div>
+        <div class="roadmap-card">
+          <h3>🗺️ Planned</h3>
+          <div class="roadmap-item"><span class="check">🔲</span><span>JSON Schema Validation — Topic-level contracts</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Node Lifecycle Tracking — Heartbeat monitoring</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Interface Package — cross-node schema contracts</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Action Mode — Async tasks with progress feedback</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>vcstool + .repos — Multi-repo workspace build</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Web Dashboard — Real-time topology & status</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Quick Start ========== -->
+  <section class="section" id="quickstart">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🚀 Quick Start</h2>
+        <p>Get up and running in three steps.</p>
+      </div>
+      <div class="qs-steps fade-up">
+        <div class="qs-step">
+          <div class="qs-num">1</div>
+          <div class="qs-content">
+            <h3>Start the Daemon (Rust Core)</h3>
+            <div class="qs-code">
+              <p><span class="cmd">cd</span> tagentacle</p>
+              <p><span class="cmd">cargo run</span> -- daemon</p>
+            </div>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">2</div>
+          <div class="qs-content">
+            <h3>Set Up the Workspace (uv)</h3>
+            <div class="qs-code">
+              <p><span class="cmd">cd</span> tagentacle-py</p>
+              <p><span class="cmd">tagentacle setup dep</span> --all ..</p>
+            </div>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">3</div>
+          <div class="qs-content">
+            <h3>Run a Node</h3>
+            <div class="qs-code">
+              <p><span class="cmd">tagentacle run</span> --pkg examples/src/mcp_server_pkg</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">🐙 Tagentacle</div>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">ROS for the AI Era</p>
+      <div class="footer-links">
+        <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub</a>
+        <a href="https://github.com/Tagentacle/python-sdk" target="_blank">Python SDK</a>
+        <a href="#philosophy">Documentation</a>
+      </div>
+      <div class="footer-copy">© 2025–2026 Tagentacle. Open Source under MIT License.</div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Theme Toggle =====
+    const html = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    if (stored) {
+      html.setAttribute('data-theme', stored);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      html.setAttribute('data-theme', 'dark');
+    }
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateIcon();
+    });
+
+    function updateIcon() {
+      toggle.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+    }
+
+    // ===== Mobile Menu =====
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    mobileBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      mobileBtn.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => { navLinks.classList.remove('open'); mobileBtn.textContent = '☰'; });
+    });
+
+    // ===== Code Tabs =====
+    document.querySelectorAll('.code-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const group = tab.parentElement;
+        group.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const block = group.nextElementSibling;
+        block.querySelectorAll('.code-panel').forEach(p => p.classList.remove('active'));
+        const target = block.querySelector('#tab-' + tab.dataset.tab);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    // ===== Scroll Animations =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
