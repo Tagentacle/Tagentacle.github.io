@@ -115,6 +115,8 @@
           </thead>
           <tbody>
             <tr><td><strong>Architecture</strong></td><td>Node.js Monolith</td><td>Single-Process CLI</td><td>Distributed Microservices (Rust)</td></tr>
+            <tr><td><strong>Topology</strong></td><td>Star (single hub)</td><td>Tree-shaped call stack</td><td>Mesh (Pub/Sub)</td></tr>
+            <tr><td><strong>Component Role</strong></td><td>Skills (bound to host)</td><td>Plugin / Sub-Agent (subordinate)</td><td>Independent microservices (Peers)</td></tr>
             <tr><td><strong>Stability</strong></td><td>Single Failure = Full Crash</td><td>Process-bound</td><td>Isolated Processes (Fault Tolerant)</td></tr>
             <tr><td><strong>Lifecycle</strong></td><td>Chat-bound (TG/WA)</td><td>Task-bound (One-shot)</td><td>Continuous (24/7 Event-Driven)</td></tr>
             <tr><td><strong>Interaction</strong></td><td>Chat Bubble (ChatOps)</td><td>Terminal Output</td><td>Mission Control (Real-time Dashboards)</td></tr>
@@ -431,20 +433,24 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>Python SDK — LifecycleNode (Dual-Layer API)</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>MCP Bridge (Rust) — stdio tunneling</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>MCP Transport Layer (Python SDK)</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>MCP-Publish Bridge Node</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>tagentacle.toml Spec & Parsing</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCP-Publish Bridge Node</span></div>          <div class="roadmap-item"><span class="check">✅</span><span>Tagentacle MCP Server (publish_to_topic, list_nodes, call_bus_service…)</span></div>          <div class="roadmap-item"><span class="check">✅</span><span>tagentacle.toml Spec & Parsing</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Bringup Configuration Center</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Full CLI Toolchain</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>uv-based Environment Management</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Secrets Management (secrets.toml)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>SDK Utilities (load_pkg_toml, discover_packages, find_workspace_root)</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Example Workspace</span></div>
         </div>
         <div class="roadmap-card">
           <h3>🗺️ Planned</h3>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Standard Topics &amp; Services — /tagentacle/log, /tagentacle/node_events, /tagentacle/ping…</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>SDK Log Integration — auto-publish node logs to /tagentacle/log</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>JSON Schema Validation — Topic-level contracts</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Flattened Topic Tools API — auto-generate MCP tools from Topic JSON Schema</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Node Lifecycle Tracking — Heartbeat monitoring</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Interface Package — cross-node schema contracts</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action Mode — Async tasks with progress feedback</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Parameter Server — global store with /tagentacle/parameter_events</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>vcstool + .repos — Multi-repo workspace build</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Web Dashboard — Real-time topology & status</span></div>
         </div>
@@ -463,29 +469,38 @@ tagentacle setup clean --workspace .</pre>
         <div class="qs-step">
           <div class="qs-num">1</div>
           <div class="qs-content">
-            <h3>Start the Daemon (Rust Core)</h3>
+            <h3>Install the CLI (Rust Core)</h3>
             <div class="qs-code">
               <p><span class="cmd">cd</span> tagentacle</p>
-              <p><span class="cmd">cargo run</span> -- daemon</p>
+              <p><span class="cmd">cargo install</span> --path .</p>
             </div>
           </div>
         </div>
         <div class="qs-step">
           <div class="qs-num">2</div>
           <div class="qs-content">
-            <h3>Set Up the Workspace (uv)</h3>
+            <h3>Start the Daemon</h3>
             <div class="qs-code">
-              <p><span class="cmd">cd</span> tagentacle-py</p>
-              <p><span class="cmd">tagentacle setup dep</span> --all ..</p>
+              <p><span class="cmd">tagentacle daemon</span></p>
             </div>
           </div>
         </div>
         <div class="qs-step">
           <div class="qs-num">3</div>
           <div class="qs-content">
+            <h3>Set Up the Workspace (uv)</h3>
+            <div class="qs-code">
+              <p><span class="cmd">cd</span> tagentacle-py/example_ws</p>
+              <p><span class="cmd">tagentacle setup dep</span> --all .</p>
+            </div>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">4</div>
+          <div class="qs-content">
             <h3>Run a Node</h3>
             <div class="qs-code">
-              <p><span class="cmd">tagentacle run</span> --pkg examples/src/mcp_server_pkg</p>
+              <p><span class="cmd">tagentacle run</span> --pkg src/mcp_server_pkg</p>
             </div>
           </div>
         </div>

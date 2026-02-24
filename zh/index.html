@@ -115,6 +115,8 @@
           </thead>
           <tbody>
             <tr><td><strong>架构</strong></td><td>Node.js 单体</td><td>单进程 CLI</td><td>分布式微服务 (Rust)</td></tr>
+            <tr><td><strong>拓扑</strong></td><td>星型（单中心）</td><td>树形调用栈</td><td>网状（Pub/Sub）</td></tr>
+            <tr><td><strong>组件角色</strong></td><td>技能（绑定宿主）</td><td>插件 / 子 Agent（从属）</td><td>独立微服务（对等）</td></tr>
             <tr><td><strong>稳定性</strong></td><td>单点故障 = 全体崩溃</td><td>进程绑定</td><td>进程隔离（容错）</td></tr>
             <tr><td><strong>生命周期</strong></td><td>会话绑定（TG/WA）</td><td>任务绑定（一次性）</td><td>持续运行（24/7 事件驱动）</td></tr>
             <tr><td><strong>交互方式</strong></td><td>聊天气泡（ChatOps）</td><td>终端输出</td><td>指挥中心（实时仪表盘）</td></tr>
@@ -432,19 +434,25 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>MCP Bridge (Rust) —— stdio 隧道</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>MCP Transport 层（Python SDK）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>MCP-Publish 桥接节点</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Tagentacle MCP Server（publish_to_topic、list_nodes、call_bus_service……）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>tagentacle.toml 规范与解析</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Bringup 配置中心</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>完整 CLI 工具链</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>基于 uv 的环境管理</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>密钥管理（secrets.toml）</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>SDK 工具函数（load_pkg_toml、discover_packages、find_workspace_root）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>示例工作区</span></div>
         </div>
         <div class="roadmap-card">
           <h3>🗺️ 计划中</h3>
-          <div class="roadmap-item"><span class="check">🔲</span><span>JSON Schema 校验 —— Topic 级别契约</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>节点生命周期追踪 —— 心跳监控</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>接口包 —— 跨节点 Schema 契约</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>Action 模式 —— 带进度反馈的异步任务</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>标准 Topics &amp; Services — /tagentacle/log、/tagentacle/node_events、/tagentacle/ping……</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>SDK 日志集成 — 节点日志自动发布到 /tagentacle/log</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>JSON Schema 校验 — Topic 级别契约</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>扁平化 Topic 工具 API — 从 Topic JSON Schema 自动生成 MCP 工具</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>节点生命周期追踪 — 心跳监控</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>接口包 — 跨节点 Schema 契约</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Action 模式 — 带进度反馈的异步任务</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>参数服务器 — 全局参数存储与 /tagentacle/parameter_events</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>vcstool + .repos —— 多仓库工作区构建</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Web 仪表盘 —— 实时拓扑与状态</span></div>
         </div>
@@ -463,29 +471,38 @@ tagentacle setup clean --workspace .</pre>
         <div class="qs-step">
           <div class="qs-num">1</div>
           <div class="qs-content">
-            <h3>启动守护进程（Rust 核心）</h3>
+            <h3>安装 CLI（Rust 核心）</h3>
             <div class="qs-code">
               <p><span class="cmd">cd</span> tagentacle</p>
-              <p><span class="cmd">cargo run</span> -- daemon</p>
+              <p><span class="cmd">cargo install</span> --path .</p>
             </div>
           </div>
         </div>
         <div class="qs-step">
           <div class="qs-num">2</div>
           <div class="qs-content">
-            <h3>设置工作区（uv）</h3>
+            <h3>启动守护进程</h3>
             <div class="qs-code">
-              <p><span class="cmd">cd</span> tagentacle-py</p>
-              <p><span class="cmd">tagentacle setup dep</span> --all ..</p>
+              <p><span class="cmd">tagentacle daemon</span></p>
             </div>
           </div>
         </div>
         <div class="qs-step">
           <div class="qs-num">3</div>
           <div class="qs-content">
+            <h3>设置工作区（uv）</h3>
+            <div class="qs-code">
+              <p><span class="cmd">cd</span> tagentacle-py/example_ws</p>
+              <p><span class="cmd">tagentacle setup dep</span> --all .</p>
+            </div>
+          </div>
+        </div>
+        <div class="qs-step">
+          <div class="qs-num">4</div>
+          <div class="qs-content">
             <h3>运行节点</h3>
             <div class="qs-code">
-              <p><span class="cmd">tagentacle run</span> --pkg examples/src/mcp_server_pkg</p>
+              <p><span class="cmd">tagentacle run</span> --pkg src/mcp_server_pkg</p>
             </div>
           </div>
         </div>
