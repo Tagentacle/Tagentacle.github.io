@@ -1,6 +1,6 @@
 # Tagentacle.github.io
 
-Official website for the [Tagentacle](https://github.com/Tagentacle/tagentacle) project — **ROS for the AI Era** 🐙
+Official website for the [Tagentacle](https://github.com/Tagentacle/tagentacle) project — **ROS for AI Agent** 🐙
 
 A decentralized, configuration-centralized, production-grade multi-agent framework built with ROS 2 patterns, MCP Protocol, and Rust performance.
 
