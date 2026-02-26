@@ -184,9 +184,9 @@
           <p>官方 Python SDK（类比 ROS 的 <code>rclpy</code>），提供双层异步 API 用于 Agent 开发。</p>
         </div>
         <div class="pillar">
-          <span class="pillar-tag tag-plan">计划中</span>
+          <span class="pillar-tag tag-plan">成长中</span>
           <h3>tagentacle-ecosystem</h3>
-          <p>标准 Pkg 集合 —— <code>chatbot_ui_pkg</code>、<code>mcp_sqlite_wrapper_pkg</code> —— 持续壮大的生态系统。</p>
+          <p>官方示例 Pkg 集合：<code>example-agent</code>、<code>example-inference</code>、<code>example-memory</code>、<code>example-frontend</code>、<code>example-mcp-server</code>、<code>example-bringup</code> —— 可开箱即用的参考实现。</p>
         </div>
       </div>
       <div class="section-header fade-up" style="margin-bottom: 24px;">
@@ -442,6 +442,8 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>密钥管理（secrets.toml）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>SDK 工具函数（load_pkg_toml、discover_packages、find_workspace_root）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>示例工作区</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>工作空间 Repo 自动克隆 —— tagentacle launch 读取 [workspace] 并自动 git clone 仓库</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>5 节点聊天机器人系统 —— agent + inference + memory + frontend + mcp-server，端到端验证通过</span></div>
         </div>
         <div class="roadmap-card">
           <h3>🗺️ 计划中</h3>
@@ -453,7 +455,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">🔲</span><span>接口包 — 跨节点 Schema 契约</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action 模式 — 带进度反馈的异步任务</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>参数服务器 — 全局参数存储与 /tagentacle/parameter_events</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>vcstool + .repos —— 多仓库工作区构建</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>vcstool 兼容 —— 支持 .repos 文件格式，与 ROS 生态工具链互操作</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Web 仪表盘 —— 实时拓扑与状态</span></div>
         </div>
       </div>
@@ -517,7 +519,7 @@ tagentacle setup clean --workspace .</pre>
       <p style="color: var(--text-secondary); font-size: 0.95rem;">The ROS of AI Agents</p>
       <div class="footer-links">
         <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub</a>
-        <a href="https://github.com/Tagentacle/python-sdk" target="_blank">Python SDK</a>
+        <a href="https://github.com/Tagentacle/python-sdk-core" target="_blank">Python SDK</a>
         <a href="#philosophy">文档</a>
       </div>
       <div class="footer-copy">© 2025–2026 Tagentacle. 基于 MIT 许可证开源。</div>

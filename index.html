@@ -184,9 +184,9 @@
           <p>Official Python SDK (analogous to ROS's <code>rclpy</code>), providing a dual-layer async API for agent development.</p>
         </div>
         <div class="pillar">
-          <span class="pillar-tag tag-plan">Planned</span>
+          <span class="pillar-tag tag-plan">Growing</span>
           <h3>tagentacle-ecosystem</h3>
-          <p>A collection of standard Pkgs — <code>chatbot_ui_pkg</code>, <code>mcp_sqlite_wrapper_pkg</code> — the growing ecosystem.</p>
+          <p>Official example repos: <code>example-agent</code>, <code>example-inference</code>, <code>example-memory</code>, <code>example-frontend</code>, <code>example-mcp-server</code>, <code>example-bringup</code> — production-ready reference implementations.</p>
         </div>
       </div>
       <div class="section-header fade-up" style="margin-bottom: 24px;">
@@ -440,6 +440,8 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>Secrets Management (secrets.toml)</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>SDK Utilities (load_pkg_toml, discover_packages, find_workspace_root)</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Example Workspace</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Workspace Repo Auto-Clone — tagentacle launch reads [workspace] and git clones repos automatically</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>5-Node Chatbot System — agent + inference + memory + frontend + mcp-server, e2e validated</span></div>
         </div>
         <div class="roadmap-card">
           <h3>🗺️ Planned</h3>
@@ -451,7 +453,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">🔲</span><span>Interface Package — cross-node schema contracts</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action Mode — Async tasks with progress feedback</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Parameter Server — global store with /tagentacle/parameter_events</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>vcstool + .repos — Multi-repo workspace build</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>vcstool Compatibility — .repos format support for ROS ecosystem tooling</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Web Dashboard — Real-time topology & status</span></div>
         </div>
       </div>
@@ -515,7 +517,7 @@ tagentacle setup clean --workspace .</pre>
       <p style="color: var(--text-secondary); font-size: 0.95rem;">The ROS of AI Agents</p>
       <div class="footer-links">
         <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub</a>
-        <a href="https://github.com/Tagentacle/python-sdk" target="_blank">Python SDK</a>
+        <a href="https://github.com/Tagentacle/python-sdk-core" target="_blank">Python SDK</a>
         <a href="#philosophy">Documentation</a>
       </div>
       <div class="footer-copy">© 2025–2026 Tagentacle. Open Source under MIT License.</div>

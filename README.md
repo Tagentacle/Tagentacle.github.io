@@ -35,14 +35,21 @@ This site is deployed automatically via **GitHub Pages** from the `main` branch 
 
 ## Source Snapshot
 
-This website reflects the following commits from the core repositories:
+This website reflects the current state of the core repositories as of **2026-02-26**:
 
-| Repository | Commit |
-|---|---|
-| [tagentacle (core)](https://github.com/Tagentacle/tagentacle) | [`7129585`](https://github.com/Tagentacle/tagentacle/commit/7129585677f4154ed953f19de041918e342b49b0) |
-| [tagentacle-py (SDK)](https://github.com/Tagentacle/tagentacle-py) | [`7d031cc`](https://github.com/Tagentacle/tagentacle-py/commit/7d031cc9b2b4a311f85aaeabb2a2d801cd7da7cf) |
+| Repository | Last Updated | Description |
+|---|---|---|
+| [tagentacle (core)](https://github.com/Tagentacle/tagentacle) | 2026-02-26 | Rust daemon & CLI |
+| [python-sdk-core](https://github.com/Tagentacle/python-sdk-core) | 2026-02-26 | Python SDK — Node & LifecycleNode |
+| [python-sdk-mcp](https://github.com/Tagentacle/python-sdk-mcp) | 2026-02-26 | Python SDK — MCP transport |
+| [example-agent](https://github.com/Tagentacle/example-agent) | 2026-02-26 | Chatbot agent node |
+| [example-inference](https://github.com/Tagentacle/example-inference) | 2026-02-26 | Stateless LLM gateway node |
+| [example-memory](https://github.com/Tagentacle/example-memory) | 2026-02-26 | Session memory node |
+| [example-frontend](https://github.com/Tagentacle/example-frontend) | 2026-02-26 | Gradio frontend node |
+| [example-mcp-server](https://github.com/Tagentacle/example-mcp-server) | 2026-02-26 | FastMCP tool server node |
+| [example-bringup](https://github.com/Tagentacle/example-bringup) | 2026-02-26 | 5-node system launch config |
 
-> Last updated: 2026-02-25
+> Last updated: 2026-02-26
 
 ## License
 
