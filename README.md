@@ -35,21 +35,23 @@ This site is deployed automatically via **GitHub Pages** from the `main` branch 
 
 ## Source Snapshot
 
-This website reflects the current state of the core repositories as of **2026-02-26**:
+This website reflects the current state of the core repositories as of **2026-02-28**:
 
 | Repository | Last Updated | Description |
 |---|---|---|
-| [tagentacle (core)](https://github.com/Tagentacle/tagentacle) | 2026-02-26 | Rust daemon & CLI |
-| [python-sdk-core](https://github.com/Tagentacle/python-sdk-core) | 2026-02-26 | Python SDK — Node & LifecycleNode |
-| [python-sdk-mcp](https://github.com/Tagentacle/python-sdk-mcp) | 2026-02-26 | Python SDK — MCP transport |
-| [example-agent](https://github.com/Tagentacle/example-agent) | 2026-02-26 | Chatbot agent node |
-| [example-inference](https://github.com/Tagentacle/example-inference) | 2026-02-26 | Stateless LLM gateway node |
-| [example-memory](https://github.com/Tagentacle/example-memory) | 2026-02-26 | Session memory node |
-| [example-frontend](https://github.com/Tagentacle/example-frontend) | 2026-02-26 | Gradio frontend node |
-| [example-mcp-server](https://github.com/Tagentacle/example-mcp-server) | 2026-02-26 | FastMCP tool server node |
-| [example-bringup](https://github.com/Tagentacle/example-bringup) | 2026-02-26 | 5-node system launch config |
+| [tagentacle (core)](https://github.com/Tagentacle/tagentacle) | 2026-02-28 | Rust daemon & CLI (v0.3.0 — removed `bridge`, replaced by mcp-gateway) |
+| [python-sdk-core](https://github.com/Tagentacle/python-sdk-core) | 2026-02-28 | Python SDK — zero-dependency Node & LifecycleNode (v0.1.0) |
+| [python-sdk-mcp](https://github.com/Tagentacle/python-sdk-mcp) | 2026-02-28 | Python SDK — MCPServerNode base class, Streamable HTTP (v0.2.0) |
+| [mcp-gateway](https://github.com/Tagentacle/mcp-gateway) | 2026-02-28 | stdio→HTTP relay + MCP directory service (v0.1.0) |
+| [mcp-interfaces](https://github.com/Tagentacle/mcp-interfaces) | 2026-02-28 | MCPServerDescription JSON Schema contract package (v0.1.0) |
+| [example-agent](https://github.com/Tagentacle/example-agent) | 2026-02-28 | Agentic loop with /mcp/directory discovery (v0.2.0) |
+| [example-inference](https://github.com/Tagentacle/example-inference) | 2026-02-28 | Stateless LLM gateway node (v0.1.0) |
+| [example-memory](https://github.com/Tagentacle/example-memory) | 2026-02-28 | Session memory node (v0.1.0) |
+| [example-frontend](https://github.com/Tagentacle/example-frontend) | 2026-02-28 | Gradio frontend node (v0.1.0) |
+| [example-mcp-server](https://github.com/Tagentacle/example-mcp-server) | 2026-02-28 | MCPServerNode-based tool server, Streamable HTTP (v0.2.0) |
+| [example-bringup](https://github.com/Tagentacle/example-bringup) | 2026-02-28 | 5-node system launch config (v0.1.0) |
 
-> Last updated: 2026-02-26
+> Last updated: 2026-02-28
 
 ## License
 
