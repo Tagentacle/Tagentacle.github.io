@@ -180,13 +180,18 @@
         </div>
         <div class="pillar">
           <span class="pillar-tag tag-python">Python</span>
-          <h3>tagentacle-py</h3>
-          <p>Official Python SDK (analogous to ROS's <code>rclpy</code>), providing a dual-layer async API for agent development.</p>
+          <h3>python-sdk-core + python-sdk-mcp</h3>
+          <p>Dual-package Python SDK: <code>tagentacle-py-core</code> (zero-dependency Node/LifecycleNode) + <code>tagentacle-py-mcp</code> (MCPServerNode base class with Streamable HTTP).</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-tag tag-python">Python</span>
+          <h3>mcp-gateway</h3>
+          <p>Transport-layer stdio→HTTP relay + MCP directory service. Bridges legacy stdio-only MCP servers to Streamable HTTP with unified <code>/mcp/directory</code> discovery.</p>
         </div>
         <div class="pillar">
           <span class="pillar-tag tag-plan">Growing</span>
-          <h3>tagentacle-ecosystem</h3>
-          <p>Official example repos: <code>example-agent</code>, <code>example-inference</code>, <code>example-memory</code>, <code>example-frontend</code>, <code>example-mcp-server</code>, <code>example-bringup</code> — production-ready reference implementations.</p>
+          <h3>Ecosystem</h3>
+          <p><code>mcp-interfaces</code> (JSON Schema contracts), <code>example-agent</code>, <code>example-inference</code>, <code>example-memory</code>, <code>example-frontend</code>, <code>example-mcp-server</code>, <code>example-bringup</code> — production-ready references.</p>
         </div>
       </div>
       <div class="section-header fade-up" style="margin-bottom: 24px;">
@@ -219,9 +224,9 @@
           <p>Fast tool calling, MCP tool execution, synchronous RPC.</p>
         </div>
         <div class="flow-item">
-          <div class="flow-icon">🚇</div>
-          <h4>MCP Tunneling</h4>
-          <p>JSON-RPC tunneled via Services + mirrored to Topics for observability.</p>
+          <div class="flow-icon">🌐</div>
+          <h4>MCP (Streamable HTTP)</h4>
+          <p>Native HTTP endpoints with <code>/mcp/directory</code> auto-discovery. Gateway bridges stdio servers.</p>
         </div>
         <div class="flow-item">
           <div class="flow-icon">⏳</div>
@@ -243,11 +248,11 @@
         <div class="code-tabs">
           <button class="code-tab active" data-tab="simple">Simple API</button>
           <button class="code-tab" data-tab="lifecycle">Lifecycle Node</button>
-          <button class="code-tab" data-tab="mcpbridge">MCP Bridge</button>
+          <button class="code-tab" data-tab="mcpserver">MCP Server Node</button>
         </div>
         <div class="code-block">
           <div class="code-panel active" id="tab-simple">
-<pre><span style="color:var(--accent)">from</span> tagentacle_py <span style="color:var(--accent)">import</span> Node
+<pre><span style="color:var(--accent)">from</span> tagentacle_py_core <span style="color:var(--accent)">import</span> Node
 <span style="color:var(--accent)">import</span> asyncio
 
 <span style="color:var(--accent)">async def</span> <span style="color:var(--green)">main</span>():
@@ -264,7 +269,7 @@
 asyncio.run(main())</pre>
           </div>
           <div class="code-panel" id="tab-lifecycle">
-<pre><span style="color:var(--accent)">from</span> tagentacle_py <span style="color:var(--accent)">import</span> LifecycleNode
+<pre><span style="color:var(--accent)">from</span> tagentacle_py_core <span style="color:var(--accent)">import</span> LifecycleNode
 
 <span style="color:var(--accent)">class</span> <span style="color:var(--green)">AliceAgent</span>(LifecycleNode):
     <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_configure</span>(self, config):
@@ -281,18 +286,22 @@ asyncio.run(main())</pre>
     <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_shutdown</span>(self):
         self.logger.info(<span style="color:var(--orange)">"Alice shutting down gracefully."</span>)</pre>
           </div>
-          <div class="code-panel" id="tab-mcpbridge">
-<pre><span style="color:var(--text-muted)"># The MCP-Publish bridge exposes bus topics as MCP tools</span>
-<span style="color:var(--text-muted)"># Built-in MCP Server Node abstracts publish() as an MCP Tool</span>
+          <div class="code-panel" id="tab-mcpserver">
+<pre><span style="color:var(--text-muted)"># Inherit MCPServerNode to create MCP servers with Streamable HTTP</span>
+<span style="color:var(--text-muted)"># Auto-publishes to /mcp/directory for agent discovery</span>
 
-<span style="color:var(--accent)">from</span> mcp <span style="color:var(--accent)">import</span> ClientSession
-<span style="color:var(--accent)">from</span> tagentacle_py.mcp <span style="color:var(--accent)">import</span> TagentacleClientTransport
+<span style="color:var(--accent)">from</span> tagentacle_py_mcp <span style="color:var(--accent)">import</span> MCPServerNode
 
-<span style="color:var(--text-muted)"># Connect through Tagentacle bus instead of stdio</span>
-transport = TagentacleClientTransport(node, server_node_id=<span style="color:var(--orange)">"sqlite_server"</span>)
-<span style="color:var(--accent)">async with</span> ClientSession(transport) <span style="color:var(--accent)">as</span> session:
-    <span style="color:var(--accent)">await</span> session.initialize()
-    result = <span style="color:var(--accent)">await</span> session.call_tool(<span style="color:var(--orange)">"query"</span>, {<span style="color:var(--orange)">"sql"</span>: <span style="color:var(--orange)">"SELECT * FROM users"</span>})</pre>
+<span style="color:var(--accent)">class</span> <span style="color:var(--green)">MyMCPServer</span>(MCPServerNode):
+    <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_configure</span>(self, config):
+        <span style="color:var(--accent)">super</span>().on_configure(config)
+
+        <span style="color:var(--blue)">@self.mcp.tool()</span>
+        <span style="color:var(--accent)">def</span> <span style="color:var(--green)">get_weather</span>(city: str) -> str:
+            <span style="color:var(--orange)">"""Get weather for a city."""</span>
+            <span style="color:var(--accent)">return</span> <span style="color:var(--orange)">f"Sunny, 22°C in {city}"</span>
+
+<span style="color:var(--text-muted)"># Agent discovers via /mcp/directory and calls via Streamable HTTP</span></pre>
           </div>
         </div>
       </div>
@@ -304,32 +313,32 @@ transport = TagentacleClientTransport(node, server_node_id=<span style="color:va
     <div class="container">
       <div class="section-header fade-up">
         <h2>🛠️ MCP Integration</h2>
-        <p>Bus-as-Transport — solving MCP Session cross-process serialization with elegant architecture.</p>
+        <p>Streamable HTTP + Directory Discovery — native MCP servers with zero-config agent connectivity.</p>
       </div>
       <div class="mcp-features fade-up">
         <div class="mcp-card">
-          <h3>🏠 Session Localization</h3>
-          <p>MCP Client/Server Sessions stay in node memory — never transmitted cross-process. Sessions are local, performance is real.</p>
+          <h3>🌐 Streamable HTTP</h3>
+          <p>Each MCP Server runs its own HTTP endpoint via <code>MCPServerNode</code>. Direct HTTP connections — no serialization proxies, maximum performance.</p>
         </div>
         <div class="mcp-card">
-          <h3>🚌 Bus Traffic Forwarding</h3>
-          <p>Custom <code>TagentacleTransport</code> wraps JSON-RPC into Service requests, achieving transparent and efficient tool calls in distributed environments.</p>
+          <h3>📡 /mcp/directory Discovery</h3>
+          <p>MCP Servers auto-publish their capabilities to the <code>/mcp/directory</code> Topic. Agents discover available tools by subscribing — zero hardcoded URLs.</p>
         </div>
         <div class="mcp-card">
-          <h3>🔀 Dual-Track Integration</h3>
-          <p>MCP payloads are simultaneously mirrored to a dedicated Topic (<code>/mcp/traffic</code>) for non-intrusive observation and debugging.</p>
+          <h3>🔀 MCP Gateway</h3>
+          <p>Legacy stdio-only MCP servers are bridged to Streamable HTTP via <code>mcp-gateway</code>. Transparent relay — no protocol modifications needed.</p>
         </div>
         <div class="mcp-card">
-          <h3>↔️ Bidirectional Calling</h3>
-          <p>Full MCP spec support including Sampling (Server calling Agent). Agent nodes register <code>/rpc</code> services for callbacks.</p>
+          <h3>📐 mcp-interfaces</h3>
+          <p>Shared JSON Schema contracts (<code>MCPServerDescription</code>) define the <code>/mcp/directory</code> message format. All publishers and consumers speak the same language.</p>
         </div>
         <div class="mcp-card">
-          <h3>👁️ Full Observability</h3>
-          <p>All tunneled traffic auto-mirrored to <code>/mcp/traffic</code> Topic. Any node can audit tool-calling flows without intrusive proxies.</p>
+          <h3>🧩 MCPServerNode Base Class</h3>
+          <p>Inherit <code>MCPServerNode</code> to build MCP servers in minutes. Embeds FastMCP + uvicorn + auto directory publishing out of the box.</p>
         </div>
         <div class="mcp-card">
-          <h3>🔌 Seamless SDK</h3>
-          <p>Connect through the bus just like stdio. Swap transport layer and everything works — no code changes needed in your MCP logic.</p>
+          <h3>🔌 Seamless Agentic Loop</h3>
+          <p>Agent discovers MCP servers via directory, resolves tool calls to HTTP endpoints, and executes the full agentic loop — discover → infer → call → re-infer.</p>
         </div>
       </div>
     </div>
@@ -390,7 +399,6 @@ transport = TagentacleClientTransport(node, server_node_id=<span style="color:va
         <div class="cli-item"><div><div class="cli-cmd">tagentacle launch &lt;config.toml&gt;</div><div class="cli-desc">Orchestrate multi-node from topology config</div></div></div>
         <div class="cli-item"><div><div class="cli-cmd">tagentacle topic echo &lt;topic&gt;</div><div class="cli-desc">Subscribe and print real-time messages</div></div></div>
         <div class="cli-item"><div><div class="cli-cmd">tagentacle service call &lt;srv&gt; &lt;json&gt;</div><div class="cli-desc">Test a service from the command line</div></div></div>
-        <div class="cli-item"><div><div class="cli-cmd">tagentacle bridge --mcp &lt;cmd&gt;</div><div class="cli-desc">Bridge external MCP Server (stdio) to bus</div></div></div>
         <div class="cli-item"><div><div class="cli-cmd">tagentacle setup dep --pkg &lt;dir&gt;</div><div class="cli-desc">Run uv sync for a single package</div></div></div>
         <div class="cli-item"><div><div class="cli-cmd">tagentacle setup dep --all &lt;ws&gt;</div><div class="cli-desc">Install all packages, generate install/ structure</div></div></div>
         <div class="cli-item"><div><div class="cli-cmd">tagentacle doctor</div><div class="cli-desc">Health check — daemon status, node connectivity</div></div></div>
@@ -431,9 +439,12 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>Rust Daemon — Topic Pub/Sub & Service Req/Res</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Python SDK — Simple API (Node class)</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Python SDK — LifecycleNode (Dual-Layer API)</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>MCP Bridge (Rust) — stdio tunneling</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>MCP Transport Layer (Python SDK)</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>MCP-Publish Bridge Node</span></div>          <div class="roadmap-item"><span class="check">✅</span><span>Tagentacle MCP Server (publish_to_topic, list_nodes, call_bus_service…)</span></div>          <div class="roadmap-item"><span class="check">✅</span><span>tagentacle.toml Spec & Parsing</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>SDK Split — python-sdk-core (zero-dep) + python-sdk-mcp (MCP integration)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCPServerNode Base Class — Streamable HTTP + auto /mcp/directory publishing</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCP Gateway — stdio→HTTP relay + remote MCP directory service</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>mcp-interfaces — MCPServerDescription JSON Schema contract package</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Tagentacle MCP Server (publish_to_topic, list_nodes, call_bus_service…)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>tagentacle.toml Spec & Parsing</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Bringup Configuration Center</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Full CLI Toolchain</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>uv-based Environment Management</span></div>
@@ -450,7 +461,6 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">🔲</span><span>JSON Schema Validation — Topic-level contracts</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Flattened Topic Tools API — auto-generate MCP tools from Topic JSON Schema</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Node Lifecycle Tracking — Heartbeat monitoring</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>Interface Package — cross-node schema contracts</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action Mode — Async tasks with progress feedback</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Parameter Server — global store with /tagentacle/parameter_events</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>vcstool Compatibility — .repos format support for ROS ecosystem tooling</span></div>
@@ -490,9 +500,10 @@ tagentacle setup clean --workspace .</pre>
         <div class="qs-step">
           <div class="qs-num">3</div>
           <div class="qs-content">
-            <h3>Set Up the Workspace (uv)</h3>
+            <h3>Clone &amp; Set Up Workspace</h3>
             <div class="qs-code">
-              <p><span class="cmd">cd</span> tagentacle-py/example_ws</p>
+              <p><span class="cmd">git clone</span> https://github.com/Tagentacle/example-bringup</p>
+              <p><span class="cmd">cd</span> example-bringup</p>
               <p><span class="cmd">tagentacle setup dep</span> --all .</p>
             </div>
           </div>
@@ -500,9 +511,9 @@ tagentacle setup clean --workspace .</pre>
         <div class="qs-step">
           <div class="qs-num">4</div>
           <div class="qs-content">
-            <h3>Run a Node</h3>
+            <h3>Launch the System</h3>
             <div class="qs-code">
-              <p><span class="cmd">tagentacle run</span> --pkg src/mcp_server_pkg</p>
+              <p><span class="cmd">tagentacle launch</span> launch/system_launch.toml</p>
             </div>
           </div>
         </div>
@@ -517,7 +528,9 @@ tagentacle setup clean --workspace .</pre>
       <p style="color: var(--text-secondary); font-size: 0.95rem;">The ROS of AI Agents</p>
       <div class="footer-links">
         <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub</a>
-        <a href="https://github.com/Tagentacle/python-sdk-core" target="_blank">Python SDK</a>
+        <a href="https://github.com/Tagentacle/python-sdk-core" target="_blank">Python SDK Core</a>
+        <a href="https://github.com/Tagentacle/python-sdk-mcp" target="_blank">Python SDK MCP</a>
+        <a href="https://github.com/Tagentacle/mcp-gateway" target="_blank">MCP Gateway</a>
         <a href="#philosophy">Documentation</a>
       </div>
       <div class="footer-copy">© 2025–2026 Tagentacle. Open Source under MIT License.</div>
