@@ -178,8 +178,10 @@ img { max-width: 100%; }
 }
 .btn-primary { background: #fff; color: #1a1a2e; }
 .btn-primary:hover { background: #f0f0f5; color: #1a1a2e; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-.btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.4); }
-.btn-outline:hover { border-color: #fff; color: #fff; transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--text-primary); border: 2px solid var(--text-secondary); }
+.btn-outline:hover { border-color: var(--text-primary); color: var(--text-primary); transform: translateY(-1px); }
+.hero .btn-outline { color: #fff; border-color: rgba(255,255,255,0.4); }
+.hero .btn-outline:hover { border-color: #fff; color: #fff; }
 
 /* ========== Sections ========== */
 .section { padding: 80px 24px; }
