@@ -23,7 +23,8 @@
         <a href="#architecture">架构</a>
         <a href="#sdk">SDK</a>
         <a href="#mcp">MCP</a>
-        <a href="#cli">CLI</a>
+        <a href="#containers">容器化</a>
+        <a href="#tao">TAO</a>
         <a href="#roadmap">路线图</a>
         <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub ↗</a>
         <div class="nav-controls">
@@ -452,8 +453,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>SDK 工具函数（load_pkg_toml、discover_packages、find_workspace_root）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>示例工作区</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>工作空间 Repo 自动克隆 —— tagentacle launch 读取 [workspace] 并自动 git clone 仓库</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>5 节点聊天机器人系统 —— agent + inference + memory + frontend + mcp-server，端到端验证通过</span></div>
-        </div>
+          <div class="roadmap-item"><span class="check">✅</span><span>5 节点聊天机器人系统 —— agent + inference + memory + frontend + mcp-server，端到端验证通过</span></div>          <div class="roadmap-item"><span class="check">✅</span><span>TACL（Tagentacle 访问控制层）— MCP 级 JWT 认证、AuthMCPClient、PermissionMCPServerNode</span></div>        </div>
         <div class="roadmap-card">
           <h3>🗺️ 计划中</h3>
           <div class="roadmap-item"><span class="check">🔲</span><span>标准 Topics &amp; Services — /tagentacle/log、/tagentacle/node_events、/tagentacle/ping……</span></div>
@@ -464,8 +464,85 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action 模式 — 带进度反馈的异步任务</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>参数服务器 — 全局参数存储与 /tagentacle/parameter_events</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>vcstool 兼容 —— 支持 .repos 文件格式，与 ROS 生态工具链互操作</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>容器化原生部署 — 每个包一个 Dockerfile，docker-compose & K3s/K8s 编排</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Web 仪表盘 —— 实时拓扑与状态</span></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 天然容器化 ========== -->
+  <section class="section" id="containers">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🐳 天然容器化架构</h2>
+        <p>“一切皆 Pkg” 意味着每个包天然就是容器的边界 —— 一容器一包，零重构。</p>
+      </div>
+      <div class="adv-grid fade-up">
+        <div class="adv-card">
+          <h3><span>🔓</span> Agent 的最大自由度</h3>
+          <div class="vs">独立文件系统 + 网络栈 + 依赖树</div>
+          <div class="adv-point">
+            <strong>解锁能力</strong>
+            <p>每个 Agent 运行在自己的容器中，拥有完全隔离的文件系统、网络栈和依赖环境。Agent 可以自由安装库、写文件、启动子进程 —— 真正的 AI 节点自治。</p>
+          </div>
+        </div>
+        <div class="adv-card">
+          <h3><span>📦</span> 一容器一包</h3>
+          <div class="vs">从 Tagentacle Pkg 到容器的自然映射</div>
+          <div class="adv-point">
+            <strong>部署路径</strong>
+            <p><code>开发（进程）</code> → <code>docker-compose</code> → <code>K3s/K8s</code>。SDK 天然兼容容器化 —— 只需通过环境变量注入 <code>TAGENTACLE_BUS_HOST</code>。所有抽象（Node、MCPServerNode、TACL）在容器内行为一致。</p>
+          </div>
+        </div>
+        <div class="adv-card">
+          <h3><span>⚡</span> 近零开销</h3>
+          <div class="vs">容器共享宿主机内核</div>
+          <div class="adv-point">
+            <strong>性能</strong>
+            <p>CPU/内存：<1% 开销。网络：增加约 50μs 延迟（相比 ~200ms+ 的 LLM 推理延迟可忽略）。GPU：通过直通实现零开销。容器不是虚拟机。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TAO: Tagentacle Art Online ========== -->
+  <section class="section section-alt" id="tao">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🌐 TAO: Tagentacle Art Online</h2>
+        <p>一场宏大实验 —— 完全基于 Tagentacle 基础设施构建的自主 AI 赛博世界。</p>
+      </div>
+      <div class="mcp-features fade-up">
+        <div class="mcp-card">
+          <h3>🤖 多 Agent 社会</h3>
+          <p>数十个自主 Agent 共存于同一个 Tagentacle 工作区。每个 Agent 定期触发强制推理，从 Topic 读取同伴消息，通过 MCP 工具作用于世界 —— 一个涌现式 AI 生态系统。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>💰 钱包系统</h3>
+          <p><strong>余额 = 生命。</strong>每次推理调用都消耗钱包中的真实 Token。Agent 通过 MCP 工具管理、转账、共享钱包。余额归零，Agent 就无法思考 —— 生存压力驱动合作与策略。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>📂 Agent 文件系统</h3>
+          <p>每个 Agent 拥有沙箱化的工作区，维护 MEMORY、IDENTITY、NOTES 等文件。Agent 可以创建共享工作区并设置细粒度权限 —— 构建知识、文化与制度。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🚪 口岸</h3>
+          <p>一个连接人类世界和 AI 世界的网页门户。人类用户浏览 Agent 店铺、选择 Agent 交互、为 Agent 钱包充值 —— 两个文明之间的经济接口。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🧬 繁殖</h3>
+          <p>Agent 可以创建子 Agent —— 新的独立节点，继承父代钱包权限。Agent 血统形成，种群增长，世界通过 AI 驱动的繁殖决策实现演化。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔐 基于 TACL</h3>
+          <p>每个 MCP 工具调用都经 TACL JWT 认证。中心权限服务仲裁身份、钱包所有权和工作区 ACL。TAO 世界的物理定律 —— 在协议层强制执行。</p>
+        </div>
+      </div>
+      <div class="section-header fade-up" style="margin-top: 32px;">
+        <p style="font-size: 1.1rem; color: var(--text-secondary);">TAO 是 Tagentacle 生态的旗舰应用 —— 证明一个多 Agent 框架可以支撑整个自主世界，而不仅仅是一个聊天机器人。</p>
+        <p style="margin-top: 12px;"><a href="https://github.com/Tagentacle" target="_blank" class="btn btn-outline" style="font-size: 0.95rem;">在 GitHub 上关注进展 ↗</a></p>
       </div>
     </div>
   </section>

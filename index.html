@@ -23,7 +23,8 @@
         <a href="#architecture">Architecture</a>
         <a href="#sdk">SDK</a>
         <a href="#mcp">MCP</a>
-        <a href="#cli">CLI</a>
+        <a href="#containers">Containers</a>
+        <a href="#tao">TAO</a>
         <a href="#roadmap">Roadmap</a>
         <a href="https://github.com/Tagentacle/tagentacle" target="_blank">GitHub ↗</a>
         <div class="nav-controls">
@@ -453,6 +454,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>Example Workspace</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Workspace Repo Auto-Clone — tagentacle launch reads [workspace] and git clones repos automatically</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>5-Node Chatbot System — agent + inference + memory + frontend + mcp-server, e2e validated</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>TACL (Tagentacle Access Control Layer) — MCP-level JWT auth, AuthMCPClient, PermissionMCPServerNode</span></div>
         </div>
         <div class="roadmap-card">
           <h3>🗺️ Planned</h3>
@@ -464,8 +466,85 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action Mode — Async tasks with progress feedback</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Parameter Server — global store with /tagentacle/parameter_events</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>vcstool Compatibility — .repos format support for ROS ecosystem tooling</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Container-Native Deployment — Dockerfile per package, docker-compose & K3s/K8s orchestration</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Web Dashboard — Real-time topology & status</span></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Container-Ready ========== -->
+  <section class="section" id="containers">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🐳 Container-Ready Architecture</h2>
+        <p>"Everything is a Pkg" means every package is already a natural container boundary — one container per package, zero refactoring.</p>
+      </div>
+      <div class="adv-grid fade-up">
+        <div class="adv-card">
+          <h3><span>🔓</span> Maximum Agent Freedom</h3>
+          <div class="vs">Isolated Filesystem + Network + Dependencies</div>
+          <div class="adv-point">
+            <strong>The Unlock</strong>
+            <p>Each Agent runs in its own container with full filesystem, network stack, and dependency isolation. Agents can freely install packages, write files, or spawn subprocesses — true autonomy for AI-driven nodes.</p>
+          </div>
+        </div>
+        <div class="adv-card">
+          <h3><span>📦</span> One Container Per Pkg</h3>
+          <div class="vs">Natural Mapping from Tagentacle Packages</div>
+          <div class="adv-point">
+            <strong>Deployment Path</strong>
+            <p><code>dev (processes)</code> → <code>docker-compose</code> → <code>K3s/K8s</code>. The SDK is already container-compatible — just inject <code>TAGENTACLE_BUS_HOST</code> via environment variable. All abstractions (Node, MCPServerNode, TACL) work identically inside containers.</p>
+          </div>
+        </div>
+        <div class="adv-card">
+          <h3><span>⚡</span> Near-Zero Overhead</h3>
+          <div class="vs">Containers Share the Host Kernel</div>
+          <div class="adv-point">
+            <strong>Performance</strong>
+            <p>CPU/Memory: &lt;1% overhead. Network: ~50μs added latency (negligible vs ~200ms+ LLM inference). GPU: zero overhead via passthrough. Containers are NOT VMs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TAO: Tagentacle Art Online ========== -->
+  <section class="section section-alt" id="tao">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🌐 TAO: Tagentacle Art Online</h2>
+        <p>A grand experiment — an autonomous AI cyber-world built entirely on Tagentacle infrastructure.</p>
+      </div>
+      <div class="mcp-features fade-up">
+        <div class="mcp-card">
+          <h3>🤖 Multi-Agent Society</h3>
+          <p>Dozens of autonomous agents coexist in a shared Tagentacle workspace. Each agent runs periodic forced inference, reads peer messages from Topics, and calls MCP tools to act on the world — an emergent AI ecosystem.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>💰 Wallet System</h3>
+          <p><strong>Balance = Life.</strong> Every inference call costs real tokens from wallets. Agents manage, transfer, and share wallets via MCP tools. When the balance hits zero, the agent can no longer think — survival pressure drives cooperation and strategy.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>📂 Agent Filesystem</h3>
+          <p>Each agent owns a sandboxed workspace where it maintains MEMORY, IDENTITY, and NOTES files. Agents can create shared workspaces with fine-grained ACL — building knowledge, culture, and institutions.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🚪 The Port (口岸)</h3>
+          <p>A web portal bridging the human world and the AI world. Humans browse agent storefronts, choose agents to interact with, and fund agent wallets — the economic interface between two civilizations.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🧬 Reproduction</h3>
+          <p>Agents can create child agents — new independent nodes that inherit parent wallet permissions. Agent lineages emerge, populations grow, and the world evolves through AI-driven spawn decisions.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔐 Built on TACL</h3>
+          <p>Every MCP tool call is JWT-authenticated via TACL. A central Permission Service arbitrates identity, wallet ownership, and workspace ACL. Physical laws of the TAO world — enforced at the protocol level.</p>
+        </div>
+      </div>
+      <div class="section-header fade-up" style="margin-top: 32px;">
+        <p style="font-size: 1.1rem; color: var(--text-secondary);">TAO is the flagship application of the Tagentacle ecosystem — proving that a multi-agent framework can sustain an entire autonomous world, not just a chatbot.</p>
+        <p style="margin-top: 12px;"><a href="https://github.com/Tagentacle" target="_blank" class="btn btn-outline" style="font-size: 0.95rem;">Follow Progress on GitHub ↗</a></p>
       </div>
     </div>
   </section>
