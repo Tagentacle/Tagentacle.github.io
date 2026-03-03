@@ -23,6 +23,7 @@
         <a href="#architecture">Architecture</a>
         <a href="#sdk">SDK</a>
         <a href="#mcp">MCP</a>
+        <a href="#tacl">TACL</a>
         <a href="#containers">Containers</a>
         <a href="#tao">TAO</a>
         <a href="#roadmap">Roadmap</a>
@@ -345,8 +346,49 @@ asyncio.run(main())</pre>
     </div>
   </section>
 
+  <!-- ========== TACL ========== -->
+  <section class="section section-alt" id="tacl">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🔐 TACL: Access Control Layer</h2>
+        <p>MCP-level JWT authentication &amp; authorization — implemented entirely in the SDK, not in the Daemon.</p>
+      </div>
+      <div class="mcp-features fade-up">
+        <div class="mcp-card">
+          <h3>🏛️ Three Roles</h3>
+          <p><strong>Issuer</strong> (<code>PermissionMCPServerNode</code>) — SQLite-backed agent registry, issues JWT with tool-level grants.<br/>
+          <strong>Verifier</strong> (<code>MCPServerNode</code> with <code>auth_required=True</code>) — validates Bearer JWT per request.<br/>
+          <strong>Carrier</strong> (<code>AuthMCPClient</code>) — authenticates, obtains JWT, attaches to all MCP requests.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🎫 JWT Payload</h3>
+          <p><code>agent_id</code> — unique agent identifier.<br/>
+          <code>tool_grants</code> — per-server tool whitelist (<code>{server_id: [tool_names]}</code>).<br/>
+          <code>space</code> — execution environment binding (e.g., Docker container).<br/>
+          <code>iat</code> / <code>exp</code> — issued-at / expiration (24h default TTL).</p>
+        </div>
+        <div class="mcp-card">
+          <h3>📦 The <code>space</code> Claim</h3>
+          <p>Binds agent identity to an isolated execution environment. Admin registers <code>register_agent(space="container_1")</code>, the JWT carries this binding, and MCP servers (e.g., shell-server) route commands to the bound container — <strong>cryptographically attested, not self-reported</strong>.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔑 Zero External Deps</h3>
+          <p>JWT signing/verification uses pure Python stdlib (HS256 via <code>hmac</code> + <code>hashlib</code>). Shared secret via <code>TAGENTACLE_AUTH_SECRET</code> env var. <code>CallerIdentity</code> set per-request via Python <code>contextvars</code>.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🎯 Tool-Level Granularity</h3>
+          <p>Authorization is per-tool per-server — not "all or nothing". Agent A can call <code>exec_command</code> on shell-server but not <code>transfer</code> on wallet-server. Fine-grained control at the MCP protocol layer.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>⚙️ Opt-In Design</h3>
+          <p>Auth is optional. <code>MCPServerNode(auth_required=False)</code> (default) accepts all callers. Enable when you need security — no overhead when you don't. The Daemon stays auth-agnostic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== Protocol ========== -->
-  <section class="section section-alt" id="protocol">
+  <section class="section" id="protocol">
     <div class="container">
       <div class="section-header fade-up">
         <h2>📜 Communication Protocol</h2>
@@ -457,17 +499,18 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>TACL (Tagentacle Access Control Layer) — MCP-level JWT auth, AuthMCPClient, PermissionMCPServerNode</span></div>
         </div>
         <div class="roadmap-card">
-          <h3>🗺️ Planned</h3>
-          <div class="roadmap-item"><span class="check">🔲</span><span>Standard Topics &amp; Services — /tagentacle/log, /tagentacle/node_events, /tagentacle/ping…</span></div>
+          <h3>🗺️ Recently Shipped &amp; Next</h3>
+          <div class="roadmap-item"><span class="check">✅</span><span>Standard System Services — Daemon-intercepted /tagentacle/ping, list_nodes, list_topics, list_services, get_node_info</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Node Registration &amp; Heartbeat — Register handshake, ping/pong, 90s stale-node cleanup</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>JSON Schema Validation — SchemaRegistry with auto-discovery, strict/warn/off modes</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>TACL <code>space</code> Claim — JWT agent-to-container binding (v0.4.0)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Container Orchestrator — LifecycleNode with 6 bus services (/containers/*)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Shell Server — MCPServerNode with TACL space-aware dynamic container routing</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>SDK Log Integration — auto-publish node logs to /tagentacle/log</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>JSON Schema Validation — Topic-level contracts</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Flattened Topic Tools API — auto-generate MCP tools from Topic JSON Schema</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>Node Lifecycle Tracking — Heartbeat monitoring</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action Mode — Async tasks with progress feedback</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Parameter Server — global store with /tagentacle/parameter_events</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>vcstool Compatibility — .repos format support for ROS ecosystem tooling</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>Container-Native Deployment — Dockerfile per package, docker-compose & K3s/K8s orchestration</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>Web Dashboard — Real-time topology & status</span></div>
+          <div class="roadmap-item"><span class="check">🔲</span><span>Web Dashboard — Real-time topology &amp; status</span></div>
         </div>
       </div>
     </div>
@@ -504,6 +547,23 @@ tagentacle setup clean --workspace .</pre>
             <strong>Performance</strong>
             <p>CPU/Memory: &lt;1% overhead. Network: ~50μs added latency (negligible vs ~200ms+ LLM inference). GPU: zero overhead via passthrough. Containers are NOT VMs.</p>
           </div>
+        </div>
+      </div>
+      <div class="section-header fade-up" style="margin-top: 48px; margin-bottom: 24px;">
+        <h2 style="font-size: 1.5rem;">🔧 Container Ecosystem Packages</h2>
+      </div>
+      <div class="mcp-features fade-up">
+        <div class="mcp-card">
+          <h3>🏗️ Container Orchestrator</h3>
+          <p>A <code>LifecycleNode</code> managing Docker containers via the bus — <strong>not</strong> part of the Daemon core. Provides 6 bus services: <code>/containers/create</code>, <code>stop</code>, <code>remove</code>, <code>list</code>, <code>inspect</code>, <code>exec</code>. Labels managed containers with <code>tagentacle.managed=true</code>, auto-injects <code>TAGENTACLE_DAEMON_URL</code>.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🖥️ Shell Server</h3>
+          <p>An <code>MCPServerNode</code> exposing <code>exec_command</code> with TACL <code>space</code>-aware dynamic routing. Resolution: JWT <code>space</code> → static container → local subprocess. A single instance serves <strong>multiple agents simultaneously</strong>, each routed to their own container based on JWT claims.</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔗 End-to-End Flow</h3>
+          <p>1. Admin registers agent with <code>space</code> binding → 2. Orchestrator creates container → 3. Agent authenticates (JWT with <code>space</code>) → 4. Shell-server routes <code>exec_command</code> to bound container. Container binding is <strong>cryptographically attested</strong> via JWT.</p>
         </div>
       </div>
     </div>

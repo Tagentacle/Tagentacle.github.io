@@ -23,6 +23,7 @@
         <a href="#architecture">架构</a>
         <a href="#sdk">SDK</a>
         <a href="#mcp">MCP</a>
+        <a href="#tacl">TACL</a>
         <a href="#containers">容器化</a>
         <a href="#tao">TAO</a>
         <a href="#roadmap">路线图</a>
@@ -345,8 +346,49 @@ asyncio.run(main())</pre>
     </div>
   </section>
 
+  <!-- ========== TACL ========== -->
+  <section class="section section-alt" id="tacl">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>🔐 TACL：访问控制层</h2>
+        <p>MCP 级别的 JWT 认证与授权 — 完全在 SDK 中实现，Daemon 不参与。</p>
+      </div>
+      <div class="mcp-features fade-up">
+        <div class="mcp-card">
+          <h3>🏛️ 三角色</h3>
+          <p><strong>签发者</strong>（<code>PermissionMCPServerNode</code>）— SQLite 支撑的 Agent 注册中心，签发带工具级授权的 JWT。<br/>
+          <strong>验证者</strong>（<code>MCPServerNode</code> + <code>auth_required=True</code>）— 每次请求验证 Bearer JWT。<br/>
+          <strong>携带者</strong>（<code>AuthMCPClient</code>）— 认证后获取 JWT，附加到所有 MCP 请求。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🎫 JWT 负载</h3>
+          <p><code>agent_id</code> — Agent 唯一标识。<br/>
+          <code>tool_grants</code> — 按服务器的工具白名单（<code>{server_id: [tool_names]}</code>）。<br/>
+          <code>space</code> — 执行环境绑定（如 Docker 容器）。<br/>
+          <code>iat</code> / <code>exp</code> — 签发时间 / 过期时间（默认 24h）。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>📦 <code>space</code> 声明</h3>
+          <p>将 Agent 身份绑定到隔离执行环境。管理员注册 <code>register_agent(space="container_1")</code>，JWT 携带此绑定，MCP 服务器（如 shell-server）将命令路由到绑定的容器 — <strong>密码学证明，而非自我声明</strong>。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔑 零外部依赖</h3>
+          <p>JWT 签名/验证使用纯 Python 标准库（HS256 via <code>hmac</code> + <code>hashlib</code>）。共享密钥通过 <code>TAGENTACLE_AUTH_SECRET</code> 环境变量。<code>CallerIdentity</code> 通过 Python <code>contextvars</code> 按请求设置。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🎯 工具级粒度</h3>
+          <p>授权粒度到每个服务器的工具级别 — 而非“全有或全无”。Agent A 可以调用 shell-server 的 <code>exec_command</code>，但不能调用 wallet-server 的 <code>transfer</code>。在 MCP 协议层实现细粒度控制。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>⚙️ 可选启用</h3>
+          <p>认证默认关闭。<code>MCPServerNode(auth_required=False)</code>（默认值）接受所有调用者。按需启用安全控制 — 不需要时零开销。Daemon 始终不参与认证。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== 通信协议 ========== -->
-  <section class="section section-alt" id="protocol">
+  <section class="section" id="protocol">
     <div class="container">
       <div class="section-header fade-up">
         <h2>📜 通信协议</h2>
@@ -455,16 +497,17 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>工作空间 Repo 自动克隆 —— tagentacle launch 读取 [workspace] 并自动 git clone 仓库</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>5 节点聊天机器人系统 —— agent + inference + memory + frontend + mcp-server，端到端验证通过</span></div>          <div class="roadmap-item"><span class="check">✅</span><span>TACL（Tagentacle 访问控制层）— MCP 级 JWT 认证、AuthMCPClient、PermissionMCPServerNode</span></div>        </div>
         <div class="roadmap-card">
-          <h3>🗺️ 计划中</h3>
-          <div class="roadmap-item"><span class="check">🔲</span><span>标准 Topics &amp; Services — /tagentacle/log、/tagentacle/node_events、/tagentacle/ping……</span></div>
+          <h3>🗺️ 最新发布 &amp; 计划中</h3>
+          <div class="roadmap-item"><span class="check">✅</span><span>标准系统 Service — Daemon 拦截式 /tagentacle/ping、list_nodes、list_topics、list_services、get_node_info</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>节点注册与心跳 — Register 握手、ping/pong、90 秒超时节点清理</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>JSON Schema 校验 — SchemaRegistry 自动发现，strict/warn/off 模式</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>TACL <code>space</code> 声明 — JWT Agent 到容器绑定（v0.4.0）</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>容器编排器 — LifecycleNode + 6 个总线服务（/containers/*）</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Shell Server — MCPServerNode + TACL space 感知的动态容器路由</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>SDK 日志集成 — 节点日志自动发布到 /tagentacle/log</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>JSON Schema 校验 — Topic 级别契约</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>扁平化 Topic 工具 API — 从 Topic JSON Schema 自动生成 MCP 工具</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>节点生命周期追踪 — 心跳监控</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action 模式 — 带进度反馈的异步任务</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>参数服务器 — 全局参数存储与 /tagentacle/parameter_events</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>vcstool 兼容 —— 支持 .repos 文件格式，与 ROS 生态工具链互操作</span></div>
-          <div class="roadmap-item"><span class="check">🔲</span><span>容器化原生部署 — 每个包一个 Dockerfile，docker-compose & K3s/K8s 编排</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Web 仪表盘 —— 实时拓扑与状态</span></div>
         </div>
       </div>
@@ -502,6 +545,23 @@ tagentacle setup clean --workspace .</pre>
             <strong>性能</strong>
             <p>CPU/内存：<1% 开销。网络：增加约 50μs 延迟（相比 ~200ms+ 的 LLM 推理延迟可忽略）。GPU：通过直通实现零开销。容器不是虚拟机。</p>
           </div>
+        </div>
+      </div>
+      <div class="section-header fade-up" style="margin-top: 48px; margin-bottom: 24px;">
+        <h2 style="font-size: 1.5rem;">🔧 容器生态包</h2>
+      </div>
+      <div class="mcp-features fade-up">
+        <div class="mcp-card">
+          <h3>🏗️ 容器编排器</h3>
+          <p><code>LifecycleNode</code> 通过总线管理 Docker 容器 — <strong>不是</strong> Daemon 核心的一部分。提供 6 个总线服务：<code>/containers/create</code>、<code>stop</code>、<code>remove</code>、<code>list</code>、<code>inspect</code>、<code>exec</code>。自动标记 <code>tagentacle.managed=true</code>，自动注入 <code>TAGENTACLE_DAEMON_URL</code>。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🖥️ Shell Server</h3>
+          <p><code>MCPServerNode</code> 暴露 <code>exec_command</code>，支持 TACL <code>space</code> 感知的动态路由。解析优先级：JWT <code>space</code> → 静态容器 → 本地 subprocess。单实例<strong>同时服务多个 Agent</strong>，每个请求根据 JWT 声明路由到各自容器。</p>
+        </div>
+        <div class="mcp-card">
+          <h3>🔗 端到端流程</h3>
+          <p>1. 管理员注册 Agent 并绑定 <code>space</code> → 2. 编排器创建容器 → 3. Agent 认证（JWT 携带 <code>space</code>）→ 4. Shell-server 将 <code>exec_command</code> 路由到绑定容器。容器绑定以 <strong>JWT 密码学证明</strong>。</p>
         </div>
       </div>
     </div>
