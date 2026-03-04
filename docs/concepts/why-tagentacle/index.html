@@ -711,10 +711,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-why-not-just-use-linux-directly" class="md-nav__link">
+  <a href="#5-the-plugin-trap-in-process-extensions-vs-os-level-composition" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Why Not Just Use Linux Directly?
+        5. The Plugin Trap: In-Process Extensions vs. OS-Level Composition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The Plugin Trap: In-Process Extensions vs. OS-Level Composition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#category-confusion-one-register-function-doing-seven-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category Confusion: One Register Function Doing Seven Jobs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-many-patches-does-this-design-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Many Patches Does This Design Need?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adks-multi-agent-different-readers-of-the-same-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADK's "Multi-Agent": Different Readers of the Same Dictionary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-aesthetics-engineering-reality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not Aesthetics — Engineering Reality
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-why-not-just-use-linux-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Why Not Just Use Linux Directly?
       
     </span>
   </a>
@@ -1287,10 +1348,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-why-not-just-use-linux-directly" class="md-nav__link">
+  <a href="#5-the-plugin-trap-in-process-extensions-vs-os-level-composition" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Why Not Just Use Linux Directly?
+        5. The Plugin Trap: In-Process Extensions vs. OS-Level Composition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The Plugin Trap: In-Process Extensions vs. OS-Level Composition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#category-confusion-one-register-function-doing-seven-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category Confusion: One Register Function Doing Seven Jobs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-many-patches-does-this-design-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Many Patches Does This Design Need?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adks-multi-agent-different-readers-of-the-same-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADK's "Multi-Agent": Different Readers of the Same Dictionary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-aesthetics-engineering-reality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not Aesthetics — Engineering Reality
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-why-not-just-use-linux-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Why Not Just Use Linux Directly?
       
     </span>
   </a>
@@ -1421,9 +1543,9 @@
 <td style="text-align: left;">A first-class network citizen</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>What is AI?</strong></td>
-<td style="text-align: left;">Guest (serving the codebase)</td>
-<td style="text-align: left;">Host (the operating system managing everything)</td>
+<td style="text-align: left;"><strong>Role of AI</strong></td>
+<td style="text-align: left;">Protagonist (all capabilities built around AI)</td>
+<td style="text-align: left;">Just another node (Tagentacle is the OS; AI agents are processes running on it)</td>
 </tr>
 </tbody>
 </table>
@@ -1487,7 +1609,154 @@
 <li><strong>"24/7 sentiment monitoring: scraper → analyst → PR writer → auto-email"</strong> → <strong>Tagentacle is irreplaceable.</strong> Event-driven, continuously running, nodes crash/restart independently, no central brain — a tree call-stack simply cannot express this architecture.</li>
 </ul>
 <p>Tagentacle is not another Claude Code. <strong>It is the infrastructure for managing countless "Claude-grade agents."</strong></p>
-<h2 id="5-why-not-just-use-linux-directly">5. Why Not Just Use Linux Directly?<a class="headerlink" href="#5-why-not-just-use-linux-directly" title="Permanent link">&para;</a></h2>
+<h2 id="5-the-plugin-trap-in-process-extensions-vs-os-level-composition">5. The Plugin Trap: In-Process Extensions vs. OS-Level Composition<a class="headerlink" href="#5-the-plugin-trap-in-process-extensions-vs-os-level-composition" title="Permanent link">&para;</a></h2>
+<p>The differences above aren't architectural aesthetics — they produce <strong>observable engineering costs</strong> in the real world.</p>
+<h3 id="category-confusion-one-register-function-doing-seven-jobs">Category Confusion: One Register Function Doing Seven Jobs<a class="headerlink" href="#category-confusion-one-register-function-doing-seven-jobs" title="Permanent link">&para;</a></h3>
+<p>Take OpenClaw's plugin system. A single <code>(api) =&gt; { ... }</code> function can simultaneously register:</p>
+<ul>
+<li>Gateway RPC methods (IPC/network layer)</li>
+<li>Gateway HTTP handlers (web server)</li>
+<li>Agent tools (AI capability)</li>
+<li>CLI commands (user interface)</li>
+<li>Background services (daemon)</li>
+<li>Messaging channel adapters (communication protocol)</li>
+<li>Provider auth flows (identity)</li>
+<li>Skills (knowledge/prompts)</li>
+</ul>
+<p>These eight things have <strong>completely different lifecycles, deployment requirements, and security boundaries</strong>, yet they share one abstraction and run in one process.</p>
+<h3 id="how-many-patches-does-this-design-need">How Many Patches Does This Design Need?<a class="headerlink" href="#how-many-patches-does-this-design-need" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Because in-process…</th>
+<th style="text-align: left;">You need…</th>
+<th style="text-align: left;">Why Tagentacle doesn't</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">No process isolation</td>
+<td style="text-align: left;">allowlist / denylist trust controls</td>
+<td style="text-align: left;">Each Pkg is an independent process/container — native sandbox</td>
+</tr>
+<tr>
+<td style="text-align: left;">No filesystem isolation</td>
+<td style="text-align: left;">Symlink escape checks, file permission checks, ownership verification</td>
+<td style="text-align: left;">Container filesystem isolation</td>
+</tr>
+<tr>
+<td style="text-align: left;">Same-kind plugin conflicts</td>
+<td style="text-align: left;">Slot mutual-exclusion ("only one memory plugin active at a time")</td>
+<td style="text-align: left;">Independent processes don't need mutual exclusion</td>
+</tr>
+<tr>
+<td style="text-align: left;">No service registry</td>
+<td style="text-align: left;">7-layer path scanning (config → workspace → global dir → bundled → NPM → catalog JSON → env vars)</td>
+<td style="text-align: left;">Bus auto-registration and discovery</td>
+</tr>
+<tr>
+<td style="text-align: left;">All channels share SDK</td>
+<td style="text-align: left;">40+ SDK sub-paths (<code>plugin-sdk/telegram</code>, <code>plugin-sdk/discord</code>, <code>plugin-sdk/slack</code>…)</td>
+<td style="text-align: left;">Each Pkg depends only on the bus protocol — no shared SDK</td>
+</tr>
+<tr>
+<td style="text-align: left;">One plugin crash</td>
+<td style="text-align: left;">Entire Gateway crashes</td>
+<td style="text-align: left;">Only that Pkg restarts</td>
+</tr>
+</tbody>
+</table>
+<p>Every patch exists <strong>because everything runs in one process</strong>.</p>
+<h3 id="adks-multi-agent-different-readers-of-the-same-dictionary">ADK's "Multi-Agent": Different Readers of the Same Dictionary<a class="headerlink" href="#adks-multi-agent-different-readers-of-the-same-dictionary" title="Permanent link">&para;</a></h3>
+<p>Google ADK offers Sequential, Parallel, and Loop multi-agent orchestration patterns. Impressive on paper. At runtime:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># All &quot;Agents&quot; run in the same Python process</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Data passed through a shared dictionary</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">agent</span><span class="o">=</span><span class="n">root_agent</span><span class="p">)</span>  <span class="c1"># one process</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">state</span><span class="p">[</span><span class="s2">&quot;research_result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span>   <span class="c1"># one dict</span>
+</code></pre></div>
+<p>All agents share one process, one Runner, one block of memory. "Multi-agent" is just different functions in the same program passing data through a Python dictionary.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">ADK "Multi-Agent"</th>
+<th style="text-align: left;">Tagentacle Multi-Node</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Isolation</strong></td>
+<td style="text-align: left;">Function-level (same process)</td>
+<td style="text-align: left;">Process/container-level</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Communication</strong></td>
+<td style="text-align: left;">Shared memory dict</td>
+<td style="text-align: left;">Bus messages</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Fault isolation</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Cross-machine</strong></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Mixed languages</strong></td>
+<td style="text-align: left;">No (Python only)</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Independent deploy/upgrade</strong></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Google themselves recognized that in-process orchestration has limits — they simultaneously launched <a href="https://google.github.io/A2A/">A2A Protocol</a> for cross-process, cross-framework agent communication. The problem A2A solves is the same one Tagentacle's bus solves. But Tagentacle adds another layer: <strong>who starts the agent, who restarts it, who upgrades it, who monitors it</strong> — lifecycle management.</p>
+</blockquote>
+<h3 id="not-aesthetics-engineering-reality">Not Aesthetics — Engineering Reality<a class="headerlink" href="#not-aesthetics-engineering-reality" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: left;">Super-app (OpenClaw/CC/ADK)</th>
+<th style="text-align: left;">OS (Tagentacle)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Upgrade search tool</td>
+<td style="text-align: left;">Marketplace install/update, but requires full Gateway restart (shared process fate)</td>
+<td style="text-align: left;">Restart only that Pkg — zero impact on other nodes</td>
+</tr>
+<tr>
+<td style="text-align: left;">Two agents share one browser</td>
+<td style="text-align: left;">Impossible (browser lives in-process)</td>
+<td style="text-align: left;">Browser is an independent Pkg — anyone can connect</td>
+</tr>
+<tr>
+<td style="text-align: left;">Run only message-relay on ARM device</td>
+<td style="text-align: left;">Install all of OpenClaw</td>
+<td style="text-align: left;">Install only the Pkgs you need</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mix tools in multiple languages</td>
+<td style="text-align: left;">No (framework locks you to TypeScript or Python)</td>
+<td style="text-align: left;">Each Pkg uses any language — just implement the bus protocol</td>
+</tr>
+<tr>
+<td style="text-align: left;">Audit all tool calls</td>
+<td style="text-align: left;">Each framework has its own logging — no unified observation plane</td>
+<td style="text-align: left;">A monitor Pkg subscribes to the bus — native global view</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-why-not-just-use-linux-directly">6. Why Not Just Use Linux Directly?<a class="headerlink" href="#6-why-not-just-use-linux-directly" title="Permanent link">&para;</a></h2>
 <p>See <a href="../philosophy/#why-not-just-use-linux-directly">Philosophy → Why Not Just Use Linux Directly?</a> for the full discussion on how Tagentacle is a domain shell built on top of Linux, not a replacement.</p>
 
 

@@ -638,6 +638,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#why-not-just-use-an-agent-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Not Just Use an Agent Framework?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Not Just Use an Agent Framework?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#super-app-vs-operating-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Super-App vs. Operating System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-litmus-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Litmus Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#historical-parallels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Historical Parallels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1187,6 +1237,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#why-not-just-use-an-agent-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Not Just Use an Agent Framework?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Not Just Use an Agent Framework?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#super-app-vs-operating-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Super-App vs. Operating System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-litmus-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Litmus Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#historical-parallels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Historical Parallels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1270,6 +1370,72 @@
 <li><strong>Composability</strong> — any two ROS nodes can communicate as long as their topic types match, without knowing each other exists. Linux IPC requires explicit wiring of both ends.</li>
 </ol>
 <p><strong>The AI agent ecosystem is in a pre-ROS state</strong> — every agent framework (LangChain, CrewAI, AutoGen) invents its own communication model, making agents non-interoperable. Tagentacle aims to be the ROS of this domain.</p>
+<h2 id="why-not-just-use-an-agent-framework">Why Not Just Use an Agent Framework?<a class="headerlink" href="#why-not-just-use-an-agent-framework" title="Permanent link">&para;</a></h2>
+<p>A sharper question: OpenClaw ships 25+ built-in tools and 5400+ Skills. Claude Code has a plugin marketplace. Google ADK supports multi-agent orchestration. Why would anyone need Tagentacle?</p>
+<p><strong>Because they are applications, not operating systems.</strong></p>
+<h3 id="super-app-vs-operating-system">Super-App vs. Operating System<a class="headerlink" href="#super-app-vs-operating-system" title="Permanent link">&para;</a></h3>
+<p>OpenClaw, Claude Code, and ADK share a common pattern: <strong>pack every capability into a single process</strong>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>OpenClaw Gateway process {
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    Browser engine, search tool, cron scheduler,
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    memory system, 25+ built-in tools, Plugin A,
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    Plugin B… all in-process
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>}
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>ADK Runner process {
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    root_agent, sub_agent_1, sub_agent_2…
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    sharing a Python dictionary as &quot;state&quot;
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>}
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>Claude Code process {
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    LLM calls, tool execution, plugin loading…
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    all in-process
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>}
+</code></pre></div>
+<p>Tagentacle takes the opposite approach:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Daemon (manages only the bus and lifecycle)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  Bus
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    ├── browser-pkg   (independent process)
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    ├── search-pkg    (independent process)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    ├── memory-pkg    (independent process)
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    ├── agent-pkg     (independent process)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    └── monitor-pkg   (independent process)
+</code></pre></div>
+<p>The first is "everyone crammed into one room." The second is "everyone in their own apartment, communicating through hallways." The difference isn't in how many features exist — it's in the <strong>granularity of isolation</strong>.</p>
+<h3 id="the-litmus-test">The Litmus Test<a class="headerlink" href="#the-litmus-test" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Can OpenClaw run as a Tagentacle Pkg?</strong> — Yes. It's just another node on the bus.</p>
+<p><strong>Can Tagentacle run as an OpenClaw plugin?</strong> — No. You can't fit an operating system inside an application.</p>
+</blockquote>
+<p>This is the difference between an application and an OS: <strong>an OS can run applications, but an application cannot contain an OS.</strong></p>
+<h3 id="historical-parallels">Historical Parallels<a class="headerlink" href="#historical-parallels" title="Permanent link">&para;</a></h3>
+<p>This is not a new story:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Era</th>
+<th style="text-align: left;">Past</th>
+<th style="text-align: left;">AI Agent Domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Monolith</strong></td>
+<td style="text-align: left;">CGI compiled into Apache</td>
+<td style="text-align: left;">OpenClaw/ADK compile tools into Gateway</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Decomposition</strong></td>
+<td style="text-align: left;">Microservices + API Gateway</td>
+<td style="text-align: left;">Tagentacle Pkg + Bus</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Robotics</strong></td>
+<td style="text-align: left;">Perception/planning/control in one binary → ROS split into nodes + bus</td>
+<td style="text-align: left;">Agent/tools/memory in one process → Tagentacle split into nodes + bus</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The AI agent domain is at the "everything baked into one binary" stage.</strong> OpenClaw, Claude Code, and ADK are excellent products of this stage. Tagentacle bets on the next one.</p>
 
 
 

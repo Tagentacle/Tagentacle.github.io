@@ -711,10 +711,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-linux" class="md-nav__link">
+  <a href="#5-vs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. 为什么不直接用 Linux？
+        5. 插件陷阱：进程内扩展 vs 操作系统级组合
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 插件陷阱：进程内扩展 vs 操作系统级组合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        范畴混淆：一个 register 函数做七件事
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为了弥补这个设计，需要多少补丁？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adk-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADK 的"多 Agent"：同一个字典的不同读者
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不是架构审美，是工程现实
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 为什么不直接用 Linux？
       
     </span>
   </a>
@@ -1287,10 +1348,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-linux" class="md-nav__link">
+  <a href="#5-vs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. 为什么不直接用 Linux？
+        5. 插件陷阱：进程内扩展 vs 操作系统级组合
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 插件陷阱：进程内扩展 vs 操作系统级组合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        范畴混淆：一个 register 函数做七件事
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为了弥补这个设计，需要多少补丁？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adk-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADK 的"多 Agent"：同一个字典的不同读者
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不是架构审美，是工程现实
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 为什么不直接用 Linux？
       
     </span>
   </a>
@@ -1421,9 +1543,9 @@
 <td style="text-align: left;">对等的网络公民</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>AI 是什么</strong></td>
-<td style="text-align: left;">Guest（服务于代码库的客人）</td>
-<td style="text-align: left;">Host（管理一切的操作系统）</td>
+<td style="text-align: left;"><strong>AI 的角色</strong></td>
+<td style="text-align: left;">主角（一切能力围绕 AI 构建）</td>
+<td style="text-align: left;">节点之一（Tagentacle 是操作系统，AI Agent 只是其上的进程）</td>
 </tr>
 </tbody>
 </table>
@@ -1487,7 +1609,154 @@
 <li><strong>"24 小时舆情监控：爬虫→分析师→公关→自动发邮件"</strong> → <strong>Tagentacle 不可替代</strong>。事件驱动、持续运行、节点独立崩溃/重启、无中心主脑——这是树状调用栈根本无法表达的架构。</li>
 </ul>
 <p>Tagentacle 不是另一个 Claude Code，<strong>它是管理无数个 "Claude 级别智能体" 的基础设施</strong>。</p>
-<h2 id="5-linux">5. 为什么不直接用 Linux？<a class="headerlink" href="#5-linux" title="Permanent link">&para;</a></h2>
+<h2 id="5-vs">5. 插件陷阱：进程内扩展 vs 操作系统级组合<a class="headerlink" href="#5-vs" title="Permanent link">&para;</a></h2>
+<p>上述差异不仅是架构审美，它在现实中已经产生了可观测的<strong>工程代价</strong>。</p>
+<h3 id="register">范畴混淆：一个 register 函数做七件事<a class="headerlink" href="#register" title="Permanent link">&para;</a></h3>
+<p>以 openclaw 的插件系统为例。一个 <code>(api) =&gt; { ... }</code> 函数可以同时注册：</p>
+<ul>
+<li>Gateway RPC 方法（IPC/网络层）</li>
+<li>Gateway HTTP 处理器（Web 服务器）</li>
+<li>Agent 工具（AI 能力扩展）</li>
+<li>CLI 命令（用户界面）</li>
+<li>后台服务（守护进程）</li>
+<li>消息渠道适配器（通信协议）</li>
+<li>Provider 认证流程（身份认证）</li>
+<li>Skills（知识/提示词）</li>
+</ul>
+<p>这八样东西有<strong>完全不同的生命周期、部署需求和安全边界</strong>，但被塞进了同一个抽象、跑在同一个进程里。</p>
+<h3 id="_4">为了弥补这个设计，需要多少补丁？<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">因为 in-process……</th>
+<th style="text-align: left;">所以需要……</th>
+<th style="text-align: left;">Tagentacle 为什么不需要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">没有进程隔离</td>
+<td style="text-align: left;">allowlist / denylist 手动信任控制</td>
+<td style="text-align: left;">每个 Pkg 是独立进程/容器，天然沙箱</td>
+</tr>
+<tr>
+<td style="text-align: left;">没有文件系统隔离</td>
+<td style="text-align: left;">symlink 逃逸检查、文件权限检查、所有权验证</td>
+<td style="text-align: left;">容器文件系统隔离</td>
+</tr>
+<tr>
+<td style="text-align: left;">同类插件冲突</td>
+<td style="text-align: left;">slot 互斥机制（"同一时间只能有一个 memory 插件"）</td>
+<td style="text-align: left;">独立进程，不需要互斥</td>
+</tr>
+<tr>
+<td style="text-align: left;">没有服务注册</td>
+<td style="text-align: left;">7 层路径扫描（配置路径 → 工作空间 → 全局目录 → 捆绑扩展 → NPM → catalog JSON → 环境变量）</td>
+<td style="text-align: left;">总线自动注册与发现</td>
+</tr>
+<tr>
+<td style="text-align: left;">所有渠道共享 SDK</td>
+<td style="text-align: left;">40+ 个 SDK 子路径（<code>plugin-sdk/telegram</code>、<code>plugin-sdk/discord</code>、<code>plugin-sdk/slack</code> ……）</td>
+<td style="text-align: left;">各 Pkg 只依赖总线协议，无共享 SDK</td>
+</tr>
+<tr>
+<td style="text-align: left;">一个插件崩溃</td>
+<td style="text-align: left;">整个 Gateway 崩溃</td>
+<td style="text-align: left;">只有该 Pkg 重启</td>
+</tr>
+</tbody>
+</table>
+<p>每一条补丁都是<strong>因为所有东西跑在一个进程里而被迫添加的</strong>。</p>
+<h3 id="adk-agent">ADK 的"多 Agent"：同一个字典的不同读者<a class="headerlink" href="#adk-agent" title="Permanent link">&para;</a></h3>
+<p>Google ADK 提供了 Sequential、Parallel、Loop 三种多 Agent 编排模式，看起来很强大。但实际运行时：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 所有 &quot;Agent&quot; 跑在同一个 Python 进程</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># 通过共享字典传递数据</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">agent</span><span class="o">=</span><span class="n">root_agent</span><span class="p">)</span>  <span class="c1"># 一个进程</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">state</span><span class="p">[</span><span class="s2">&quot;research_result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span>   <span class="c1"># 一个字典</span>
+</code></pre></div>
+<p>所有 Agent 共享一个进程、一个 Runner、一块内存。所谓多 Agent，不过是同一个程序里的不同函数，通过一个 Python 字典传数据。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">ADK"多 Agent"</th>
+<th style="text-align: left;">Tagentacle 多节点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>隔离级别</strong></td>
+<td style="text-align: left;">函数级（同进程）</td>
+<td style="text-align: left;">进程/容器级</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>通信方式</strong></td>
+<td style="text-align: left;">共享内存字典</td>
+<td style="text-align: left;">总线消息</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>故障隔离</strong></td>
+<td style="text-align: left;">无</td>
+<td style="text-align: left;">有</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>跨机器</strong></td>
+<td style="text-align: left;">不行</td>
+<td style="text-align: left;">可以</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>混合语言</strong></td>
+<td style="text-align: left;">不行（全 Python）</td>
+<td style="text-align: left;">可以</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>独立部署/升级</strong></td>
+<td style="text-align: left;">不行</td>
+<td style="text-align: left;">可以</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Google 自己也意识到了进程内编排的局限——它同时推出了 <a href="https://google.github.io/A2A/">A2A 协议</a>，定义跨进程、跨框架的 Agent 通信标准。A2A 要解决的问题，和 Tagentacle 总线要解决的问题，是同一个。但 Tagentacle 还多了一层：<strong>谁来启动 Agent、谁来重启、谁来升级、谁来监控</strong>——生命周期管理。</p>
+</blockquote>
+<h3 id="_5">不是架构审美，是工程现实<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">操作</th>
+<th style="text-align: left;">超级应用（openclaw/CC/ADK）</th>
+<th style="text-align: left;">操作系统（Tagentacle）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">升级搜索工具</td>
+<td style="text-align: left;">市场安装/更新，但需重启整个 Gateway（共享进程命运）</td>
+<td style="text-align: left;">只重启该 Pkg，其余节点零影响</td>
+</tr>
+<tr>
+<td style="text-align: left;">两个 Agent 共享浏览器</td>
+<td style="text-align: left;">做不到（浏览器在进程内部）</td>
+<td style="text-align: left;">浏览器是独立 Pkg，谁都能连</td>
+</tr>
+<tr>
+<td style="text-align: left;">在 ARM 设备上只运行消息转发</td>
+<td style="text-align: left;">装整个 openclaw</td>
+<td style="text-align: left;">只装需要的 Pkg</td>
+</tr>
+<tr>
+<td style="text-align: left;">工具混合多种语言</td>
+<td style="text-align: left;">不行（框架锁定 TypeScript 或 Python）</td>
+<td style="text-align: left;">每个 Pkg 任意语言，只需实现总线协议</td>
+</tr>
+<tr>
+<td style="text-align: left;">审计全部工具调用</td>
+<td style="text-align: left;">各框架各有日志方案，无统一观测面</td>
+<td style="text-align: left;">监控 Pkg 订阅总线，天然全局视图</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-linux">6. 为什么不直接用 Linux？<a class="headerlink" href="#6-linux" title="Permanent link">&para;</a></h2>
 <p>参见<a href="../philosophy/#为什么不直接用-linux">核心哲学 → 为什么不直接用 Linux？</a>，了解 Tagentacle 如何作为 Linux 之上的领域 Shell 而非替代品。</p>
 <!-- Note: anchor links with Chinese characters may show build warnings but work correctly in browser -->
 
