@@ -92,6 +92,13 @@
         <xhtml:link rel="alternate" hreflang="zh" href="https://tagentacle.github.io/docs/zh/guides/tacl/"/>
     </url>
     <url>
+        <loc>https://tagentacle.github.io/docs/guides/testing/</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://tagentacle.github.io/docs/guides/testing/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://tagentacle.github.io/docs/zh/guides/testing/"/>
+    </url>
+    <url>
         <loc>https://tagentacle.github.io/docs/reference/cli/</loc>
         <lastmod>2026-03-12</lastmod>
         <changefreq>daily</changefreq>
@@ -202,6 +209,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="https://tagentacle.github.io/docs/zh/guides/tacl/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://tagentacle.github.io/docs/guides/tacl/"/>
+    </url>
+    <url>
+        <loc>https://tagentacle.github.io/docs/zh/guides/testing/</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://tagentacle.github.io/docs/zh/guides/testing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://tagentacle.github.io/docs/guides/testing/"/>
     </url>
     <url>
         <loc>https://tagentacle.github.io/docs/zh/reference/cli/</loc>
