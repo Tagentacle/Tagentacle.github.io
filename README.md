@@ -53,8 +53,8 @@ This website reflects the current state of the core repositories as of **2026-03
 | Repository | Last Updated | Description |
 |---|---|---|
 | [tagentacle (core)](https://github.com/Tagentacle/tagentacle) | 2026-03-01 | Rust daemon & CLI (v0.3.0 — container-ready architecture docs) |
-| [python-sdk-core](https://github.com/Tagentacle/python-sdk-core) | 2026-02-28 | Python SDK — zero-dependency Node & LifecycleNode (v0.1.0) |
-| [python-sdk-mcp](https://github.com/Tagentacle/python-sdk-mcp) | 2026-02-28 | Python SDK — MCPServerNode + TACL auth system (v0.3.0) |
+| [tagentacle-py-core](https://github.com/Tagentacle/tagentacle-py-core) | 2026-02-28 | Python SDK — zero-dependency Node & LifecycleNode (v0.1.0) |
+| [tagentacle-py-mcp](https://github.com/Tagentacle/tagentacle-py-mcp) | 2026-02-28 | Python SDK — MCPServerNode + TACL auth system (v0.3.0) |
 | [mcp-gateway](https://github.com/Tagentacle/mcp-gateway) | 2026-02-28 | stdio→HTTP relay + MCP directory service (v0.1.0) |
 | [mcp-interfaces](https://github.com/Tagentacle/mcp-interfaces) | 2026-02-28 | MCPServerDescription JSON Schema contract package (v0.1.0) |
 | [example-agent](https://github.com/Tagentacle/example-agent) | 2026-02-28 | Agentic loop with /mcp/directory discovery (v0.2.0) |
