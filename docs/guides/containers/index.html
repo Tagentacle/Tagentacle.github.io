@@ -1444,7 +1444,7 @@
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Agent Gamma (JWT: no space)            ──▶ Shell Server ──▶ local subprocess
 </code></pre></div>
 <h2 id="end-to-end-from-registration-to-isolated-execution">End-to-End: From Registration to Isolated Execution<a class="headerlink" href="#end-to-end-from-registration-to-isolated-execution" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>1. Admin registers agent:          PermissionNode.register_agent(space=&quot;agent_space_1&quot;)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>1. Admin registers agent:          TACLAuthority.register_agent(space=&quot;agent_space_1&quot;)
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>2. Orchestrator creates container: /containers/create → docker run agent_space_1
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>3. Agent authenticates:            AuthMCPClient → JWT {agent_id, space: &quot;agent_space_1&quot;}
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>4. Agent calls exec_command:       Shell Server reads JWT.space → docker exec agent_space_1

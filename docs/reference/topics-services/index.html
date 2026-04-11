@@ -1358,7 +1358,7 @@
 <tr>
 <td><code>/mcp/directory</code></td>
 <td><em>(none)</em></td>
-<td>MCP server discovery. <code>MCPServerDescription</code> messages published by MCP Server Nodes and Gateway on activation. Agents subscribe to auto-discover servers.</td>
+<td>MCP server discovery. <code>MCPServerDescription</code> published by <code>MCPServerComponent</code> and Gateway on activation. Agents subscribe to auto-discover servers; late-joiners pull via <code>/mcp/gateway/list_servers</code>.</td>
 <td>MCPServerComponent / Gateway</td>
 </tr>
 </tbody>

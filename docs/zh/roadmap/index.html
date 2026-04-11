@@ -1238,7 +1238,7 @@
 <li>[x] <strong>Python SDK 双层 API</strong>：实现 <code>LifecycleNode</code>，含 <code>on_configure</code>/<code>on_activate</code>/<code>on_deactivate</code>/<code>on_shutdown</code>。</li>
 <li>[x] ~~<strong>MCP Bridge (Rust)</strong>~~：已在 v0.3.0 移除 — 由 <code>mcp-gateway</code>（Python Gateway Node，传输层中继）替代。</li>
 <li>[x] ~~<strong>MCP Transport 层</strong>~~：已在 tagentacle-py-mcp v0.2.0 移除 — 由 Streamable HTTP 直连替代。</li>
-<li>[x] <strong>MCPServerNode 基类</strong>（现为 MCPServerComponent）：tagentacle-py-mcp v0.2.0 — MCP Server Node 基类，自动 Streamable HTTP + <code>/mcp/directory</code> 发布。</li>
+<li>[x] <strong>MCPServerComponent</strong>：tagentacle-py-mcp v0.2.0 — 可组合的 MCP 服务器混入，用于 <code>LifecycleNode</code>，自动 Streamable HTTP + <code>/mcp/directory</code> 发布。</li>
 <li>[x] <strong>MCP Gateway</strong>：mcp-gateway v0.1.0 — 传输层 stdio→HTTP 中继 + 目录服务。</li>
 <li>[x] <strong>Tagentacle MCP Server</strong>：内置 MCP Server，暴露总线交互工具。</li>
 <li>[x] <strong><code>tagentacle.toml</code> 规范</strong>：定义并解析包清单格式。</li>
@@ -1256,7 +1256,7 @@
 <li>[x] <strong>JSON Schema 校验</strong>：tagentacle-py-core v0.3.0 — <code>SchemaRegistry</code> 自动发现 + 逐节点校验模式。</li>
 <li>[x] <strong>TACL <code>space</code> 声明</strong>：tagentacle-py-mcp v0.4.0 — JWT <code>space</code> 字段将 Agent 绑定到隔离执行环境。</li>
 <li>[x] <strong>容器编排生态包</strong>：<code>container-orchestrator</code> v0.1.0 — LifecycleNode 通过总线服务管理 Docker 容器。</li>
-<li>[x] <strong>Shell Server 生态包</strong>：<code>shell-server</code> v0.1.0 — MCPServerNode（现为 LifecycleNode + MCPServerComponent）暴露 <code>exec_command</code> 工具，支持 TACL <code>space</code> 感知的动态容器路由。</li>
+<li>[x] <strong>Shell Server 生态包</strong>：<code>shell-server</code> v0.1.0 — <code>LifecycleNode</code> + <code>MCPServerComponent</code> 暴露 <code>exec_command</code> 工具，支持 TACL <code>space</code> 感知的动态容器路由。</li>
 <li>[x] <strong>Ctrl-C 优雅退出</strong>：Bringup 启动器异步信号处理，SIGTERM→等待→SIGKILL 级联。所有子进程在 Ctrl-C 时干净退出。(issue #15)</li>
 <li>[x] <strong>Gateway 中央 MCP 注册表</strong>：<code>mcp-gateway</code> 订阅 <code>/mcp/directory</code> 并缓存所有服务器条目。Agent 启动时调用 <code>/mcp/gateway/list_servers</code> 一次完成拉取式发现。</li>
 <li>[x] <strong>Agent MCP 重试</strong>：<code>example-agent</code> MCP 会话连接支持指数退避重试（最多 10 次）。Agent 无 MCP 服务器时仍可工作。</li>

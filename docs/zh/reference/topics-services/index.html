@@ -1358,7 +1358,7 @@
 <tr>
 <td><code>/mcp/directory</code></td>
 <td><em>（无）</em></td>
-<td>MCP 服务器发现。<code>MCPServerDescription</code> 由 MCP Server Node 和 Gateway 在激活时发布。Agent 订阅后自动发现服务器。</td>
+<td>MCP 服务器发现。<code>MCPServerDescription</code> 由 <code>MCPServerComponent</code> 和 Gateway 在激活时发布。Agent 订阅后自动发现；晚加入的 Agent 通过 <code>/mcp/gateway/list_servers</code> 拉取。</td>
 <td>MCPServerComponent / Gateway</td>
 </tr>
 </tbody>
