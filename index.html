@@ -185,7 +185,7 @@
         <div class="pillar">
           <span class="pillar-tag tag-python">Python</span>
           <h3>python-sdk-core + python-sdk-mcp</h3>
-          <p>Dual-package Python SDK: <code>tagentacle-py-core</code> (zero-dependency Node/LifecycleNode) + <code>tagentacle-py-mcp</code> (MCPServerNode base class with Streamable HTTP).</p>
+          <p>Dual-package Python SDK: <code>tagentacle-py-core</code> (zero-dependency Node/LifecycleNode) + <code>tagentacle-py-mcp</code> (<code>MCPServerComponent</code> mixin with Streamable HTTP).</p>
         </div>
         <div class="pillar">
           <span class="pillar-tag tag-python">Python</span>
@@ -291,16 +291,17 @@ asyncio.run(main())</pre>
         self.logger.info(<span style="color:var(--orange)">"Alice shutting down gracefully."</span>)</pre>
           </div>
           <div class="code-panel" id="tab-mcpserver">
-<pre><span style="color:var(--text-muted)"># Inherit MCPServerNode to create MCP servers with Streamable HTTP</span>
+<pre><span style="color:var(--text-muted)"># Compose MCPServerComponent to create MCP servers with Streamable HTTP</span>
 <span style="color:var(--text-muted)"># Auto-publishes to /mcp/directory for agent discovery</span>
 
-<span style="color:var(--accent)">from</span> tagentacle_py_mcp <span style="color:var(--accent)">import</span> MCPServerNode
+<span style="color:var(--accent)">from</span> tagentacle_py_core <span style="color:var(--accent)">import</span> LifecycleNode
+<span style="color:var(--accent)">from</span> tagentacle_py_mcp <span style="color:var(--accent)">import</span> MCPServerComponent
 
-<span style="color:var(--accent)">class</span> <span style="color:var(--green)">MyMCPServer</span>(MCPServerNode):
+<span style="color:var(--accent)">class</span> <span style="color:var(--green)">MyMCPServer</span>(LifecycleNode):
     <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_configure</span>(self, config):
-        <span style="color:var(--accent)">super</span>().on_configure(config)
+        self.mcp_server = MCPServerComponent(self, config)
 
-        <span style="color:var(--blue)">@self.mcp.tool()</span>
+        <span style="color:var(--blue)">@self.mcp_server.mcp.tool()</span>
         <span style="color:var(--accent)">def</span> <span style="color:var(--green)">get_weather</span>(city: str) -> str:
             <span style="color:var(--orange)">"""Get weather for a city."""</span>
             <span style="color:var(--accent)">return</span> <span style="color:var(--orange)">f"Sunny, 22°C in {city}"</span>
@@ -322,7 +323,7 @@ asyncio.run(main())</pre>
       <div class="mcp-features fade-up">
         <div class="mcp-card">
           <h3>🌐 Streamable HTTP</h3>
-          <p>Each MCP Server runs its own HTTP endpoint via <code>MCPServerNode</code>. Direct HTTP connections — no serialization proxies, maximum performance.</p>
+          <p>Each MCP Server runs its own HTTP endpoint via <code>MCPServerComponent</code>. Direct HTTP connections — no serialization proxies, maximum performance.</p>
         </div>
         <div class="mcp-card">
           <h3>📡 /mcp/directory Discovery</h3>
@@ -337,8 +338,8 @@ asyncio.run(main())</pre>
           <p>Shared JSON Schema contracts (<code>MCPServerDescription</code>) define the <code>/mcp/directory</code> message format. All publishers and consumers speak the same language.</p>
         </div>
         <div class="mcp-card">
-          <h3>🧩 MCPServerNode Base Class</h3>
-          <p>Inherit <code>MCPServerNode</code> to build MCP servers in minutes. Embeds FastMCP + uvicorn + auto directory publishing out of the box.</p>
+          <h3>🧩 MCPServerComponent</h3>
+          <p>Compose <code>MCPServerComponent</code> into any <code>LifecycleNode</code> to build MCP servers in minutes. Embeds FastMCP + uvicorn + auto directory publishing out of the box.</p>
         </div>
         <div class="mcp-card">
           <h3>🔌 Seamless Agentic Loop</h3>
@@ -358,8 +359,8 @@ asyncio.run(main())</pre>
       <div class="mcp-features fade-up">
         <div class="mcp-card">
           <h3>🏛️ Three Roles</h3>
-          <p><strong>Issuer</strong> (<code>PermissionMCPServerNode</code>) — SQLite-backed agent registry, issues JWT with tool-level grants.<br/>
-          <strong>Verifier</strong> (<code>MCPServerNode</code> with <code>auth_required=True</code>) — validates Bearer JWT per request.<br/>
+          <p><strong>Issuer</strong> (<code>TACLAuthority</code>) — SQLite-backed agent registry, issues JWT with tool-level grants.<br/>
+          <strong>Verifier</strong> (<code>MCPServerComponent</code> with <code>auth_required=True</code>) — validates Bearer JWT per request.<br/>
           <strong>Carrier</strong> (<code>AuthMCPClient</code>) — authenticates, obtains JWT, attaches to all MCP requests.</p>
         </div>
         <div class="mcp-card">
@@ -383,7 +384,7 @@ asyncio.run(main())</pre>
         </div>
         <div class="mcp-card">
           <h3>⚙️ Opt-In Design</h3>
-          <p>Auth is optional. <code>MCPServerNode(auth_required=False)</code> (default) accepts all callers. Enable when you need security — no overhead when you don't. The Daemon stays auth-agnostic.</p>
+          <p>Auth is optional. <code>MCPServerComponent(auth_required=False)</code> (default) accepts all callers. Enable when you need security — no overhead when you don't. The Daemon stays auth-agnostic.</p>
         </div>
       </div>
     </div>
@@ -485,7 +486,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>Python SDK — Simple API (Node class)</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Python SDK — LifecycleNode (Dual-Layer API)</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>SDK Split — python-sdk-core (zero-dep) + python-sdk-mcp (MCP integration)</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>MCPServerNode Base Class — Streamable HTTP + auto /mcp/directory publishing</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCPServerComponent — Streamable HTTP + auto /mcp/directory publishing</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>MCP Gateway — stdio→HTTP relay + remote MCP directory service</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>mcp-interfaces — MCPServerDescription JSON Schema contract package</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Tagentacle MCP Server (publish_to_topic, list_nodes, call_bus_service…)</span></div>
@@ -498,7 +499,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>Example Workspace</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Workspace Repo Auto-Clone — tagentacle launch reads [workspace] and git clones repos automatically</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>5-Node Chatbot System — agent + inference + memory + frontend + mcp-server, e2e validated</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>TACL (Tagentacle Access Control Layer) — MCP-level JWT auth, AuthMCPClient, PermissionMCPServerNode</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>TACL (Tagentacle Access Control Layer) — MCP-level JWT auth, AuthMCPClient, TACLAuthority</span></div>
         </div>
         <div class="roadmap-card">
           <h3>🗺️ Recently Shipped &amp; Next</h3>
@@ -507,7 +508,13 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>JSON Schema Validation — SchemaRegistry with auto-discovery, strict/warn/off modes</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>TACL <code>space</code> Claim — JWT agent-to-container binding (v0.4.0)</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Container Orchestrator — LifecycleNode with 6 bus services (/containers/*)</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>Shell Server — MCPServerNode with TACL space-aware dynamic container routing</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Shell Server — MCPServerComponent with TACL space-aware dynamic container routing</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Graceful Ctrl-C Shutdown — async signal handler with SIGTERM→wait→SIGKILL cascade</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Gateway Central MCP Registry — push+pull discovery via /mcp/gateway/list_servers</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Agent MCP Retry — exponential backoff session connect (max 10 attempts)</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>CI Coverage — Lint CI across all app packages</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>InferenceMux — IDLE/BUSY state machine for agentic inference loop control</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>E2E System Tests — 13 tests covering full-stack scenarios</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>SDK Log Integration — auto-publish node logs to /tagentacle/log</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Flattened Topic Tools API — auto-generate MCP tools from Topic JSON Schema</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action Mode — Async tasks with progress feedback</span></div>
@@ -539,7 +546,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="vs">Natural Mapping from Tagentacle Packages</div>
           <div class="adv-point">
             <strong>Deployment Path</strong>
-            <p><code>dev (processes)</code> → <code>docker-compose</code> → <code>K3s/K8s</code>. The SDK is already container-compatible — just inject <code>TAGENTACLE_BUS_HOST</code> via environment variable. All abstractions (Node, MCPServerNode, TACL) work identically inside containers.</p>
+            <p><code>dev (processes)</code> → <code>docker-compose</code> → <code>K3s/K8s</code>. The SDK is already container-compatible — just inject <code>TAGENTACLE_BUS_HOST</code> via environment variable. All abstractions (Node, MCPServerComponent, TACL) work identically inside containers.</p>
           </div>
         </div>
         <div class="adv-card">
@@ -561,7 +568,7 @@ tagentacle setup clean --workspace .</pre>
         </div>
         <div class="mcp-card">
           <h3>🖥️ Shell Server</h3>
-          <p>An <code>MCPServerNode</code> exposing <code>exec_command</code> with TACL <code>space</code>-aware dynamic routing. Resolution: JWT <code>space</code> → static container → local subprocess. A single instance serves <strong>multiple agents simultaneously</strong>, each routed to their own container based on JWT claims.</p>
+          <p>A <code>LifecycleNode</code> + <code>MCPServerComponent</code> exposing <code>exec_command</code> with TACL <code>space</code>-aware dynamic routing. Resolution: JWT <code>space</code> → static container → local subprocess. A single instance serves <strong>multiple agents simultaneously</strong>, each routed to their own container based on JWT claims.</p>
         </div>
         <div class="mcp-card">
           <h3>🔗 End-to-End Flow</h3>

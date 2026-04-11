@@ -185,7 +185,7 @@
         <div class="pillar">
           <span class="pillar-tag tag-python">Python</span>
           <h3>python-sdk-core + python-sdk-mcp</h3>
-          <p>双包 Python SDK：<code>tagentacle-py-core</code>（零依赖 Node/LifecycleNode）+ <code>tagentacle-py-mcp</code>（MCPServerNode 基类，Streamable HTTP）。</p>
+          <p>双包 Python SDK：<code>tagentacle-py-core</code>（零依赖 Node/LifecycleNode）+ <code>tagentacle-py-mcp</code>（<code>MCPServerComponent</code> 混入，Streamable HTTP）。</p>
         </div>
         <div class="pillar">
           <span class="pillar-tag tag-python">Python</span>
@@ -291,16 +291,17 @@ asyncio.run(main())</pre>
         self.logger.info(<span style="color:var(--orange)">"Alice 正在优雅关闭。"</span>)</pre>
           </div>
           <div class="code-panel" id="tab-mcpserver">
-<pre><span style="color:var(--text-muted)"># 继承 MCPServerNode 创建基于 Streamable HTTP 的 MCP 服务器</span>
+<pre><span style="color:var(--text-muted)"># 组合 MCPServerComponent 创建基于 Streamable HTTP 的 MCP 服务器</span>
 <span style="color:var(--text-muted)"># 自动发布到 /mcp/directory 供 Agent 发现</span>
 
-<span style="color:var(--accent)">from</span> tagentacle_py_mcp <span style="color:var(--accent)">import</span> MCPServerNode
+<span style="color:var(--accent)">from</span> tagentacle_py_core <span style="color:var(--accent)">import</span> LifecycleNode
+<span style="color:var(--accent)">from</span> tagentacle_py_mcp <span style="color:var(--accent)">import</span> MCPServerComponent
 
-<span style="color:var(--accent)">class</span> <span style="color:var(--green)">MyMCPServer</span>(MCPServerNode):
+<span style="color:var(--accent)">class</span> <span style="color:var(--green)">MyMCPServer</span>(LifecycleNode):
     <span style="color:var(--accent)">def</span> <span style="color:var(--green)">on_configure</span>(self, config):
-        <span style="color:var(--accent)">super</span>().on_configure(config)
+        self.mcp_server = MCPServerComponent(self, config)
 
-        <span style="color:var(--blue)">@self.mcp.tool()</span>
+        <span style="color:var(--blue)">@self.mcp_server.mcp.tool()</span>
         <span style="color:var(--accent)">def</span> <span style="color:var(--green)">get_weather</span>(city: str) -> str:
             <span style="color:var(--orange)">"""Get weather for a city."""</span>
             <span style="color:var(--accent)">return</span> <span style="color:var(--orange)">f"Sunny, 22°C in {city}"</span>
@@ -322,7 +323,7 @@ asyncio.run(main())</pre>
       <div class="mcp-features fade-up">
         <div class="mcp-card">
           <h3>🌐 Streamable HTTP</h3>
-          <p>每个 MCP Server 通过 <code>MCPServerNode</code> 运行自己的 HTTP 端点。直连 HTTP —— 无序列化代理，性能极致。</p>
+          <p>每个 MCP Server 通过 <code>MCPServerComponent</code> 运行自己的 HTTP 端点。直连 HTTP —— 无序列化代理，性能极致。</p>
         </div>
         <div class="mcp-card">
           <h3>📡 /mcp/directory 发现</h3>
@@ -337,8 +338,8 @@ asyncio.run(main())</pre>
           <p>共享 JSON Schema 契约（<code>MCPServerDescription</code>）定义 <code>/mcp/directory</code> 消息格式。所有发布者和消费者说同一种语言。</p>
         </div>
         <div class="mcp-card">
-          <h3>🧩 MCPServerNode 基类</h3>
-          <p>继承 <code>MCPServerNode</code> 即可分钟内构建 MCP 服务器。内置 FastMCP + uvicorn + 自动目录发布，开箱即用。</p>
+          <h3>🧩 MCPServerComponent</h3>
+          <p>将 <code>MCPServerComponent</code> 组合到任意 <code>LifecycleNode</code> 即可分钟内构建 MCP 服务器。内置 FastMCP + uvicorn + 自动目录发布，开箱即用。</p>
         </div>
         <div class="mcp-card">
           <h3>🔌 无缝 Agentic Loop</h3>
@@ -358,8 +359,8 @@ asyncio.run(main())</pre>
       <div class="mcp-features fade-up">
         <div class="mcp-card">
           <h3>🏛️ 三角色</h3>
-          <p><strong>签发者</strong>（<code>PermissionMCPServerNode</code>）— SQLite 支撑的 Agent 注册中心，签发带工具级授权的 JWT。<br/>
-          <strong>验证者</strong>（<code>MCPServerNode</code> + <code>auth_required=True</code>）— 每次请求验证 Bearer JWT。<br/>
+          <p><strong>签发者</strong>（<code>TACLAuthority</code>）— SQLite 支撑的 Agent 注册中心，签发带工具级授权的 JWT。<br/>
+          <strong>验证者</strong>（<code>MCPServerComponent</code> + <code>auth_required=True</code>）— 每次请求验证 Bearer JWT。<br/>
           <strong>携带者</strong>（<code>AuthMCPClient</code>）— 认证后获取 JWT，附加到所有 MCP 请求。</p>
         </div>
         <div class="mcp-card">
@@ -383,7 +384,7 @@ asyncio.run(main())</pre>
         </div>
         <div class="mcp-card">
           <h3>⚙️ 可选启用</h3>
-          <p>认证默认关闭。<code>MCPServerNode(auth_required=False)</code>（默认值）接受所有调用者。按需启用安全控制 — 不需要时零开销。Daemon 始终不参与认证。</p>
+          <p>认证默认关闭。<code>MCPServerComponent(auth_required=False)</code>（默认值）接受所有调用者。按需启用安全控制 — 不需要时零开销。Daemon 始终不参与认证。</p>
         </div>
       </div>
     </div>
@@ -485,7 +486,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>Python SDK —— Simple API（Node 类）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Python SDK —— LifecycleNode（双层 API）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>SDK 拆分 —— python-sdk-core（零依赖）+ python-sdk-mcp（MCP 集成层）</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>MCPServerNode 基类 —— Streamable HTTP + 自动 /mcp/directory 发布</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>MCPServerComponent — Streamable HTTP + 自动 /mcp/directory 发布</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>MCP Gateway —— stdio→HTTP 中继 + 远程 MCP 目录服务</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>mcp-interfaces —— MCPServerDescription JSON Schema 契约包</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>Tagentacle MCP Server（publish_to_topic、list_nodes、call_bus_service……）</span></div>
@@ -497,7 +498,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>SDK 工具函数（load_pkg_toml、discover_packages、find_workspace_root）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>示例工作区</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>工作空间 Repo 自动克隆 —— tagentacle launch 读取 [workspace] 并自动 git clone 仓库</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>5 节点聊天机器人系统 —— agent + inference + memory + frontend + mcp-server，端到端验证通过</span></div>          <div class="roadmap-item"><span class="check">✅</span><span>TACL（Tagentacle 访问控制层）— MCP 级 JWT 认证、AuthMCPClient、PermissionMCPServerNode</span></div>        </div>
+          <div class="roadmap-item"><span class="check">✅</span><span>5 节点聊天机器人系统 —— agent + inference + memory + frontend + mcp-server，端到端验证通过</span></div>          <div class="roadmap-item"><span class="check">✅</span><span>TACL（Tagentacle 访问控制层）— MCP 级 JWT 认证、AuthMCPClient、TACLAuthority</span></div>        </div>
         <div class="roadmap-card">
           <h3>🗺️ 最新发布 &amp; 计划中</h3>
           <div class="roadmap-item"><span class="check">✅</span><span>标准系统 Service — Daemon 拦截式 /tagentacle/ping、list_nodes、list_topics、list_services、get_node_info</span></div>
@@ -505,7 +506,13 @@ tagentacle setup clean --workspace .</pre>
           <div class="roadmap-item"><span class="check">✅</span><span>JSON Schema 校验 — SchemaRegistry 自动发现，strict/warn/off 模式</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>TACL <code>space</code> 声明 — JWT Agent 到容器绑定（v0.4.0）</span></div>
           <div class="roadmap-item"><span class="check">✅</span><span>容器编排器 — LifecycleNode + 6 个总线服务（/containers/*）</span></div>
-          <div class="roadmap-item"><span class="check">✅</span><span>Shell Server — MCPServerNode + TACL space 感知的动态容器路由</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Shell Server — MCPServerComponent + TACL space 感知的动态容器路由</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Ctrl-C 优雅退出 — 异步信号处理，SIGTERM→等待→SIGKILL 级联</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Gateway 中央 MCP 注册表 — 推拉结合发现 /mcp/gateway/list_servers</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>Agent MCP 重试 — 指数退避连接（最多 10 次）</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>CI 覆盖 — 所有应用包 Lint CI</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>InferenceMux — IDLE/BUSY 状态机，Agent 推理循环触发控制</span></div>
+          <div class="roadmap-item"><span class="check">✅</span><span>E2E 系统测试 — 13 个测试覆盖全栈场景</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>SDK 日志集成 — 节点日志自动发布到 /tagentacle/log</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>扁平化 Topic 工具 API — 从 Topic JSON Schema 自动生成 MCP 工具</span></div>
           <div class="roadmap-item"><span class="check">🔲</span><span>Action 模式 — 带进度反馈的异步任务</span></div>
@@ -537,7 +544,7 @@ tagentacle setup clean --workspace .</pre>
           <div class="vs">从 Tagentacle Pkg 到容器的自然映射</div>
           <div class="adv-point">
             <strong>部署路径</strong>
-            <p><code>开发（进程）</code> → <code>docker-compose</code> → <code>K3s/K8s</code>。SDK 天然兼容容器化 —— 只需通过环境变量注入 <code>TAGENTACLE_BUS_HOST</code>。所有抽象（Node、MCPServerNode、TACL）在容器内行为一致。</p>
+            <p><code>开发（进程）</code> → <code>docker-compose</code> → <code>K3s/K8s</code>。SDK 天然兼容容器化 —— 只需通过环境变量注入 <code>TAGENTACLE_BUS_HOST</code>。所有抽象（Node、MCPServerComponent、TACL）在容器内行为一致。</p>
           </div>
         </div>
         <div class="adv-card">
@@ -559,7 +566,7 @@ tagentacle setup clean --workspace .</pre>
         </div>
         <div class="mcp-card">
           <h3>🖥️ Shell Server</h3>
-          <p><code>MCPServerNode</code> 暴露 <code>exec_command</code>，支持 TACL <code>space</code> 感知的动态路由。解析优先级：JWT <code>space</code> → 静态容器 → 本地 subprocess。单实例<strong>同时服务多个 Agent</strong>，每个请求根据 JWT 声明路由到各自容器。</p>
+          <p><code>LifecycleNode</code> + <code>MCPServerComponent</code> 暴露 <code>exec_command</code>，支持 TACL <code>space</code> 感知的动态路由。解析优先级：JWT <code>space</code> → 静态容器 → 本地 subprocess。单实例<strong>同时服务多个 Agent</strong>，每个请求根据 JWT 声明路由到各自容器。</p>
         </div>
         <div class="mcp-card">
           <h3>🔗 端到端流程</h3>
