@@ -16,7 +16,7 @@
         <link rel="prev" href="../mcp-integration/">
       
       
-        <link rel="next" href="../testing/">
+        <link rel="next" href="../packaging/">
       
       
         
@@ -916,6 +916,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing/" class="md-nav__link">
         
   
@@ -1274,7 +1302,7 @@
 
 
 <h1 id="tacl-tagentacle-access-control-layer">TACL: Tagentacle Access Control Layer<a class="headerlink" href="#tacl-tagentacle-access-control-layer" title="Permanent link">&para;</a></h1>
-<p><strong>TACL</strong> (Tagentacle Access Control Layer) provides MCP-level JWT authentication and authorization. It is implemented entirely in the Python SDK (<code>python-sdk-mcp</code>) — the Daemon knows nothing about access control, staying true to the "mechanisms only" principle.</p>
+<p><strong>TACL</strong> (Tagentacle Access Control Layer) provides MCP-level JWT authentication and authorization. It is implemented entirely in the Python SDK (<code>tagentacle-py-mcp</code>) — the Daemon knows nothing about access control, staying true to the "mechanisms only" principle.</p>
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
 <p>TACL is built around three roles:</p>
 <table>
@@ -1288,12 +1316,12 @@
 <tbody>
 <tr>
 <td><strong>Issuer</strong></td>
-<td><code>PermissionMCPServerNode</code></td>
+<td><code>TACLAuthority</code></td>
 <td>SQLite-backed agent registry. Issues JWT credentials with tool-level grants.</td>
 </tr>
 <tr>
 <td><strong>Verifier</strong></td>
-<td><code>MCPServerNode</code> (with <code>auth_required=True</code>)</td>
+<td><code>MCPServerComponent</code> (with <code>auth_required=True</code>)</td>
 <td>Validates Bearer JWT on every request. Sets <code>CallerIdentity</code> contextvar.</td>
 </tr>
 <tr>
@@ -1358,7 +1386,7 @@
 </code></pre></div>
 <p>When the agent authenticates and calls an MCP tool (e.g., <code>exec_command</code> on the shell-server), the server reads <code>CallerIdentity.space</code> from the JWT and routes the command to the bound container — <strong>no global config, no static mapping</strong>. Each agent's JWT carries its own container binding.</p>
 <h2 id="authentication-flow">Authentication Flow<a class="headerlink" href="#authentication-flow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Admin                   PermissionMCPServerNode           MCPServerNode (auth_required)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Admin                   TACLAuthority                     MCPServerComponent (auth_required)
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  │                              │                                │
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  ├─ register_agent ────────────▶│                                │
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  │  (agent_id, token,           │                                │
@@ -1382,7 +1410,7 @@
 <li><strong>Shared secret</strong>: Both issuer and verifiers read <code>TAGENTACLE_AUTH_SECRET</code> from environment.</li>
 <li><strong>Contextvar-based</strong>: <code>CallerIdentity</code> is set per-request via Python <code>contextvars</code>, enabling tool handlers to read caller info without parameter threading.</li>
 <li><strong>Granularity</strong>: Authorization supports <strong>tool-level</strong> per server. However, prefer <strong>server-level</strong> control with small, focused servers (see <a href="../best-practices/">Best Practices</a>).</li>
-<li><strong>Optional</strong>: Auth is opt-in. <code>MCPServerNode(auth_required=False)</code> (default) accepts all callers.</li>
+<li><strong>Optional</strong>: Auth is opt-in. <code>MCPServerComponent(auth_required=False)</code> (default) accepts all callers.</li>
 </ul>
 
 

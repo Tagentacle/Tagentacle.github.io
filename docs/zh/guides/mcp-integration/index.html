@@ -905,6 +905,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing/" class="md-nav__link">
         
   
@@ -1256,8 +1284,9 @@
 <h2 id="_1">设计原则<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>会话本地化</strong>：MCP Client Session 保持在 Agent 节点内存中。Agent 通过原生 MCP SDK HTTP Client 直连 MCP Server 的 Streamable HTTP 端点。</li>
-<li><strong>MCPServerNode 基类</strong>：MCP Server 继承 <code>MCPServerNode</code>（LifecycleNode 子类），自动运行 Streamable HTTP 服务并在激活时向 <code>/mcp/directory</code> Topic 发布 <code>MCPServerDescription</code>。</li>
+<li><strong>MCPServerComponent 组件</strong>：MCP Server 使用 <code>LifecycleNode</code> + <code>MCPServerComponent</code>（组合模式），自动运行 Streamable HTTP 服务并在激活时向 <code>/mcp/directory</code> Topic 发布 <code>MCPServerDescription</code>。</li>
 <li><strong>统一发现</strong>：Agent 订阅 <code>/mcp/directory</code> Topic 即可自动发现所有可用 MCP Server（包括原生 HTTP Server 和 Gateway 代理的 stdio Server）。</li>
+<li><strong>Gateway 中央注册表</strong>：MCP Gateway 同时订阅 <code>/mcp/directory</code> 并缓存所有服务器条目。后加入的 Agent 启动时调用 <code>/mcp/gateway/list_servers</code> 一次即可发现早于自己启动的服务器 — 推（订阅）+拉（一次性查询）结合，确保可靠发现。</li>
 <li><strong>完整协议支持</strong>：因 MCP 会话直接在 Agent ↔ Server 之间建立，所有 MCP 功能（sampling、notifications、resources 等）原生可用。</li>
 <li><strong>MCP Gateway</strong>：独立 <code>mcp-gateway</code> 包提供传输层 stdio→HTTP 中继，不解析 MCP 语义。</li>
 </ul>

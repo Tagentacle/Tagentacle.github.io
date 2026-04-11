@@ -16,7 +16,7 @@
         <link rel="prev" href="../mcp-integration/">
       
       
-        <link rel="next" href="../testing/">
+        <link rel="next" href="../packaging/">
       
       
         
@@ -916,6 +916,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing/" class="md-nav__link">
         
   
@@ -1274,7 +1302,7 @@
 
 
 <h1 id="tacltagentacle">TACL：Tagentacle 访问控制层<a class="headerlink" href="#tacltagentacle" title="Permanent link">&para;</a></h1>
-<p><strong>TACL</strong>（Tagentacle Access Control Layer）提供 MCP 级别的 JWT 认证与授权。它完全实现在 Python SDK（<code>python-sdk-mcp</code>）中 —— Daemon 对访问控制一无所知，忠实遵循「只提供机制，不制定策略」的原则。</p>
+<p><strong>TACL</strong>（Tagentacle Access Control Layer）提供 MCP 级别的 JWT 认证与授权。它完全实现在 Python SDK（<code>tagentacle-py-mcp</code>）中 —— Daemon 对访问控制一无所知，忠实遵循「只提供机制，不制定策略」的原则。</p>
 <h2 id="_1">架构<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>TACL 围绕三个角色构建：</p>
 <table>
@@ -1288,12 +1316,12 @@
 <tbody>
 <tr>
 <td><strong>签发者</strong></td>
-<td><code>PermissionMCPServerNode</code></td>
+<td><code>TACLAuthority</code></td>
 <td>SQLite 支撑的 Agent 注册中心。签发携带工具级授权的 JWT 凭证。</td>
 </tr>
 <tr>
 <td><strong>验证者</strong></td>
-<td><code>MCPServerNode</code>（<code>auth_required=True</code>）</td>
+<td><code>MCPServerComponent</code>（<code>auth_required=True</code>）</td>
 <td>每次请求验证 Bearer JWT。设置 <code>CallerIdentity</code> 上下文变量。</td>
 </tr>
 <tr>
@@ -1358,7 +1386,7 @@
 </code></pre></div>
 <p>当 Agent 认证后调用 MCP 工具（如 shell-server 的 <code>exec_command</code>），服务端从 JWT 中读取 <code>CallerIdentity.space</code> 并将命令路由到绑定的容器 —— <strong>无全局配置，无静态映射</strong>。每个 Agent 的 JWT 携带自己的容器绑定信息。</p>
 <h2 id="_2">认证流程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>管理员                  PermissionMCPServerNode           MCPServerNode (auth_required)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>管理员                  TACLAuthority                     MCPServerComponent (auth_required)
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  │                              │                                │
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  ├─ register_agent ────────────▶│                                │
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  │  (agent_id, token,           │                                │
@@ -1382,7 +1410,7 @@
 <li><strong>共享密钥</strong>：签发者和所有验证者均从环境变量 <code>TAGENTACLE_AUTH_SECRET</code> 读取密钥。</li>
 <li><strong>基于 Contextvar</strong>：<code>CallerIdentity</code> 通过 Python <code>contextvars</code> 按请求设置，工具处理函数可直接读取调用者信息，无需参数透传。</li>
 <li><strong>细粒度</strong>：授权支持每个服务器的<strong>工具级别</strong>。但推荐通过小而专注的服务器实现<strong>服务器级</strong>控制（参见<a href="../best-practices/">最佳实践</a>）。</li>
-<li><strong>可选启用</strong>：认证默认关闭。<code>MCPServerNode(auth_required=False)</code>（默认值）接受所有调用者。</li>
+<li><strong>可选启用</strong>：认证默认关闭。<code>MCPServerComponent(auth_required=False)</code>（默认值）接受所有调用者。</li>
 </ul>
 
 

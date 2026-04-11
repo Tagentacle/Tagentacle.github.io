@@ -10,19 +10,19 @@
       
       
       
-        <link rel="canonical" href="https://tagentacle.github.io/docs/concepts/architecture/">
+        <link rel="canonical" href="https://tagentacle.github.io/docs/guides/packaging/">
       
       
-        <link rel="prev" href="../internet-dna/">
+        <link rel="prev" href="../tacl/">
       
       
-        <link rel="next" href="../agent-architecture/">
+        <link rel="next" href="../testing/">
       
       
         
           <link rel="alternate" href="./" hreflang="en">
         
-          <link rel="alternate" href="../../zh/concepts/architecture/" hreflang="zh">
+          <link rel="alternate" href="../../zh/guides/packaging/" hreflang="zh">
         
       
       
@@ -31,7 +31,7 @@
     
     
       
-        <title>Architecture - Tagentacle</title>
+        <title>Package Management - Tagentacle</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#system-architecture" class="md-skip">
+        <a href="#package-management" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Architecture
+              Package Management
             
           </span>
         </div>
@@ -168,7 +168,7 @@
           </li>
         
           <li class="md-select__item">
-            <a href="../../zh/concepts/architecture/" hreflang="zh" class="md-select__link">
+            <a href="../../zh/guides/packaging/" hreflang="zh" class="md-select__link">
               中文
             </a>
           </li>
@@ -290,13 +290,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../philosophy/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../concepts/philosophy/" class="md-tabs__link">
           
   
   
@@ -312,11 +310,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../guides/python-sdk/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../python-sdk/" class="md-tabs__link">
           
   
   
@@ -469,31 +469,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -511,7 +508,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -529,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../philosophy/" class="md-nav__link">
+      <a href="../../concepts/philosophy/" class="md-nav__link">
         
   
   
@@ -557,7 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../why-tagentacle/" class="md-nav__link">
+      <a href="../../concepts/why-tagentacle/" class="md-nav__link">
         
   
   
@@ -585,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../internet-dna/" class="md-nav__link">
+      <a href="../../concepts/internet-dna/" class="md-nav__link">
         
   
   
@@ -593,6 +590,210 @@
     
   
     Design Lineage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/agent-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python-sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mcp-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tacl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TACL Authentication
   
 
     
@@ -629,7 +830,7 @@
   <span class="md-ellipsis">
     
   
-    Architecture
+    Package Management
   
 
     
@@ -647,7 +848,7 @@
   <span class="md-ellipsis">
     
   
-    Architecture
+    Package Management
   
 
     
@@ -673,10 +874,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-ros-2-analogy" class="md-nav__link">
+  <a href="#workspace-layout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The ROS 2 Analogy
+        Workspace Layout
       
     </span>
   </a>
@@ -684,22 +885,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-management-orchestration" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Package Management &amp; Orchestration
+        How It Works
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Package Management &amp; Orchestration">
+    <nav class="md-nav" aria-label="How It Works">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tagentacletoml-lightweight-metadata-declaration" class="md-nav__link">
+  <a href="#phase-0-git-clone" class="md-nav__link">
     <span class="md-ellipsis">
       
-        tagentacle.toml: Lightweight Metadata Declaration
+        Phase 0 — Git Clone
       
     </span>
   </a>
@@ -707,10 +908,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bringup-centralized-configuration-topology-control" class="md-nav__link">
+  <a href="#phase-1-per-package-uv-sync" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bringup: Centralized Configuration &amp; Topology Control
+        Phase 1 — Per-Package uv sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-install-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — install/ Structure
       
     </span>
   </a>
@@ -723,10 +935,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#communication-flow" class="md-nav__link">
+  <a href="#sdk-sharing-via-editable-installs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Communication Flow
+        SDK Sharing via Editable Installs
       
     </span>
   </a>
@@ -734,10 +946,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-architecture-stack" class="md-nav__link">
+  <a href="#third-party-dependency-isolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Architecture Stack
+        Third-Party Dependency Isolation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Package Conventions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Package Conventions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependency-declaration-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Declaration Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design Decisions
       
     </span>
   </a>
@@ -760,208 +1022,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../agent-architecture/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Agent Architecture
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Guides
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Guides
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/python-sdk/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python SDK
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/mcp-integration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    MCP Integration
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/tacl/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    TACL Authentication
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/packaging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Package Management
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/testing/" class="md-nav__link">
+      <a href="../testing/" class="md-nav__link">
         
   
   
@@ -989,7 +1050,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/best-practices/" class="md-nav__link">
+      <a href="../best-practices/" class="md-nav__link">
         
   
   
@@ -1017,7 +1078,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/containers/" class="md-nav__link">
+      <a href="../containers/" class="md-nav__link">
         
   
   
@@ -1244,10 +1305,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-ros-2-analogy" class="md-nav__link">
+  <a href="#workspace-layout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The ROS 2 Analogy
+        Workspace Layout
       
     </span>
   </a>
@@ -1255,22 +1316,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-management-orchestration" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Package Management &amp; Orchestration
+        How It Works
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Package Management &amp; Orchestration">
+    <nav class="md-nav" aria-label="How It Works">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tagentacletoml-lightweight-metadata-declaration" class="md-nav__link">
+  <a href="#phase-0-git-clone" class="md-nav__link">
     <span class="md-ellipsis">
       
-        tagentacle.toml: Lightweight Metadata Declaration
+        Phase 0 — Git Clone
       
     </span>
   </a>
@@ -1278,10 +1339,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bringup-centralized-configuration-topology-control" class="md-nav__link">
+  <a href="#phase-1-per-package-uv-sync" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bringup: Centralized Configuration &amp; Topology Control
+        Phase 1 — Per-Package uv sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-install-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — install/ Structure
       
     </span>
   </a>
@@ -1294,10 +1366,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#communication-flow" class="md-nav__link">
+  <a href="#sdk-sharing-via-editable-installs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Communication Flow
+        SDK Sharing via Editable Installs
       
     </span>
   </a>
@@ -1305,10 +1377,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-architecture-stack" class="md-nav__link">
+  <a href="#third-party-dependency-isolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Architecture Stack
+        Third-Party Dependency Isolation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Package Conventions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Package Conventions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependency-declaration-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Declaration Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design Decisions
       
     </span>
   </a>
@@ -1335,101 +1457,160 @@
   
 
 
-<h1 id="system-architecture">System Architecture<a class="headerlink" href="#system-architecture" title="Permanent link">&para;</a></h1>
-<p>The system consists of three main pillars:</p>
-<ol>
-<li><strong><code>tagentacle</code> (Rust)</strong>: High-performance message router (Daemon/Broker) and CLI tools.</li>
-<li><strong><code>tagentacle-py</code> (Python)</strong>: Official Python SDK (similar to ROS's <code>rclpy</code>), providing a dual-layer async API.</li>
-<li><strong><code>tagentacle-ecosystem</code> (Growing)</strong>: Official example Pkg collection, including a complete chatbot system (<code>example-agent</code>, <code>example-inference</code>, <code>example-memory</code>, <code>example-frontend</code>, <code>example-mcp-server</code>, <code>example-bringup</code>).</li>
-</ol>
-<h2 id="the-ros-2-analogy">The ROS 2 Analogy<a class="headerlink" href="#the-ros-2-analogy" title="Permanent link">&para;</a></h2>
+<h1 id="package-management">Package Management<a class="headerlink" href="#package-management" title="Permanent link">&para;</a></h1>
+<p>Tagentacle uses a <strong>per-package virtual environment</strong> model — inspired by ROS 2's colcon workspaces — where each package in <code>src/</code> gets its own <code>.venv</code> via <a href="https://docs.astral.sh/uv/">uv</a>.</p>
+<h2 id="workspace-layout">Workspace Layout<a class="headerlink" href="#workspace-layout" title="Permanent link">&para;</a></h2>
+<p>After running <code>tagentacle setup dep --all src</code>, a workspace looks like:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>my_workspace/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── src/                          ← Package source (git-cloned)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── tagentacle-py-core/.venv/    ← Independent venv (zero deps)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   ├── tagentacle-py-mcp/.venv/     ← Independent venv (mcp, pydantic, …)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── example-agent/.venv/      ← Independent venv
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── example-mcp-server/.venv/
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── mcp-gateway/.venv/
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   └── …
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>├── install/                      ← Auto-generated (Phase 2)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── example_agent/.venv → ../../src/example-agent/.venv
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── tagentacle_py_core/.venv → ../../src/tagentacle-py-core/.venv
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   ├── …
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   └── setup_env.bash            ← Adds all .venv/bin to $PATH
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>└── (no root-level pyproject.toml)
+</code></pre></div>
+<h2 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<h3 id="phase-0-git-clone">Phase 0 — Git Clone<a class="headerlink" href="#phase-0-git-clone" title="Permanent link">&para;</a></h3>
+<p>The bringup package declares workspace dependencies in <code>tagentacle.toml</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[workspace.repos.tagentacle_py_core]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">git</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://github.com/Tagentacle/tagentacle-py-core.git&quot;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">[workspace.repos.tagentacle_py_mcp]</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">git</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://github.com/Tagentacle/tagentacle-py-mcp.git&quot;</span>
+</code></pre></div>
+<p>The CLI clones any missing repos into <code>src/</code>.</p>
+<h3 id="phase-1-per-package-uv-sync">Phase 1 — Per-Package <code>uv sync</code><a class="headerlink" href="#phase-1-per-package-uv-sync" title="Permanent link">&para;</a></h3>
+<p>For each package in <code>src/</code> that has a <code>pyproject.toml</code>, the CLI runs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>src/&lt;pkg&gt;<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>uv<span class="w"> </span>sync
+</code></pre></div>
+<p>This creates <code>src/&lt;pkg&gt;/.venv/</code> with:</p>
+<ul>
+<li>The package itself (editable install)</li>
+<li>All declared dependencies from <code>[project.dependencies]</code></li>
+<li>SDK packages as <strong>editable installs</strong> via <code>[tool.uv.sources]</code></li>
+</ul>
+<h3 id="phase-2-install-structure">Phase 2 — <code>install/</code> Structure<a class="headerlink" href="#phase-2-install-structure" title="Permanent link">&para;</a></h3>
+<p>The CLI generates:</p>
+<ul>
+<li><strong>Symlinks</strong>: <code>install/&lt;pkg_name&gt;/.venv → ../../src/&lt;pkg-dir&gt;/.venv</code></li>
+<li><strong><code>setup_env.bash</code></strong>: Adds every package's <code>.venv/bin</code> to <code>$PATH</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">source</span><span class="w"> </span>install/setup_env.bash
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Now all package entry points are available in PATH</span>
+</code></pre></div>
+<h2 id="sdk-sharing-via-editable-installs">SDK Sharing via Editable Installs<a class="headerlink" href="#sdk-sharing-via-editable-installs" title="Permanent link">&para;</a></h2>
+<p>SDK packages (like <code>tagentacle-py-core</code>) are <strong>not duplicated</strong>. Each consumer package declares an editable source in <code>pyproject.toml</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[project]</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;tagentacle-py-core&gt;=0.1.0&quot;</span><span class="p">]</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">[tool.uv.sources]</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">tagentacle-py-core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;../tagentacle-py-core&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">editable</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>When <code>uv sync</code> runs, it creates a <code>.pth</code> file in the consumer's <code>.venv/lib/pythonX.Y/site-packages/</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>_tagentacle_py_core.pth → /path/to/workspace/src/tagentacle-py-core
+</code></pre></div>
+<p>All consumer packages point to the <strong>same source directory</strong>. Editing SDK code takes immediate effect across all packages.</p>
+<h2 id="third-party-dependency-isolation">Third-Party Dependency Isolation<a class="headerlink" href="#third-party-dependency-isolation" title="Permanent link">&para;</a></h2>
+<p>Each package independently resolves its own <code>uv.lock</code>. This means:</p>
+<ul>
+<li>Third-party packages (pydantic, starlette, httpx, …) are installed separately in each <code>.venv</code></li>
+<li>Different packages <strong>can</strong> have different optional dependencies (e.g., <code>podman</code> vs <code>docker</code>)</li>
+<li>Version consistency is maintained naturally when packages are synced in the same time period</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Disk Cost</p>
+<p>Typical overhead is ~30 shared transitive dependencies per MCP-consuming package. In practice this amounts to ~70 MB total for a standard workspace (excluding heavy packages like ML frameworks).</p>
+</div>
+<h2 id="cli-commands">CLI Commands<a class="headerlink" href="#cli-commands" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">ROS 2 Concept</th>
-<th style="text-align: left;">Tagentacle Mapping</th>
-<th style="text-align: left;">AI Scenario Description</th>
+<th>Command</th>
+<th>What It Does</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>Workspace</strong></td>
-<td style="text-align: left;"><strong>Agent Workspace</strong></td>
-<td style="text-align: left;">A directory containing multiple Pkgs, representing a complex agent system (e.g., "Personal Assistant").</td>
+<td><code>tagentacle setup dep --all src</code></td>
+<td>Clone repos + <code>uv sync</code> all + generate <code>install/</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Node</strong></td>
-<td style="text-align: left;"><strong>Agent Node / General Node</strong></td>
-<td style="text-align: left;">Runtime entity. <strong>Agent Nodes</strong> are LLM-driven with autonomous decision-making; <strong>General Nodes</strong> are deterministic programs (e.g., monitoring, hardware interfaces).</td>
+<td><code>tagentacle setup dep --pkg src/&lt;pkg&gt;</code></td>
+<td><code>uv sync</code> for a single package</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Topic</strong></td>
-<td style="text-align: left;"><strong>Schema-Validated Channel</strong></td>
-<td style="text-align: left;">Async data channel with <strong>mandatory JSON Schema</strong> contracts. Non-conforming "hallucination outputs" are rejected at the entry point.</td>
+<td><code>tagentacle setup clean --workspace .</code></td>
+<td>Remove the <code>install/</code> directory</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Service</strong></td>
-<td style="text-align: left;"><strong>Tool Call (RPC)</strong></td>
-<td style="text-align: left;">Synchronous RPC. Used for high-frequency MCP tool calls (e.g., reading files, DB queries).</td>
+<td><code>tagentacle run --pkg src/&lt;pkg&gt;</code></td>
+<td>Activate the package's <code>.venv</code> and run its entry point</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Interface Pkg</strong></td>
-<td style="text-align: left;"><strong>JSON Schema Contract Pkg</strong></td>
-<td style="text-align: left;">Dedicated package defining cross-node message contracts, ensuring interoperability.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Bringup Pkg</strong></td>
-<td style="text-align: left;"><strong>Config Center</strong></td>
-<td style="text-align: left;">Topology orchestration, parameter injection (API_KEY, Base_URL, tool allow-lists), and node launch configuration.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Library Pkg</strong></td>
-<td style="text-align: left;"><strong>Pure Prompt / Code</strong></td>
-<td style="text-align: left;">Contains code libraries or Skills without starting an independent node.</td>
+<td><code>tagentacle launch &lt;config.toml&gt;</code></td>
+<td>Launch multiple nodes, each with its own <code>.venv</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="package-management-orchestration">Package Management &amp; Orchestration<a class="headerlink" href="#package-management-orchestration" title="Permanent link">&para;</a></h2>
-<h3 id="tagentacletoml-lightweight-metadata-declaration"><code>tagentacle.toml</code>: Lightweight Metadata Declaration<a class="headerlink" href="#tagentacletoml-lightweight-metadata-declaration" title="Permanent link">&para;</a></h3>
-<p>Each package root must contain a <code>tagentacle.toml</code> manifest:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">[package]</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;alice_agent&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;A conversational AI agent&quot;</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">authors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;dev@example.com&quot;</span><span class="p">]</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">[entry_points]</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;main:AliceNode&quot;</span><span class="w">  </span><span class="c1"># Exported Node class for CLI auto-loading</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">[dependencies]</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tagentacle-py&gt;=0.1.0&quot;</span><span class="p">]</span>
+<h2 id="package-conventions">Package Conventions<a class="headerlink" href="#package-conventions" title="Permanent link">&para;</a></h2>
+<p>Every Tagentacle Python package must have:</p>
+<ol>
+<li><strong><code>pyproject.toml</code></strong> with <code>[project]</code> metadata and <code>[build-system]</code></li>
+<li><strong><code>[tool.uv.sources]</code></strong> for intra-workspace editable dependencies</li>
+<li><strong><code>tagentacle.toml</code></strong> with <code>[package]</code> metadata (name, type, entry point)</li>
+<li><strong><code>uv.lock</code></strong> committed to git (reproducible builds)</li>
+</ol>
+<h3 id="dependency-declaration-pattern">Dependency Declaration Pattern<a class="headerlink" href="#dependency-declaration-pattern" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[project]</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-package&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="s2">&quot;tagentacle-py-core&gt;=0.1.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="s2">&quot;tagentacle-py-mcp&gt;=0.2.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">]</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">[tool.uv.sources]</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">tagentacle-py-core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;../tagentacle-py-core&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">editable</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">tagentacle-py-mcp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;../tagentacle-py-mcp&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">editable</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-<h3 id="bringup-centralized-configuration-topology-control">Bringup: Centralized Configuration &amp; Topology Control<a class="headerlink" href="#bringup-centralized-configuration-topology-control" title="Permanent link">&para;</a></h3>
-<p>The Bringup Package serves as the system's "configuration center":</p>
-<ul>
-<li><strong>Topology Orchestration</strong>: Declare which nodes compose the system via configuration files.</li>
-<li><strong>Parameter Injection</strong>: Dynamically distribute API_KEY, Base_URL, and "tool allow-lists" at launch time.</li>
-</ul>
-<h2 id="communication-flow">Communication Flow<a class="headerlink" href="#communication-flow" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Topic (Pub/Sub)</strong>: Real-time broadcasts, timeline updates, and streaming output (e.g., LLM response streams). <strong>Validated against JSON Schema.</strong></li>
-<li><strong>Service (Req/Res)</strong>: Inter-node RPC calls (e.g., Agent calling Inference Node for completion).</li>
-<li><strong>MCP (Streamable HTTP)</strong>: Agents connect directly to MCP Servers via native MCP SDK HTTP client; tool calls bypass the bus. The bus only handles service discovery (<code>/mcp/directory</code> Topic).</li>
-<li><strong>Action (Planned)</strong>: Long-running asynchronous tasks with progress feedback.</li>
-</ul>
-<h2 id="the-architecture-stack">The Architecture Stack<a class="headerlink" href="#the-architecture-stack" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌─────────────────────────────────────────────────────┐
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│  Application Layer (Nodes, Agents, MCP Servers)      │  ← iterates fastest
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├─────────────────────────────────────────────────────┤
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│  Tagentacle (Domain Shell / Middleware)               │  ← domain semantics
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│  Topic Pub/Sub, Service RPC, /mcp/directory,         │     (syntax sugar with
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│  Node identity, Lifecycle, TACL, Launch              │      real engineering value)
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>├─────────────────────────────────────────────────────┤
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│  Linux (Kernel + Docker)                             │  ← &quot;laws of physics&quot;
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│  socket, namespace, cgroup, filesystem, signals      │
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>└─────────────────────────────────────────────────────┘
-</code></pre></div>
-<p>The real risk is not "AI skips Tagentacle and uses Linux directly" — it's "another framework provides better semantic compression." This is why the Daemon should only implement <strong>mechanisms</strong> (IPC routing, process launch, container lifecycle), never <strong>policies</strong> (how to orchestrate, how to schedule) — mechanisms are stable, policies iterate with competition.</p>
+<p>The <code>path</code> uses relative references from within <code>src/</code> — since all packages are siblings, <code>../</code> always works.</p>
+<h2 id="design-decisions">Design Decisions<a class="headerlink" href="#design-decisions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Per-pkg venv (not monorepo)</td>
+<td>Isolation between nodes; matches ROS 2 model</td>
+</tr>
+<tr>
+<td>Editable SDK links</td>
+<td>Zero SDK duplication; instant code changes</td>
+</tr>
+<tr>
+<td><code>uv</code> (not pip)</td>
+<td>Fast, reproducible, lockfile-based</td>
+</tr>
+<tr>
+<td><code>install/</code> symlinks</td>
+<td>Unified PATH without copying; clean separation</td>
+</tr>
+<tr>
+<td>No root <code>pyproject.toml</code></td>
+<td>Workspace is not a Python project; packages are independent</td>
+</tr>
+</tbody>
+</table>
 
 
 

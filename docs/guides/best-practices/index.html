@@ -814,6 +814,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing/" class="md-nav__link">
         
   
@@ -1293,7 +1321,7 @@
 <p>Smaller servers are easier to reason about, deploy independently, and secure at the perimeter. Tool-level ACL adds complexity inside the server without improving the overall security boundary.</p>
 </div>
 <h2 id="mcp-server-transport-streamable-http-only">MCP Server Transport: Streamable HTTP Only<a class="headerlink" href="#mcp-server-transport-streamable-http-only" title="Permanent link">&para;</a></h2>
-<p>All MCP Server Node Pkgs in Tagentacle use <strong>Streamable HTTP</strong> as their transport. This is required by the <code>MCPServerNode</code> base class and enables:</p>
+<p>All MCP Server Node Pkgs in Tagentacle use <strong>Streamable HTTP</strong> as their transport. This is required by the <code>MCPServerComponent</code> and enables:</p>
 <ul>
 <li>Direct Agent↔Server sessions with full MCP protocol support (sampling, notifications, resources)</li>
 <li>TACL JWT authentication via standard HTTP <code>Authorization</code> headers</li>
@@ -1307,7 +1335,7 @@
 <li>stdio sessions are managed by the Gateway process, not the Agent</li>
 <li>One subprocess per HTTP session limits scalability</li>
 </ul>
-<p>If you control the MCP Server code, always implement it as a Streamable HTTP <code>MCPServerNode</code> Pkg.</p>
+<p>If you control the MCP Server code, always implement it as a Streamable HTTP <code>LifecycleNode</code> + <code>MCPServerComponent</code> Pkg.</p>
 </div>
 <h2 id="server-design-unix-philosophy">Server Design: Unix Philosophy<a class="headerlink" href="#server-design-unix-philosophy" title="Permanent link">&para;</a></h2>
 <p>Follow the Unix philosophy when designing MCP Server Pkgs:</p>

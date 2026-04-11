@@ -894,6 +894,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing/" class="md-nav__link">
         
   
@@ -1270,7 +1298,7 @@
 <h2 id="built-in-nodes">Built-in Nodes<a class="headerlink" href="#built-in-nodes" title="Permanent link">&para;</a></h2>
 <p>The SDK includes two key built-in nodes:</p>
 <ul>
-<li><strong>TagentacleMCPServer</strong>: Exposes the bus's <code>publish</code>, <code>subscribe</code>, <code>call_service</code> and other capabilities as standard MCP Tools. Inherits <code>MCPServerNode</code> and runs its own Streamable HTTP endpoint.</li>
+<li><strong>BusMCPServer</strong> (formerly TagentacleMCPServer): Exposes the bus's <code>publish</code>, <code>subscribe</code>, <code>call_service</code> and other capabilities as standard MCP Tools. Uses <code>MCPServerComponent</code> (composition) and runs its own Streamable HTTP endpoint.</li>
 <li><strong>MCPGatewayNode</strong>: Transport-level relay — adapts stdio-only legacy MCP Servers to Streamable HTTP, and publishes remote server URLs to <code>/mcp/directory</code>.</li>
 </ul>
 

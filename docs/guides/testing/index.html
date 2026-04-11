@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://tagentacle.github.io/docs/guides/testing/">
       
       
-        <link rel="prev" href="../tacl/">
+        <link rel="prev" href="../packaging/">
       
       
         <link rel="next" href="../best-practices/">
@@ -811,6 +811,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1454,12 +1482,12 @@
 <td>Daemon unit tests (Rust)</td>
 </tr>
 <tr>
-<td><a href="https://github.com/Tagentacle/python-sdk-core">python-sdk-core</a></td>
+<td><a href="https://github.com/Tagentacle/tagentacle-py-core">tagentacle-py-core</a></td>
 <td><code>pytest</code></td>
 <td>SDK unit tests (Python)</td>
 </tr>
 <tr>
-<td><a href="https://github.com/Tagentacle/python-sdk-mcp">python-sdk-mcp</a></td>
+<td><a href="https://github.com/Tagentacle/tagentacle-py-mcp">tagentacle-py-mcp</a></td>
 <td><code>pytest</code></td>
 <td>MCP bridge unit tests</td>
 </tr>
@@ -1481,8 +1509,8 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>tagentacle<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>cargo<span class="w"> </span>build<span class="w"> </span>--release
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Install SDK (editable)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>python-sdk-core<span class="o">[</span>validation<span class="o">]</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>python-sdk-mcp
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>tagentacle-py-core<span class="o">[</span>validation<span class="o">]</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>tagentacle-py-mcp
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Install test deps</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>test-bringup<span class="o">[</span>dev<span class="o">]</span>
@@ -1529,8 +1557,8 @@
 <p>Each repo runs its own CI on push/PR:</p>
 <ul>
 <li><strong>tagentacle</strong>: <code>cargo check</code> → <code>clippy</code> → <code>test</code> → <code>fmt</code></li>
-<li><strong>python-sdk-core</strong>: <code>ruff</code> → <code>pytest</code> → <code>build</code></li>
-<li><strong>python-sdk-mcp</strong>: <code>ruff</code> → <code>pytest</code> → <code>build</code></li>
+<li><strong>tagentacle-py-core</strong>: <code>ruff</code> → <code>pytest</code> → <code>build</code></li>
+<li><strong>tagentacle-py-mcp</strong>: <code>ruff</code> → <code>pytest</code> → <code>build</code></li>
 </ul>
 <h3 id="e2e-ci-test-bringup">E2E CI (test-bringup)<a class="headerlink" href="#e2e-ci-test-bringup" title="Permanent link">&para;</a></h3>
 <p>The <code>test-bringup</code> repo has a GitHub Actions workflow that:</p>
@@ -1554,7 +1582,7 @@
 </code></pre></div>
 <p><strong>Workflow for upstream releases:</strong></p>
 <ol>
-<li>Upstream repo tags a new version (e.g., <code>python-sdk-core</code> v0.4.0)</li>
+<li>Upstream repo tags a new version (e.g., <code>tagentacle-py-core</code> v0.4.0)</li>
 <li>Create a branch in <code>test-bringup</code>: <code>bump/sdk-core-0.4.0</code></li>
 <li>Update the version constraint in <code>pyproject.toml</code></li>
 <li>CI runs E2E tests against the new version</li>

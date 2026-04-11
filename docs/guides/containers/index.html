@@ -814,6 +814,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing/" class="md-nav__link">
         
   
@@ -1351,7 +1379,7 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">bus_host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TAGENTACLE_BUS_HOST&quot;</span><span class="p">,</span> <span class="s2">&quot;localhost&quot;</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">bus_port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TAGENTACLE_BUS_PORT&quot;</span><span class="p">,</span> <span class="s2">&quot;19999&quot;</span><span class="p">))</span>
 </code></pre></div>
-<p>All higher-level abstractions — <code>Node</code>, <code>LifecycleNode</code>, <code>MCPServerNode</code>, TACL authentication, <code>/mcp/directory</code> discovery — work identically inside containers.</p>
+<p>All higher-level abstractions — <code>Node</code>, <code>LifecycleNode</code>, <code>MCPServerComponent</code>, TACL authentication, <code>/mcp/directory</code> discovery — work identically inside containers.</p>
 <h2 id="container-orchestrator-bus-level-container-management">Container Orchestrator: Bus-Level Container Management<a class="headerlink" href="#container-orchestrator-bus-level-container-management" title="Permanent link">&para;</a></h2>
 <p>The <code>container-orchestrator</code> package is a <code>LifecycleNode</code> that manages Docker containers via the bus — <strong>not</strong> part of the Daemon core. Like Docker is a userspace program on Linux, this orchestrator is an ecosystem package.</p>
 <table>
@@ -1404,7 +1432,7 @@
 <li>No ACL logic — access control is handled by TACL at the MCP layer.</li>
 </ul>
 <h2 id="shell-server-tacl-aware-dynamic-routing">Shell Server: TACL-Aware Dynamic Routing<a class="headerlink" href="#shell-server-tacl-aware-dynamic-routing" title="Permanent link">&para;</a></h2>
-<p>The <code>shell-server</code> package is an <code>MCPServerNode</code> that provides <code>exec_command</code> as an MCP tool. It supports three execution modes, resolved per-request:</p>
+<p>The <code>shell-server</code> package is a <code>LifecycleNode</code> + <code>MCPServerComponent</code> that provides <code>exec_command</code> as an MCP tool. It supports three execution modes, resolved per-request:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Container Resolution Order:
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  1. TACL JWT space claim → docker exec into caller&#39;s bound container
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  2. Static TARGET_CONTAINER env → single fixed container

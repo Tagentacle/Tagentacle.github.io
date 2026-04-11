@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://tagentacle.github.io/docs/zh/guides/testing/">
       
       
-        <link rel="prev" href="../tacl/">
+        <link rel="prev" href="../packaging/">
       
       
         <link rel="next" href="../best-practices/">
@@ -811,6 +811,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1454,12 +1482,12 @@
 <td>Daemon 单元测试（Rust）</td>
 </tr>
 <tr>
-<td><a href="https://github.com/Tagentacle/python-sdk-core">python-sdk-core</a></td>
+<td><a href="https://github.com/Tagentacle/tagentacle-py-core">tagentacle-py-core</a></td>
 <td><code>pytest</code></td>
 <td>SDK 单元测试（Python）</td>
 </tr>
 <tr>
-<td><a href="https://github.com/Tagentacle/python-sdk-mcp">python-sdk-mcp</a></td>
+<td><a href="https://github.com/Tagentacle/tagentacle-py-mcp">tagentacle-py-mcp</a></td>
 <td><code>pytest</code></td>
 <td>MCP 桥接单元测试</td>
 </tr>
@@ -1481,8 +1509,8 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>tagentacle<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>cargo<span class="w"> </span>build<span class="w"> </span>--release
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># 安装 SDK（可编辑模式）</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>python-sdk-core<span class="o">[</span>validation<span class="o">]</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>python-sdk-mcp
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>tagentacle-py-core<span class="o">[</span>validation<span class="o">]</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>tagentacle-py-mcp
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># 安装测试依赖</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>test-bringup<span class="o">[</span>dev<span class="o">]</span>
@@ -1529,8 +1557,8 @@
 <p>每个仓库在 push/PR 时运行自己的 CI：</p>
 <ul>
 <li><strong>tagentacle</strong>: <code>cargo check</code> → <code>clippy</code> → <code>test</code> → <code>fmt</code></li>
-<li><strong>python-sdk-core</strong>: <code>ruff</code> → <code>pytest</code> → <code>build</code></li>
-<li><strong>python-sdk-mcp</strong>: <code>ruff</code> → <code>pytest</code> → <code>build</code></li>
+<li><strong>tagentacle-py-core</strong>: <code>ruff</code> → <code>pytest</code> → <code>build</code></li>
+<li><strong>tagentacle-py-mcp</strong>: <code>ruff</code> → <code>pytest</code> → <code>build</code></li>
 </ul>
 <h3 id="e2e-citest-bringup">E2E CI（test-bringup）<a class="headerlink" href="#e2e-citest-bringup" title="Permanent link">&para;</a></h3>
 <p><code>test-bringup</code> 仓库的 GitHub Actions 流水线会：</p>
@@ -1554,7 +1582,7 @@
 </code></pre></div>
 <p><strong>上游发版工作流：</strong></p>
 <ol>
-<li>上游仓库打新 tag（例如 <code>python-sdk-core</code> v0.4.0）</li>
+<li>上游仓库打新 tag（例如 <code>tagentacle-py-core</code> v0.4.0）</li>
 <li>在 <code>test-bringup</code> 创建分支：<code>bump/sdk-core-0.4.0</code></li>
 <li>更新 <code>pyproject.toml</code> 中的版本约束</li>
 <li>CI 运行 E2E 测试验证新版本</li>

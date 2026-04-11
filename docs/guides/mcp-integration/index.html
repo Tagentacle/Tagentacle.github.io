@@ -905,6 +905,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing/" class="md-nav__link">
         
   
@@ -1256,8 +1284,9 @@
 <h2 id="design-principles">Design Principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Session Localization</strong>: MCP Client Sessions stay in Agent node memory. Agents connect directly to MCP Servers via native MCP SDK Streamable HTTP client.</li>
-<li><strong>MCPServerNode Base Class</strong>: MCP Servers inherit <code>MCPServerNode</code> (LifecycleNode subclass), which auto-runs Streamable HTTP and publishes <code>MCPServerDescription</code> to <code>/mcp/directory</code>.</li>
+<li><strong>MCPServerComponent</strong>: MCP Servers use <code>LifecycleNode</code> + <code>MCPServerComponent</code> (composition), which auto-runs Streamable HTTP and publishes <code>MCPServerDescription</code> to <code>/mcp/directory</code>.</li>
 <li><strong>Unified Discovery</strong>: Agents subscribe to <code>/mcp/directory</code> to auto-discover all available MCP servers (native HTTP + Gateway-proxied stdio servers).</li>
+<li><strong>Gateway Central Registry</strong>: The MCP Gateway also subscribes to <code>/mcp/directory</code> and caches all server entries. Late-joining Agents call <code>/mcp/gateway/list_servers</code> once at startup to discover servers that published before the Agent joined — combining push (subscription) and pull (one-time query) for reliability.</li>
 <li><strong>Full Protocol Support</strong>: Direct Agent↔Server sessions preserve all MCP capabilities including sampling, notifications, and resources.</li>
 <li><strong>MCP Gateway</strong>: A separate <code>mcp-gateway</code> package provides transport-level stdio→HTTP relay for legacy MCP servers, without parsing MCP semantics.</li>
 </ul>

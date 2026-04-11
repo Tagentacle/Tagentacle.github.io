@@ -814,6 +814,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../packaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing/" class="md-nav__link">
         
   
@@ -1351,7 +1379,7 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">bus_host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TAGENTACLE_BUS_HOST&quot;</span><span class="p">,</span> <span class="s2">&quot;localhost&quot;</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">bus_port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TAGENTACLE_BUS_PORT&quot;</span><span class="p">,</span> <span class="s2">&quot;19999&quot;</span><span class="p">))</span>
 </code></pre></div>
-<p>所有上层抽象 —— <code>Node</code>、<code>LifecycleNode</code>、<code>MCPServerNode</code>、TACL 认证、<code>/mcp/directory</code> 发现 —— 在容器内的行为与裸跑完全一致。</p>
+<p>所有上层抽象 —— <code>Node</code>、<code>LifecycleNode</code>、<code>MCPServerComponent</code>、TACL 认证、<code>/mcp/directory</code> 发现 —— 在容器内的行为与裸跑完全一致。</p>
 <h2 id="_6">容器编排器：总线级容器管理<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p><code>container-orchestrator</code> 包是一个 <code>LifecycleNode</code>，通过总线管理 Docker 容器 —— <strong>不是</strong> Daemon 核心的一部分。正如 Docker 是 Linux 上的用户态程序（而非内核模块），此编排器是一个生态包。</p>
 <table>
@@ -1404,7 +1432,7 @@
 <li>不包含 ACL 逻辑 —— 访问控制由 TACL 在 MCP 层处理。</li>
 </ul>
 <h2 id="shell-servertacl">Shell Server：TACL 感知的动态路由<a class="headerlink" href="#shell-servertacl" title="Permanent link">&para;</a></h2>
-<p><code>shell-server</code> 包是一个 <code>MCPServerNode</code>，将 <code>exec_command</code> 作为 MCP 工具暴露。支持三种执行模式，按请求动态解析：</p>
+<p><code>shell-server</code> 包是一个 <code>LifecycleNode</code> + <code>MCPServerComponent</code>，将 <code>exec_command</code> 作为 MCP 工具暴露。支持三种执行模式，按请求动态解析：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>容器解析优先级：
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  1. TACL JWT space 声明 → docker exec 到调用者绑定的容器
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  2. 静态 TARGET_CONTAINER 环境变量 → 单一固定容器
